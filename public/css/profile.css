@@ -1,0 +1,27 @@
+.profileBox{
+    margin-top: var(--headerSize);
+    width: 100%;
+}
+.profileInfo {
+    width: 25%;
+    margin: 10px 0;
+    position: relative;
+}
+.imgProfile img {
+    width: 90%;
+    height: 90%; 
+    border-radius: 50%;
+}
+.textProfile {
+    width: 90%;
+    height: 180%;
+    background-color: var(--lightGray);
+    margin: 10px auto;
+}
+.myPost {
+    width: 50%;
+    margin: 0;
+    /*temp*/
+    height: calc(100vh - var(--headerSize));
+    background-color: var(--lightGray);
+}

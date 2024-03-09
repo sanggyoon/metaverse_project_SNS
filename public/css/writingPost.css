@@ -4,9 +4,9 @@
 }
 .writingPost {
     width: 50%;
-    height: calc(100vh - var(--headerSize));
-    /* background-color: var(--lightGray); */
     margin: 0;
+    /* height: calc(100vh - var(--headerSize)); */
+    /* background-color: var(--lightGray); */
 }
 .writingPost form {
     display: flex;
