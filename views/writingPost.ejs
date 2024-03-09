@@ -8,7 +8,21 @@
     1.제목, 코드, 결과값, 태그를 입력하면 DB에 저장, postDetails에 불러올 수 있어야함.
     2.작성자 정보와 게시글 정보를 DB에 저장 -> DB설계
     3.'작성하기'버튼 추가
- -->
+-->
+
+<div class="writingPostBox alignment">
+    <div class="emptyBox"></div>
+    <div class="writingPost">
+        <form action="###">
+            <input type="text" name="title" placeholder="제목">
+            <textarea name="inputCode" id="" rows="9" placeholder="코드를 입력해 주세요"></textarea>
+            <textarea name="outputCode" id="" rows="9" placeholder="결과를 입력해 주세요"></textarea>
+            <input type="text" name="hashtag" placeholder="태그">
+            <button type="submit">작성</button>
+        </form>
+    </div>
+    <div class="emptyBox"></div>
+</div>
 
 <!-- Start of footer -->
 <%-include('footer.ejs')-%>
