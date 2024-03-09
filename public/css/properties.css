@@ -1,9 +1,17 @@
 /* Custom properties */
 :root {
     --mainColor: blue; /*test*/ 
+    --lightGray: #808080;
+    --darkGray: #616161;
+    --headerSize: 80px;
+    --headerIconColor: #fff;
 }
-.CenterAlign {
+body {
+    background-color: var(--lightGray);
+    width: 100%;
+}
+.alignment {
     display: flex;
-    align-content: center;
-    justify-content: center;
+    align-content: center; /*수직정렬*/
+    justify-content: center; /*수평정렬*/
 }
