@@ -1,4 +1,9 @@
 /* Custom properties */
 :root {
-    --mainColor: blue; /*test*/
+    --mainColor: blue; /*test*/ 
+}
+.CenterAlign {
+    display: flex;
+    align-content: center;
+    justify-content: center;
 }
