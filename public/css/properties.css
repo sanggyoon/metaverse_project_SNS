@@ -1,4 +1,23 @@
 /* Custom properties */
 :root {
-    --mainColor: blue; /*test*/
+    --mainColor: blue; /*test*/ 
+    --darkGray: #616161;
+    --gray: #808080;
+    --lightGray: #b3b3b3;
+    --headerSize: 80px;
+    --headerIconColor: #fff;
+}
+body {
+    background-color: var(--gray);
+    width: 100%;
+    margin: 0;
+}
+.alignment {
+    display: flex;
+    align-content: center; /*수직정렬*/
+    justify-content: center; /*수평정렬*/
+}
+.emptyBox { /*index, writingPost, postDetails 사용*/
+    width: 25%;
+    margin: 0 auto;
 }

@@ -1,0 +1,23 @@
+.mainBox{
+    margin-top: var(--headerSize);
+    width: 100%;
+}
+.navBox {
+    width: 25%;
+    margin: 20px auto;
+}
+.nav {
+    width: 80%;
+    height: 100px; /*temp*/
+    background-color: var(--lightGray);
+    margin: 0 auto;
+}
+.postsBox {
+    width: 50%;
+    height: calc(100vh - var(--headerSize));
+    background-color: var(--lightGray);
+    margin: 0;
+}
+.aPost {
+    width: 100%;
+}

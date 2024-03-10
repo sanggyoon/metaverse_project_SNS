@@ -1,0 +1,36 @@
+.writingPostBox{
+    margin-top: var(--headerSize);
+    width: 100%;
+}
+.writingPost {
+    width: 50%;
+    margin: 0;
+    /* height: calc(100vh - var(--headerSize)); */
+    /* background-color: var(--lightGray); */
+}
+.writingPost form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.writingPost input {
+    width: 90%;
+    font-size: 20px;
+    text-align: center;
+    border-radius: 20px;
+    margin: 5px auto;
+    padding: 10px 0;
+}
+.writingPost textarea {
+    width: 90%;
+    font-size: 20px;
+    text-align: center;
+    border-radius: 20px;
+    margin: 5px auto;
+}
+.writingPost button {
+    font-size: 20px;
+    border-radius: 1em;
+    padding: 5px 20px;
+}
