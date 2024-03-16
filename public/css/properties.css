@@ -12,10 +12,13 @@ body {
     width: 100%;
     margin: 0;
 }
-.alignment {
+.alignment { /*정렬*/
     display: flex;
-    align-content: center; /*수직정렬*/
-    justify-content: center; /*수평정렬*/
+    align-content: center;
+    justify-content: center; 
+}
+.width100 {
+    width: 100%;
 }
 .emptyBox { /*index, writingPost, postDetails 사용*/
     width: 25%;
