@@ -9,6 +9,11 @@ app.set('views', './views')
 app.use(express.static(__dirname+'/public')) //static 요소 사용
 
 //---------------------------------------------------------
+//라우터 연결
+
+const pageRouter = require('./routes/page'); 
+
+//---------------------------------------------------------
 
 app.get('/', (req, res) => {
   res.render('index')
