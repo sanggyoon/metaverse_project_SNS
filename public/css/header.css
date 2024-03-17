@@ -21,7 +21,6 @@ header {
 }
 .moveIndex img {
     height: var(--headerSize);
-    width: var(--headerSize);
 }
 .moveProfile span{
     width: var(--headerSize);

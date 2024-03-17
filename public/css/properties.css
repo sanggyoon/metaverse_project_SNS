@@ -1,9 +1,9 @@
 /* Custom properties */
 :root {
     --mainColor: blue; /*test*/ 
-    --darkGray: #616161;
-    --gray: #808080;
-    --lightGray: #b3b3b3;
+    --darkGray: #3c3c3c;
+    --gray: #5e5e5e;
+    --lightGray: #a0a0a0;
     --headerSize: 80px;
     --headerIconColor: #fff;
 }
