@@ -11,7 +11,7 @@ app.use(express.static(__dirname+'/public')) //static 요소 사용
 //---------------------------------------------------------
 //라우터 연결
 
-const pageRouter = require('./routes/page'); 
+//const pageRouter = require('./routes/page'); 
 
 //---------------------------------------------------------
 
