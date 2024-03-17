@@ -10,6 +10,10 @@
     width: 95%;
     height: 30px;
     margin: 5px 0;
+    background-color: var(--lightGray);
+    border: none;
+    border-radius: 15px;
+    text-align: center;
 }
 .loginBT a{
     display: flex;
@@ -31,7 +35,6 @@
 .API-login div{
     width: 350px;
     height: var(--API-BT-height);
-    border: 1px solid black;
     margin: 10px auto;
     text-align: center;
     font-size: large;
@@ -49,6 +52,7 @@
     justify-content: center;
     height: var(--API-BT-height);
     text-decoration: none;
+    border-radius: 15px;
 }
 .googleBT a {
     background-color: white;

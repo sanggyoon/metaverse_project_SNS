@@ -6,18 +6,130 @@
     width: 25%;
     margin: 20px auto;
 }
-.nav {
+.searching {
     width: 80%;
-    height: 100px; /*temp*/
+    margin: 0 auto 20px auto;
     background-color: var(--lightGray);
-    margin: 0 auto;
+    border-radius: 15px;
+    border: none;
 }
+.searching form {
+    position: relative;
+    height: 30px;
+    display: flex;
+    align-items: center;
+}
+.searching input {
+    background-color: var(--lightGray);
+    border-radius: 15px;
+    border: none;
+    width: calc(100% - 40px);
+    height: 30px;
+    text-align: center;
+    box-sizing: border-box;
+}
+.searching button {
+    background-color: rgb(255, 255, 255, 0);
+    border: none;
+    height: 30px;
+    width: 30px;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+.popularPost {
+    width: 80%;
+    height: 350px; /*temp*/
+    background-color: var(--lightGray);
+    border-radius: 15px;
+    margin: 0 auto;         
+}
+/*토글 스위치*/
+.darkMode {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px auto;
+    font-size: 20px;
+}
+.darkMode label:hover {
+    text-decoration: underline;
+}
+.darkMode label {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+}
+[type="checkbox"] {
+    appearance: none;
+    position: relative;
+    border: none;
+    border-radius: 15px;
+    background-color: var(--lightGray);
+    width: 60px;
+    height: 30px;
+}
+[type="checkbox"]::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: var(--darkGray);
+    transform: scale(0.8);
+    transition: left 250ms linear;
+}
+[type="checkbox"]:checked::before {
+    background-color: var(--darkGray);
+    left: 30px;
+}
+[type="checkbox"]:checked {
+    background-color: var(--lightGray);
+}
+/*---------------------------------------------*/
 .postsBox {
     width: 50%;
     height: calc(100vh - var(--headerSize));
-    background-color: var(--lightGray);
+    background-color: var(--gray);
     margin: 0;
+    overflow: hidden;
 }
-.aPost {
+.randomPost {
+    width: 95%;
+    margin: 10px auto;
+    border-radius: 15px;
+    background-color: var(--lightGray);
+}
+.randomPost a {
+    text-decoration: none;
+    color: white;
+}
+.postUserID {
+    display: flex;
+    align-items: center;
+    margin: 0 10px;
+    padding-top: 10px;
+}
+.postUserID img {
+    width: 20px;
+    height: 20px;
+    border: 1px solid black;
+    border-radius: 50%;
+}
+.postUserID span {
+    margin-left: 5px;
+}
+.randomPost table {
+    width: calc(100% - 20px);
+    margin: 0 10px;
+    border-collapse: separate;
+    border-spacing: 0 10px;
+}
+.randomPost table td {
     width: 100%;
+    padding: 10px;
+    border-radius: 15px;
+    background-color: var(--gray);
 }
