@@ -1,0 +1,68 @@
+.postDetailBox {
+    margin-top: var(--headerSize);
+}
+.postInfo {
+    width: 50%;
+    margin: 0 auto;
+}
+.detailUser {
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 auto;
+    padding-top: 5px;
+}
+.detail {
+    width: 90%;
+    background-color: var(--lightGray);
+    border: none;
+    border-radius: 15px;
+    margin: 10px auto;
+    box-sizing: border-box;
+    padding: 10px 20px;
+    overflow-wrap: break-word;
+}
+.separateLine {
+    width: 90%;
+    margin: 0 auto 10px auto;
+    border: 1px solid var(--darkGray);
+}
+.detailComments table {
+    width: 90%;
+    margin: 0 auto;
+}
+.detailComments table td {
+    width: 90%;
+    background-color: var(--lightGray);
+    border: none;
+    border-radius: 15px;
+    margin: 10px auto;
+    box-sizing: border-box;
+    padding: 10px 20px;
+}
+.loadComments {
+    display: flex;
+    width: 100%
+}
+.loadCommentsImg {
+    margin-right: 10px;
+}
+.loadCommentsImg img{
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--darkGray);
+    border-radius: 50%;
+}
+.loadCommentsInfo {
+    width: 100%;
+}
+.loadCommentsText {
+    width: 100%;
+    overflow-wrap: break-word;
+}
+.separateLine2 {
+    width: 100%;
+    border: 1px solid var(--darkGray);
+    margin-top: 5px;
+}

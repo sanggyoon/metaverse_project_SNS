@@ -5,8 +5,6 @@
 .writingPost {
     width: 50%;
     margin: 0;
-    /* height: calc(100vh - var(--headerSize)); */
-    /* background-color: var(--lightGray); */
 }
 .writingPost form {
     display: flex;
@@ -22,20 +20,24 @@
     margin: 5px auto;
     padding: 10px 0;
     background-color: var(--lightGray);
-    border: 1px solid var(--darkGray);
+    border: none;
 }
 .writingPost textarea {
     width: 90%;
     font-size: 20px;
     text-align: center;
     border-radius: 20px;
-    border: 1px solid var(--darkGray);
+    border: none;
+    resize: none;
     margin: 5px auto;
     background-color: var(--lightGray);
 }
 .writingPost button {
-    font-size: 20px;
-    border-radius: 1em;
-    padding: 5px 20px;
+    font-size: 25px;
+    border-radius: 15px;
     border: none;
+    padding: 10px 30px;
+    margin: 5px 5px;
+    background-color: var(--lightGray);
+    color: white;
 }
