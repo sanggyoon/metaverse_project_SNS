@@ -1,0 +1,61 @@
+:root {
+    --commentsSize: 60px;
+    --contentsSIze: 40px;
+}
+.commentsFooter {
+    z-index: 10;
+    width: 100%;
+    height: var(--headerSize);
+    background-color: var(--darkGray);
+    position: fixed;
+    bottom: 0;
+}
+.commentsBox {
+    box-sizing: border-box;
+    width: 45%;
+    height: var(--commentsSize);
+    border: none;
+    border-radius: 15px;
+    background-color: var(--lightGray);
+    position: relative;
+    display: flex;
+    padding: 0 10px;
+    margin: auto;
+}
+.commentsImg {
+    margin: auto;
+}
+.commentsImg img{   
+    box-sizing: border-box;
+    width: calc(var(--commentsSize) - 20px);
+    height: calc(var(--commentsSize) - 20px);
+    border-radius: 50%;
+    border: 1px solid black;
+}
+.inputComments {
+    width: 85%;
+    box-sizing: border-box;
+    margin: auto;
+}
+.inputComments input{
+    box-sizing: border-box;
+    width: 100%;
+    height: calc(var(--commentsSize) - 20px);
+    font-size: 20px;
+    background-color: var(--lightGray);
+    border: 1px solid white;
+    border-radius: 15px;
+}
+.submitBT {
+    margin: auto;
+}
+.submitBT button{
+    border-radius: 50%;
+    border: none;
+    background-color: #02a676;
+    width: calc(var(--commentsSize) - 20px);
+    height: calc(var(--commentsSize) - 20px);
+}
+.submitBT span {
+    color: white;
+}

@@ -5,6 +5,9 @@
 .navBox {
     width: 25%;
     margin: 20px auto;
+    position: fixed;
+    left: 0;
+    top: 80px;
 }
 .searching {
     width: 80%;
@@ -40,7 +43,7 @@
 }
 .popularPost {
     width: 80%;
-    height: 350px; /*temp*/
+    height: calc(100vh - 210px); /*temp*/
     background-color: var(--lightGray);
     border-radius: 15px;
     margin: 0 auto;         
@@ -50,7 +53,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 20px auto;
+    margin: 10px auto;
     font-size: 20px;
 }
 .darkMode label:hover {
