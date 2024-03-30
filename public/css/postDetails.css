@@ -1,9 +1,11 @@
 .postDetailBox {
     margin-top: var(--headerSize);
+    margin-bottom: var(--headerSize);
 }
 .postInfo {
     width: 50%;
     margin: 0 auto;
+    position: relative;
 }
 .detailUser {
     width: 90%;
@@ -25,12 +27,14 @@
 }
 .separateLine {
     width: 90%;
-    margin: 0 auto 10px auto;
+    margin: 0 auto 0 auto;
     border: 1px solid var(--darkGray);
 }
 .detailComments table {
     width: 90%;
     margin: 0 auto;
+    border-collapse: separate;
+    border-spacing: 0 10px;
 }
 .detailComments table td {
     width: 90%;
@@ -65,4 +69,14 @@
     width: 100%;
     border: 1px solid var(--darkGray);
     margin-top: 5px;
+}
+.menuOpen {
+    box-sizing: border-box;
+    position: absolute;
+    top: 0;
+    right: -50px;
+}
+.menuOpen span {
+    font-size: 50px;
+    color: white;
 }

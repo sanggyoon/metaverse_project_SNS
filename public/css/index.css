@@ -64,7 +64,7 @@
     align-items: center;
     cursor: pointer;
 }
-[type="checkbox"] {
+#darkmode [type="checkbox"] {
     appearance: none;
     position: relative;
     border: none;
@@ -73,7 +73,7 @@
     width: 60px;
     height: 30px;
 }
-[type="checkbox"]::before {
+#darkmode [type="checkbox"]::before {
     content: "";
     position: absolute;
     left: 0;
@@ -84,11 +84,11 @@
     transform: scale(0.8);
     transition: left 250ms linear;
 }
-[type="checkbox"]:checked::before {
+#darkmode [type="checkbox"]:checked::before {
     background-color: var(--darkGray);
     left: 30px;
 }
-[type="checkbox"]:checked {
+#darkmode [type="checkbox"]:checked {
     background-color: var(--lightGray);
 }
 /*---------------------------------------------*/
