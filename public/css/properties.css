@@ -1,16 +1,18 @@
 /* Custom properties */
 :root {
-    --mainColor: blue; /*test*/ 
+    /* 다크모드 */
     --darkGray: #3c3c3c;
     --gray: #5e5e5e;
     --lightGray: #a0a0a0;
-    --headerSize: 80px;
-    --headerIconColor: #fff;
+    --black: black;
+    --white: white;
 }
 body {
-    background-color: var(--gray);
+    height: 100vh;
     width: 100%;
     margin: 0;
+    background-color: var(--gray);
+
 }
 .alignment { /*정렬*/
     display: flex;
@@ -20,7 +22,11 @@ body {
 .width100 {
     width: 100%;
 }
-.emptyBox { /*index, writingPost, postDetails 사용*/
+.emptyBox { 
     width: 25%;
     margin: 0 auto;
+    background-color: var(--gray);
+}
+#darkmode [type="checkbox"]:checked ~ .emptyBox {
+    background-color: var(--white);
 }

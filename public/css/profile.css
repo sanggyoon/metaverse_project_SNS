@@ -3,8 +3,9 @@
     width: 100%;
 }
 .profileInfo {
+    background-color: var(--gray);
     width: 25%;
-    margin: 10px 0;
+    padding: 10px 0;
     position: relative;
 }
 .imgProfile img {
@@ -59,6 +60,7 @@
     color: white;
 }
 .myPost {
+    background-color: var(--gray);
     width: 50%;
     margin: 0;
     height: calc(100vh - var(--headerSize));

@@ -6,7 +6,7 @@
     z-index: 10;
     width: 100%;
     height: var(--headerSize);
-    background-color: var(--darkGray);
+    background-color: var(--headerColor);
     position: fixed;
     bottom: 0;
 }

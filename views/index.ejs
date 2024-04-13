@@ -9,9 +9,18 @@
     2.무한스크롤 게시글
     3.좌측 네비게이션 기능(#디테일 미정#)
 -->
+<div id="slider">
+    <div class="image-box">
+       <img src="../img/banner01.png" />
+       <img src="../img/banner02.png" />
+       <img src="../img/banner03.png" />
+       <img src="../img/banner01.png" />
+       <img src="../img/banner02.png" />
+       <img src="../img/banner03.png" />
+    </div>
+ </div>
 
 <div class="mainBox alignment">
-    <div class="emptyBox"></div>
     <div class="navBox">
         <div class="searching">
             <form action="###">
@@ -33,68 +42,60 @@
     </div>
     <div class="postsBox">
         <!--1번 게시글-->
-        <div class="randomPost">
-            <a href="/postDetails">
-            <div class="postUserID">
-                <img src="../img/google_icon.png" alt="">
-                <span>작성자 : ㅇㅇㅇ</span>
+        <div class="callPost">
+            <div class="callPostLeft">
+                <div class="postWrittenDay">
+                    <span>2024-04-13 14:39</span>
+                </div>
+                <div class="postWriterImg">
+                    <div class="writerFollowBT">팔로우</div>
+                </div>
+                <div class="postWriterName alignment">
+                    <span>구글직원호소인</span>
+                </div>
+                <div class="postStack">
+                    <div class="postLike alignment"><span class="material-symbols-outlined">thumb_up</span>
+                        <span>10</span>
+                    </div>
+                    <div class="postComments alignment"><span class="material-symbols-outlined">comment</span>
+                        <span>20</span>
+                    </div>
+                    <div class="postLove alignment"><span class="material-symbols-outlined">favorite</span>
+                        <span>30</span>
+                    </div>
+                </div>
             </div>
-            <table>
-                <tr>
-                    <td>가장 최근 제목 DB에서 불러오기</td>
-                </tr>
-                <tr>
-                    <td>내용 DB에서 불러오기</td>
-                </tr>
-                <tr>
-                    <td>#태그 #태그 #태그</td>
-                </tr>
-            </table>
-            </a>
-        </div>
-        <!--2번 게시글-->
-        <div class="randomPost">
-            <a href="/postDetails">
-            <div class="postUserID">
-                <img src="../img/google_icon.png" alt="">
-                <span>작성자 : ㅇㅇㅇ</span>
-            </div>
-            <table>
-                <tr>
-                    <td>가장 최근 제목 DB에서 불러오기</td>
-                </tr>
-                <tr>
-                    <td>내용 DB에서 불러오기</td>
-                </tr>
-                <tr>
-                    <td>#태그 #태그 #태그</td>
-                </tr>
-            </table>
-            </a>
-        </div>
-        <!--3번 게시글-->
-        <div class="randomPost">
-            <a href="/postDetails">
-            <div class="postUserID">
-                <img src="../img/google_icon.png" alt="">
-                <span>작성자 : ㅇㅇㅇ</span>
-            </div>
-            <table>
-                <tr>
-                    <td>가장 최근 제목 DB에서 불러오기</td>
-                </tr>
-                <tr>
-                    <td>내용 DB에서 불러오기</td>
-                </tr>
-                <tr>
-                    <td>#태그 #태그 #태그</td>
-                </tr>
-            </table>
-            </a>
+            <div class="callPostRight"><a href="/postDetails">
+                <div class="callPostTitle">
+                    <span>제목입니당</span>
+                </div>
+                <div class="callPostText">
+                    <span>내용입니당</span>
+                </div>
+                <div class="callPostHashtag">
+                    <span>#해시태그</span>
+                </div>
+            </a></div>
         </div>
     </div>
-    <div class="emptyBox"></div>
 </div>
+<script>
+var swiper = new Swiper(".mySwiper", {
+    slidePreView:2,
+    spaceBetween : 0,
+    centerSlides :true,
+    loop : true,
+    freeMode : true,
+    observe : true,
+    observeParent : true,
+    speed :8000,
+    allowTouchMove : false,
+    autoplay : {
+        delay : 0,
+        disableOnInteraction : false
+    }
+});
+</script>
 
 <!-- Start of footer -->
 <%-include('footer.ejs')-%>
