@@ -1,35 +1,37 @@
+:root {
+    --headerSize: 66px;
+    --headerIconSize: 50px;
+    --headerIconColor: #fff;
+    --headerBackground: #1C233A;
+    --headerFontSize: 18px;
+}
 header {
     z-index: 10;
     margin: 0;
     width: 100%;
     height: var(--headerSize);
+    background-color: var(--headerBackground);
     position: fixed;
     top: 0;
-    left: 0;
-    background-color: var(--darkGray);
-}
-.moveWritingPost span{
-    width: var(--headerSize);
-    height: var(--headerSize);
-    font-size: 50px;
-    color: var(--headerIconColor);
-    position: absolute;
-    left: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    left: 0;   
 }
 .moveIndex img {
-    height: var(--headerSize);
-}
-.moveProfile span{
-    width: var(--headerSize);
-    height: var(--headerSize);
-    font-size: 60px;
-    color: var(--headerIconColor);
+    height: calc(var(--headerSize));
     position: absolute;
-    right: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    left: 10px;
 }
+.headerMenu {
+    position: absolute;
+    right: 0px;
+    color: var(--headerIconColor);
+    width: 100px;
+    display: flex;
+    justify-content: space-between;
+    margin-right: 10px;
+}
+.headerMenu > a > span{
+    font-size: calc(var(--headerIconSize) - 10px);
+    line-height: var(--headerSize);
+    color: white;
+}
+/* before */

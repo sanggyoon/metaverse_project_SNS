@@ -3,6 +3,7 @@
     width: 100%;
 }
 .writingPost {
+    background-color: var(--gray);
     width: 50%;
     margin: 0;
 }

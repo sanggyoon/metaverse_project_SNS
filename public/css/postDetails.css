@@ -1,6 +1,7 @@
 .postDetailBox {
     margin-top: var(--headerSize);
     margin-bottom: var(--headerSize);
+    background-color: var(--gray);
 }
 .postInfo {
     width: 50%;

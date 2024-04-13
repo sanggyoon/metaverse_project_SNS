@@ -3,8 +3,13 @@
     --API-BT-height: 40px;
 }
 .loginBox {
+    background-color: var(--gray);
     width: 500px;
     margin: 80px auto;
+    padding: 20px;
+}
+.bigLogo img {
+    width: 540px;
 }
 .inputLoginInfo form input {
     width: 95%;
