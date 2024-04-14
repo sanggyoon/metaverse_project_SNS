@@ -17,7 +17,7 @@
     height: 50px;
     width: 300px;
     box-sizing: border-box;
-    border: 5px solid var(--signatureColor);
+    border: 2px solid var(--signatureColor);
     border-radius: 15px;
     margin: 5px 0;
     background-color: rgba(0, 0, 0, 0); /* 투명 배경 */

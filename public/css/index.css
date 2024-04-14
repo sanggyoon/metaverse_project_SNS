@@ -58,6 +58,7 @@
     align-items: center;
     box-sizing: border-box;
     cursor: pointer;
+    color:white;
 }
 .popularPost {
     width: 80%;
