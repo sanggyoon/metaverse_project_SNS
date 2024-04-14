@@ -28,6 +28,9 @@ header {
     justify-content: space-between;
     margin-right: 10px;
     gap: 10px;
+    user-select: none; /* 텍스트 선택 차단 */
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* 인터넷익스플로러 */
 }
 .headerMenu > a > span{
     font-size: calc(var(--headerIconSize) - 10px);
