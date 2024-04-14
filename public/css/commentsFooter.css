@@ -6,20 +6,19 @@
     z-index: 10;
     width: 100%;
     height: var(--headerSize);
-    background-color: var(--headerColor);
+    background-color: var(--signatureColor);
     position: fixed;
     bottom: 0;
 }
 .commentsBox {
     box-sizing: border-box;
     width: 45%;
-    height: var(--commentsSize);
     border: none;
     border-radius: 15px;
-    background-color: var(--lightGray);
+    background-color: var(--boxColor);
     position: relative;
     display: flex;
-    padding: 0 10px;
+    padding: 5px 10px;
     margin: auto;
 }
 .commentsImg {
@@ -42,8 +41,8 @@
     width: 100%;
     height: calc(var(--commentsSize) - 20px);
     font-size: 20px;
-    background-color: var(--lightGray);
-    border: 1px solid white;
+    background-color: rgba(0, 0, 0, 0);
+    border: none;
     border-radius: 15px;
 }
 .submitBT {

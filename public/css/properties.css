@@ -1,20 +1,34 @@
 /* Custom properties */
 :root {
-    /* 다크모드 */
     --darkGray: #3c3c3c;
     --gray: #5e5e5e;
     --lightGray: #a0a0a0;
-    --black: black;
-    --white: white;
+    --signatureColor: #1C233A;
+    /* 기본은 다크모드 */
+    --bodyColor: #5e5e5e;
+    --boxColor: #a0a0a0;
+    --textColor1: black;
+    --textColor2: white;
+}
+:root[color-theme="dark"] {
+    --bodyColor: #5e5e5e;
+    --boxColor: #a0a0a0;
+    --textColor1: black;
+    --textColor2: white;
+}
+:root[color-theme="light"] {
+    --bodyColor: white;
+    --boxColor: white;
+    --textColor1: white;
+    --textColor2: black;
 }
 body {
     height: 100vh;
     width: 100%;
     margin: 0;
-    background-color: var(--gray);
-
+    background-color: var(--bodyColor); /* 다크모드 영향 */
 }
-.alignment { /*정렬*/
+.alignment {
     display: flex;
     align-content: center;
     justify-content: center; 
@@ -25,8 +39,4 @@ body {
 .emptyBox { 
     width: 25%;
     margin: 0 auto;
-    background-color: var(--gray);
-}
-#darkmode [type="checkbox"]:checked ~ .emptyBox {
-    background-color: var(--white);
 }

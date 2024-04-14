@@ -3,7 +3,6 @@
     width: 100%;
 }
 .writingPost {
-    background-color: var(--gray);
     width: 50%;
     margin: 0;
 }
@@ -12,6 +11,7 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    padding: 20px 0;
 }
 .writingPost input {
     width: 90%;
@@ -20,25 +20,26 @@
     border-radius: 20px;
     margin: 5px auto;
     padding: 10px 0;
-    background-color: var(--lightGray);
     border: none;
+    background-color: var(--boxColor);
+    border: 0.6px solid var(--signatureColor);
 }
 .writingPost textarea {
     width: 90%;
     font-size: 20px;
     text-align: center;
     border-radius: 20px;
-    border: none;
     resize: none;
     margin: 5px auto;
-    background-color: var(--lightGray);
+    background-color: var(--boxColor);
+    border: 0.6px solid var(--signatureColor);
 }
 .writingPost button {
-    font-size: 25px;
+    font-size: 20px;
     border-radius: 15px;
     border: none;
-    padding: 10px 30px;
+    padding: 10px 40px;
     margin: 5px 5px;
-    background-color: var(--lightGray);
+    background-color: var(--signatureColor);
     color: white;
 }

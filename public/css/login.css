@@ -3,7 +3,6 @@
     --API-BT-height: 40px;
 }
 .loginBox {
-    background-color: var(--gray);
     width: 500px;
     margin: 80px auto;
     padding: 20px;
@@ -15,8 +14,8 @@
     width: 95%;
     height: 30px;
     margin: 5px 0;
-    background-color: var(--lightGray);
-    border: none;
+    background-color: var(--boxColor);
+    border: 1px solid var(--signatureColor);
     border-radius: 15px;
     text-align: center;
 }
@@ -30,7 +29,7 @@
     width: var(--loginBTsize);
     height: var(--loginBTsize);
     margin: 5px 0;
-    background-color: var(--lightGray);
+    background-color: var(--signatureColor);
     border-radius: 15px;
     text-align: center;
 }
@@ -62,6 +61,7 @@
 .googleBT a {
     background-color: white;
     color: black;
+    border: 1px solid black;
 }
 .naverBT a {
     background-color: rgb(0 193 58);
@@ -72,6 +72,6 @@
     color: black;
 }
 .creatBT a {
-    background-color: var(--lightGray);
+    background-color: var(--signatureColor);
     color: white;
 }
