@@ -19,27 +19,55 @@
             </form>
             <div class="loginBT">
                 <!--필요하면 <button> 태그로 교체-->
-                <a href="/">로그인</a> 
+                <a href="/main">로그인</a> 
             </div>
         </div>
         <div class="API-login">
             <!--필요하면 <a> 태그로 교체-->
             <div class="googleBT">
                 <img src="../img/google_icon.png" alt="">
-                <a href="/">구글 로그인</a>
+                <a href="/main">구글 로그인</a>
             </div>
             <div class="naverBT">
                 <img src="../img/naver_icon.png" alt="">
-                <a href="/">네이버 로그인</a>
+                <a href="/main">네이버 로그인</a>
             </div>
             <div class="kakaoBT">
                 <img src="../img/kakao_icon.png" alt="">
-                <a href="/">카카오 로그인</a>
+                <a href="/main">카카오 로그인</a>
             </div>
             <div class="creatBT">
-                <a href="/">회원가입</a>
+                <a href="/main">회원가입</a>
             </div>
         </div>
     </div>
 </body>
+<script>
+    // 페이지 로딩 시 다크 모드 상태를 설정합니다.
+    document.addEventListener("DOMContentLoaded", () => {
+      const isDarkMode = localStorage.getItem("darkMode") === "true";
+      const checkBox = document.querySelector("#darkmode input[type='checkbox']");
+
+      if (isDarkMode) {
+        document.documentElement.setAttribute("color-theme", "light");
+        checkBox.checked = true;
+      } else {
+        document.documentElement.setAttribute("color-theme", "dark");
+        checkBox.checked = false;
+      }
+    });
+
+    // 체크박스 클릭 이벤트 핸들러
+    const checkBox = document.querySelector("#darkmode");
+
+    checkBox.addEventListener("click", (e) => {
+      if (e.target.checked) {
+        document.documentElement.setAttribute("color-theme", "light");
+        localStorage.setItem("darkMode", "true");
+      } else {
+        document.documentElement.setAttribute("color-theme", "dark");
+        localStorage.setItem("darkMode", "false");
+      }
+    });
+</script>
 </html>

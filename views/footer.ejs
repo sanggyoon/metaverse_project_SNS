@@ -7,4 +7,32 @@
 
 </footer>
 </body>
+<script>
+    // 페이지 로딩 시 다크 모드 상태를 설정합니다.
+    document.addEventListener("DOMContentLoaded", () => {
+      const isDarkMode = localStorage.getItem("darkMode") === "true";
+      const checkBox = document.querySelector("#darkmode input[type='checkbox']");
+
+      if (isDarkMode) {
+        document.documentElement.setAttribute("color-theme", "light");
+        checkBox.checked = true;
+      } else {
+        document.documentElement.setAttribute("color-theme", "dark");
+        checkBox.checked = false;
+      }
+    });
+
+    // 체크박스 클릭 이벤트 핸들러
+    const checkBox = document.querySelector("#darkmode");
+
+    checkBox.addEventListener("click", (e) => {
+      if (e.target.checked) {
+        document.documentElement.setAttribute("color-theme", "light");
+        localStorage.setItem("darkMode", "true");
+      } else {
+        document.documentElement.setAttribute("color-theme", "dark");
+        localStorage.setItem("darkMode", "false");
+      }
+    });
+</script>
 </html>

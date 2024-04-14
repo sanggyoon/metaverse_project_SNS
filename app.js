@@ -16,16 +16,20 @@ app.use(express.static(__dirname+'/public')) //static 요소 사용
 //---------------------------------------------------------
 
 app.get('/', (req, res) => {
-  res.render('index')
-})//메인페이지
-
-app.get('/login', (req, res) => {
   res.render('login')
 })//로그인 페이지
 
+app.get('/main', (req, res) => {
+  res.render('index')
+})//메인 페이지
+
 app.get('/profile', (req, res) => {
   res.render('profile')
-})//계정 정보 페이지
+})//본인 계정 정보 페이지
+
+app.get('/otherProfile', (req, res) => {
+  res.render('otherProfile')
+})//타인 계정 정보 페이지
 
 app.get('/editProfile', (req, res) => {
   res.render('editProfile')

@@ -1,7 +1,6 @@
 .postDetailBox {
     margin-top: var(--headerSize);
     margin-bottom: var(--headerSize);
-    background-color: var(--gray);
 }
 .postInfo {
     width: 50%;
@@ -18,8 +17,8 @@
 }
 .detail {
     width: 90%;
-    background-color: var(--lightGray);
-    border: none;
+    background-color: var(--boxColor);
+    border: 0.6px solid black;
     border-radius: 15px;
     margin: 10px auto;
     box-sizing: border-box;
@@ -29,7 +28,7 @@
 .separateLine {
     width: 90%;
     margin: 0 auto 0 auto;
-    border: 1px solid var(--darkGray);
+    border: 1px solid var(--signatureColor);
 }
 .detailComments table {
     width: 90%;
@@ -39,16 +38,16 @@
 }
 .detailComments table td {
     width: 90%;
-    background-color: var(--lightGray);
-    border: none;
+    background-color: var(--boxColor);
+    border: 0.6px solid black;
     border-radius: 15px;
     margin: 10px auto;
     box-sizing: border-box;
-    padding: 10px 20px;
+    padding: 10px 10px;
 }
 .loadComments {
     display: flex;
-    width: 100%
+    width: 100%;
 }
 .loadCommentsImg {
     margin-right: 10px;
@@ -56,7 +55,7 @@
 .loadCommentsImg img{
     width: 40px;
     height: 40px;
-    border: 1px solid var(--darkGray);
+    border: 1px solid var(--signatureColor);
     border-radius: 50%;
 }
 .loadCommentsInfo {
@@ -68,16 +67,6 @@
 }
 .separateLine2 {
     width: 100%;
-    border: 1px solid var(--darkGray);
+    border: 1px solid var(--signatureColor);
     margin-top: 5px;
-}
-.menuOpen {
-    box-sizing: border-box;
-    position: absolute;
-    top: 0;
-    right: -50px;
-}
-.menuOpen span {
-    font-size: 50px;
-    color: white;
 }

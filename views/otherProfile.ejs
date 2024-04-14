@@ -4,49 +4,52 @@
 <!-- End of header -->
 
 <!-- 
-    메인페이지
-    1.접속할 때 로그인 정보가 없다면 로그인 페이지로 이동 (자동로그인 기능?)
-    2.무한스크롤 게시글
-    3.좌측 네비게이션 기능(#디테일 미정#)
+    계정 정보 확인
+    DB에서 정보 불러오기
+    1.이름/닉네임
+    2.소개글
+    3.작성한 게시글
+    4.프로필 사진  
+    5.'수정하기' 버튼 추가 (editProfile 이동)
 -->
-<div id="slider">
-    <div class="image-box">
-       <img src="../img/banner01.png" />
-       <img src="../img/banner02.png" />
-       <img src="../img/banner03.png" />
-       <img src="../img/banner01.png" />
-       <img src="../img/banner02.png" />
-       <img src="../img/banner03.png" />
-       <img src="../img/banner01.png" />
-       <img src="../img/banner02.png" />
-       <img src="../img/banner03.png" />
-    </div>
- </div>
 
-<div class="mainBox alignment">
-    <div class="navBox">
-        <div class="searching">
-            <form action="###">
-                <input type="text" placeholder="검색하기">
-                <button>
-                    <span class="material-symbols-outlined">search</span>
-                </button>
-            </form>
+<div class="profileBox alignment">
+    <div class="profileInfo">
+        <div class="imgProfile alignment">
+            <img src="../img/logo_blackBG.png" alt="">
         </div>
-        <div class="popularPost">  
-
+        <div class="name alignment">
+            <p>엠지디알엔</p>
+        </div>
+        <div class="followInfo alignment">
+            <div class="follow">
+                <p>팔로우   <span>0</span></p>
+            </div>
+            <div class="following">
+                <p>팔로잉   <span>0</span></p>
+            </div>
+        </div>
+        <div class="follow_edit alignment">
+            <a href="/editProfile">팔로우</a>
+        </div>
+        <div class="introduceText">
+            <table>
+                <tr><td>테이블 1행 : 소개글</td></tr>
+                <tr><td>테이블 2행 : 커넥션</td></tr>
+            </table>
         </div>
     </div>
-    <div class="postsBox">
-        <!--1번 게시글-->
+    <div class="myPost">
+        <p>작성한 게시글</p>
+        <!-- 게시글 시작 -->
         <div class="callPost">
             <div class="callPostLeft">
                 <div class="postWrittenDay">
                     <span>2024-04-13 14:39</span>
                 </div>
-                <a href="/otherProfile"><div class="postWriterImg">
+                <div class="postWriterImg">
                     <div class="writerFollowBT">팔로우</div>
-                </div></a>
+                </div>
                 <div class="postWriterName alignment">
                     <span>구글직원호소인</span>
                 </div>
@@ -74,6 +77,7 @@
                 </div>
             </a></div>
         </div>
+        <!-- 게시글 끝 -->
     </div>
 </div>
 

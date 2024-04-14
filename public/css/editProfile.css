@@ -17,11 +17,11 @@
     height: 50px;
     width: 300px;
     box-sizing: border-box;
-    border: 5px solid var(--lightGray);
+    border: 5px solid var(--signatureColor);
     border-radius: 15px;
     margin: 5px 0;
-    background-color: rgba(0, 0, 0, 0);
-    color: white;
+    background-color: rgba(0, 0, 0, 0); /* 투명 배경 */
+    color: var(--textColor2);
     font-size: 20px;
     line-height: 50px;
 }
@@ -33,7 +33,7 @@
 .saveBT button {
     height: 50px;
     width: 300px;
-    background-color:  var(--lightGray);
+    background-color:  var(--signatureColor);
     border: none;
     border-radius: 15px;
     color: white;

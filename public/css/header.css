@@ -24,14 +24,55 @@ header {
     position: absolute;
     right: 0px;
     color: var(--headerIconColor);
-    width: 100px;
     display: flex;
     justify-content: space-between;
     margin-right: 10px;
+    gap: 10px;
 }
 .headerMenu > a > span{
     font-size: calc(var(--headerIconSize) - 10px);
     line-height: var(--headerSize);
     color: white;
 }
-/* before */
+/*토글 스위치*/
+.darkMode {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px auto;
+    font-size: 20px;
+}
+.darkMode label {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+}
+#darkmode [type="checkbox"] {
+    appearance: none;
+    position: relative;
+    border: none;
+    border-radius: 15px;
+    background-color: var(--lightGray);
+    width: 60px;
+    height: 30px;
+}
+#darkmode [type="checkbox"]::before {
+    content: "ON";
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    left: 0;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: var(--darkGray);
+    transform: scale(0.8);
+    transition: left 250ms linear;
+}
+#darkmode [type="checkbox"]:checked::before {
+    content: "OFF";
+    background-color: var(--darkGray);
+    left: 30px;
+}
