@@ -13,13 +13,13 @@
             <img src="../img/MZDRN_logo_column_removeBG.png" alt="">
         </div>
         <div class="inputLoginInfo alignment">
-            <form action="###">
-                <input type="text" name="userID" placeholder="ID">
-                <input type="text" name="userPW" placeholder="PW">
+            <form action="/" method="post">
+                <input type="text" id="username" name="username" placeholder="ID">
+                <input type="text" id="password" name="password" placeholder="PW">
             </form>
             <div class="loginBT">
                 <!--필요하면 <button> 태그로 교체-->
-                <a href="/main">로그인</a> 
+                <button type="submit">로그인</button> 
             </div>
         </div>
         <div class="API-login">
@@ -37,7 +37,7 @@
                 <a href="/main">카카오 로그인</a>
             </div>
             <div class="creatBT">
-                <a href="/main">회원가입</a>
+                <a href="/signup">회원가입</a>
             </div>
         </div>
     </div>
