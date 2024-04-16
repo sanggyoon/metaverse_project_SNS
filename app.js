@@ -89,8 +89,13 @@ app.post('/signup', (req, res) => {
   const user = { username, email, password };
   // MySQL에 데이터 저장
   connection1.query('INSERT INTO users SET ?', user, (error, results, fields) => {
-    if (error) throw error;
-    res.redirect('/'); //회원가입이 완료되면 로그인 페이지로 이동
+    if (error) {
+      console.error('데이터베이스 쿼리 중 오류 발생:', error);
+      res.render('login', {error: '로그인 처리 중 문제가 발생했습니다.'});
+      return;
+    } else {
+      res.redirect('/'); //회원가입이 완료되면 로그인 페이지로 이동
+    }    
   });
 });
 
