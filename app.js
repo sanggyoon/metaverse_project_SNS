@@ -2,10 +2,19 @@ const express = require('express')
 const ejs = require('ejs') //ejs 변수 지정
 const app = express() //espress 변수 지정
 const port = 3000 //포트번호 3000 (localhost:3000)
-
 const path = require('path');
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
+const session = require('express-session');
+
+// 세션 설정
+app.use(session({
+  secret: 'my_secret_key', // 이 값을 통해 세션을 암호화하여 관리합니다. 복잡한 키를 사용하세요.
+  resave: false,
+  saveUninitialized: true
+}));
+
+//DB 연결
 const connection1 = mysql.createConnection({
   host: 'localhost',
   user: 'root',
@@ -32,10 +41,10 @@ app.use(express.static(__dirname+'/public'));
 //body-parser
 app.use(bodyParser.urlencoded({ extended: true }));
 
-//라우터 연결
+//라우터 연결 (미구현)
 //const pageRouter = require('./routes/page'); 
 
-//페이지 렌더링---------------------------------------------------------
+//페이지 렌더링---------------------------------------------------------------------
 app.get('/', (req, res) => {
   res.render('login')
 })//로그인 페이지
@@ -49,8 +58,12 @@ app.get('/main', (req, res) => {
 })//메인 페이지
 
 app.get('/profile', (req, res) => {
-  res.render('profile')
-})//본인 계정 정보 페이지
+  if (req.session.user) { // 세션에 유저 정보가 있으면
+    res.render('profile', { user: req.session.user }); // 유저 정보와 함께 profile 페이지 렌더링
+  } else {
+    res.redirect('/'); // 세션에 유저 정보가 없으면 로그인 페이지로 이동
+  }
+});
 
 app.get('/otherProfile', (req, res) => {
   res.render('otherProfile')
@@ -67,7 +80,8 @@ app.get('/postDetails', (req, res) => {
 app.get('/writingPost', (req, res) => {
   res.render('writingPost')
 })//게시글 작성 페이지
-//--------------------------------------------------------
+
+//---------------------------------------------------------------------------------
 
 //로그인 폼 제출 처리
 app.post('/', (req, res) => {
@@ -76,7 +90,8 @@ app.post('/', (req, res) => {
   connection1.query('SELECT * FROM users WHERE username = ? AND password = ?', [username, password], (error, results, fields) => {
     if (error) throw error;
     if (results.length > 0) { //로그인 성공
-      res.render('index');
+      req.session.user = results[0]; // 로그인한 유저의 정보를 세션에 저장
+      res.redirect('/main');
     } else { //로그인 실패
       res.render('login', {error: '아이디 또는 비밀번호가 올바르지 않습니다.'});
     }
