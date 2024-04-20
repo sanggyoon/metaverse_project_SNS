@@ -6,6 +6,7 @@ const port = 3000 //포트번호 3000 (localhost:3000)
 const path = require('path');
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
+
 const connection1 = mysql.createConnection({
   host: 'localhost',
   user: 'root',
@@ -78,7 +79,7 @@ app.post('/', (req, res) => {
     if (results.length > 0) { //로그인 성공
       res.render('index');
     } else { //로그인 실패
-      res.render('login', {error: '아이디 또는 비밀번호가 올바르지 않습니다.'});
+      res.render('/', {error: '아이디 또는 비밀번호가 올바르지 않습니다.'});
     }
   });
 });

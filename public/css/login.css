@@ -10,6 +10,9 @@
 .bigLogo img {
     width: 540px;
 }
+.inputLoginInfo form {
+    display: flex;
+}
 .inputLoginInfo form input {
     width: 95%;
     height: 30px;
