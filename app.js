@@ -102,7 +102,7 @@ app.post('/post', (req, res) => {
   connection2.query('INSERT INTO posts SET ?', post, (error, results, fields) => {
     if (error) throw error;
     console.log('게시물이 성공적으로 저장되었습니다.');
-    res.redirect('/post-success');
+    res.render('index');
   });
 });
 
