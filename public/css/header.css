@@ -70,12 +70,12 @@ header {
     width: 30px;
     height: 30px;
     border-radius: 50%;
-    background-color: var(--darkGray);
+    background-color: var(--signatureColor);
     transform: scale(0.8);
     transition: left 250ms linear;
 }
 #darkmode [type="checkbox"]:checked::before {
     content: "OFF";
-    background-color: var(--darkGray);
+    background-color: var(--signatureColor);
     left: 30px;
 }
