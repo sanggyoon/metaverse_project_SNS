@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Online IDE</title>
+</head>
+<body>
+    <center>
+        <h1>Online IDE</h1>
+        <!-- 코드 입력 폼 -->
+        <form id="myform" name="myform" method="post" action="/compilecode">
+            <h3>Code</h3>
+            <!-- 사용자 입력 코드를 받는 텍스트 영역 -->
+            <textarea rows="13" cols="100" id="code" name="code"></textarea>
+            <br />
+            <h3>Input</h3>
+            <!-- 코드 입력을 위한 입력값을 받는 텍스트 영역 -->
+            <textarea rows="10" cols="100" id="input" name="input"></textarea>
+            <br />
+            <!-- 선택 언어 -->
+            Language:
+            <select name="lang">
+                <option value="C">C</option>
+                <option value="Python">Python</option>
+            </select>
+            <br />
+            <!-- 입력값 사용 여부 -->
+            Compile With Input:
+            <input type="radio" name="inputRadio" id="inputRadioTrue" value="true" />
+            Yes
+            <input type="radio" name="inputRadio" id="inputRadioFalse" value="false" />
+            No
+            <br />
+            <!-- 제출 버튼 -->
+            <input type="submit" value="Submit" name="submit" />
+        </form>
+    </center>
+</body>
+</html>
