@@ -111,18 +111,6 @@ app.post('/signup', (req, res) => {
   });
 });
 
-//게시물 폼 제출 처리
-app.post('/post', (req, res) => {
-  const { title, tags, content, compileInput, compileOutput } = req.body;
-  const post = { title, tags, content, compileInput, compileOutput };
-  //MySQL에 데이터 저장
-  connection2.query('INSERT INTO posts SET ?', post, (error, results, fields) => {
-    if (error) throw error;
-    console.log('게시물이 성공적으로 저장되었습니다.');
-    res.render('index');
-  });
-});
-
 //서버 실행
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
