@@ -4,6 +4,7 @@
     --headerIconColor: #fff;
     --headerBackground: #1C233A;
     --headerFontSize: 18px;
+    --boxColor: #1A2A63;
 }
 header {
     z-index: 10;
@@ -55,7 +56,7 @@ header {
     position: relative;
     border: none;
     border-radius: 15px;
-    background-color: var(--lightGray);
+    background-color: var(--boxColor);
     width: 60px;
     height: 30px;
 }
@@ -70,12 +71,12 @@ header {
     width: 30px;
     height: 30px;
     border-radius: 50%;
-    background-color: var(--darkGray);
+    background-color: var(--headerBackground);
     transform: scale(0.8);
     transition: left 250ms linear;
 }
 #darkmode [type="checkbox"]:checked::before {
     content: "OFF";
-    background-color: var(--darkGray);
+    background-color: var(--headerBackground);
     left: 30px;
 }

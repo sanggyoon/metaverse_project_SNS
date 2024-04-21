@@ -6,13 +6,13 @@
     --signatureColor: #1C233A;
     /* 기본은 다크모드 */
     --bodyColor: #5e5e5e;
-    --boxColor: #a0a0a0;
+    --boxColor: #1A2A63;
     --textColor1: black;
     --textColor2: white;
 }
 :root[color-theme="dark"] {
-    --bodyColor: #5e5e5e;
-    --boxColor: #a0a0a0;
+    --bodyColor: #1C233A;
+    --boxColor: #1A2A63;
     --textColor1: black;
     --textColor2: white;
 }
