@@ -1,11 +1,12 @@
 const express = require('express')
-const ejs = require('ejs') //ejs 변수 지정
-const app = express() //espress 변수 지정
-const port = 3000 //포트번호 3000 (localhost:3000)
+const ejs = require('ejs') 
 const path = require('path');
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
 const session = require('express-session');
+
+const app = express() //espress 변수 지정
+const port = 3000 //포트번호 3000 (localhost:3000)
 
 // 세션 설정
 app.use(session({
@@ -59,8 +60,8 @@ app.get('/main', (req, res) => {
 
 app.get('/profile', (req, res) => {
   if (req.session.user) { // 세션에 유저 정보가 있으면
-    res.render('profile', { user: req.session.user }); // 유저 정보와 함께 profile 페이지 렌더링
-  } else {
+    res.render('profile', { user: req.session.user }); // 유저 정보와 함께 프로필 페이지 렌더링
+  } else { //세션에 유저 정보가 없다면
     res.redirect('/'); // 세션에 유저 정보가 없으면 로그인 페이지로 이동
   }
 });
@@ -85,9 +86,9 @@ app.get('/writingPost', (req, res) => {
 
 //로그인 폼 제출 처리
 app.post('/', (req, res) => {
-  const { username, password } = req.body;
+  const { userID, userPW } = req.body;
   //MySQL에 데이터 저장
-  connection1.query('SELECT * FROM users WHERE username = ? AND password = ?', [username, password], (error, results, fields) => {
+  connection1.query('SELECT * FROM users WHERE userID = ? AND userPW = ?', [userID, userPW], (error, results, fields) => {
     if (error) throw error;
     if (results.length > 0) { //로그인 성공
       req.session.user = results[0]; // 로그인한 유저의 정보를 세션에 저장
@@ -100,11 +101,12 @@ app.post('/', (req, res) => {
 
 //회원가입 폼 제출 처리
 app.post('/signup', (req, res) => {
-  const { username, email, password } = req.body;
-  const user = { username, email, password };
+  const { userID, userPW, email, username } = req.body;
+  const user = { userID, userPW, email, username };
   // MySQL에 데이터 저장
   connection1.query('INSERT INTO users SET ?', user, (error, results, fields) => {
     if (error) throw error;
+    console.log('새로운 회원이 등록되었습니다.');
     res.redirect('/'); //회원가입이 완료되면 로그인 페이지로 이동
   });
 });
