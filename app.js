@@ -113,8 +113,8 @@ app.post('/signup', (req, res) => {
 
 //게시물 폼 제출 처리
 app.post('/post', (req, res) => {
-  const { title, tags, content } = req.body;
-  const post = { title, tags, content };
+  const { title, tags, content, compileInput, compileOutput } = req.body;
+  const post = { title, tags, content, compileInput, compileOutput };
   //MySQL에 데이터 저장
   connection2.query('INSERT INTO posts SET ?', post, (error, results, fields) => {
     if (error) throw error;
