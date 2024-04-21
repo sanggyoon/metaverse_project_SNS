@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compilation Result</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212; /* 배경색을 검정으로 설정 */
+            color: #fff; /* 텍스트 색상을 흰색으로 설정 */
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            text-align: center;
+            color: #fff; /* 헤더 텍스트 색상을 흰색으로 설정 */
+        }
+        #code {
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #212121; /* 코드 입력 창 배경색을 어두운 회색으로 설정 */
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            overflow: auto; /* 코드가 길어질 경우 스크롤 가능하도록 설정 */
+        }
+        #result {
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #212121; /* 결과 창 배경색을 어두운 회색으로 설정 */
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+        }
+        #back-btn {
+            text-align: center;
+            margin-top: 20px;
+        }
+        #back-btn a {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 20px;
+            background-color: #444;
+            border-radius: 5px;
+        }
+        #back-btn a:hover {
+            background-color: #666;
+        }
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Compilation Result</h1>
+    <div id="code">
+        <!-- 입력된 코드를 표시하는 영역 -->
+        <div class="section-title">입력된 코드:</div>
+        <textarea rows="13" cols="100" id="inputCode"><%= code %></textarea> <!-- 여기에 수정된 코드를 넣어줘야 함 -->
+    </div>
+    <div id="result">
+        <!-- 컴파일 결과가 여기에 나타납니다 -->
+        <div class="section-title">컴파일 결과:</div>
+        <%= output %> 
+    </div>
+    <div id="back-btn">
+        <!-- 코드 입력 부분으로 돌아가는 버튼 -->
+        <a href="/">코드 입력 부분으로 돌아가기</a>
+    </div>
+
+    <script>
+        // 컴파일 버튼 클릭 시
+        document.getElementById("compileBtn").addEventListener("click", function () {
+            var code = document.getElementById("inputCode").value; // 사용자가 수정한 코드
+            var lang = document.querySelector('input[name="lang"]:checked').value;
+            var input = document.getElementById("input").value;
+            var inputRadio = document.querySelector('input[name="inputRadio"]:checked').value;
+
+            // AJAX를 사용하여 서버에 수정된 코드를 보냄
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/compilecode");
+            xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    // 서버에서 받은 결과를 결과 창에 출력
+                    document.getElementById("result").innerHTML = xhr.responseText;
+                }
+            };
+            xhr.send(JSON.stringify({ code: code, lang: lang, input: input, inputRadio: inputRadio }));
+        });
+    </script>
+</body>
+</html>

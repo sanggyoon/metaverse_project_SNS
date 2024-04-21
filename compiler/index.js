@@ -7,87 +7,72 @@ var app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+// 템플릿 엔진 설정
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
+
 var option = { stats: true };
+
+// 컴파일러 초기화
 compiler.init(option);
 
+// 코드 입력 페이지를 렌더링하는 라우터
 app.get("/", function (req, res) {
     res.sendFile(path.join(__dirname, "index.html"));
 });
 
+// 컴파일 요청을 처리하고 결과 페이지로 리디렉션하는 라우터
 app.post("/compilecode", function (req, res) {
-    var code = req.body.code;
-    var input = req.body.input;
-    var inputRadio = req.body.inputRadio;
-    var lang = req.body.lang;
+    var code = req.body.code; // 사용자가 입력한 코드
+    var input = req.body.input; // 입력값
+    var inputRadio = req.body.inputRadio; // 입력값 사용 여부
+    var lang = req.body.lang; // 선택된 언어
 
-    console.log("Received request with data:");
-    console.log("Code:", code);
-    console.log("Input:", input);
-    console.log("Input Radio:", inputRadio);
-    console.log("Language:", lang);
-
-    if (lang === "C" || lang === "C++") {
-        var envData = { OS: "windows", cmd: "g++", options: { timeout: 10000 } };
+    // 언어에 따라 적절한 컴파일 함수 호출
+    if (lang === "C" || lang === "C++" || lang === "Python") {
+        var envData = { OS: "windows", cmd: lang === "Python" ? "python" : "g++", options: { timeout: 10000 } };
 
         if (inputRadio === "true") {
-            compiler.compileCPPWithInput(envData, code, input, function (data) {
-                res.setHeader("Content-Type", "text/plain; charset=utf-8");
-                if (data.error) {
-                    console.log("Error:", data.error);
-                    res.send(data.error);
-                } else {
-                    res.send(data.output);
-                }
+            // 입력값 사용 시
+            compiler.compileWithInput(envData, code, input, lang, function (data) {
+                // 결과를 콘솔에 출력
+                console.log("Compilation Result:", data.output);
+                // 결과를 출력 변수에 할당하여 HTML 파일로 전달
+                res.render("compile_result", { code: code, output: data.output });
             });
         } else {
-            compiler.compileCPP(envData, code, function (data) {
-                res.setHeader("Content-Type", "text/plain; charset=utf-8");
-                if (data.error) {
-                    console.log("Error:", data.error);
-                    res.send(data.error);
-                } else {
-                    res.send(data.output);
-                }
-            });
+            // 입력값 미사용 시
+            // 언어에 따라 적절한 컴파일 함수 호출
+            if (lang === "Python") {
+                compiler.compilePython(envData, code, function (data) {
+                    // 결과를 콘솔에 출력
+                    console.log("Compilation Result:", data.output);
+                    // 결과를 출력 변수에 할당하여 HTML 파일로 전달
+                    res.render("compile_result", { code: code, output: data.output });
+                });
+            } else {
+                compiler.compileCPP(envData, code, function (data) {
+                    // 결과를 콘솔에 출력
+                    console.log("Compilation Result:", data.output);
+                    // 결과를 출력 변수에 할당하여 HTML 파일로 전달
+                    res.render("compile_result", { code: code, output: data.output });
+                });
+            }
         }
-    } else if (lang === "Python") {
-        var envData = { OS: "windows" };
-
-        if (inputRadio === "true") {
-            compiler.compilePythonWithInput(envData, code, input, function (data) {
-                res.setHeader("Content-Type", "text/plain; charset=utf-8");
-                if (data.error) {
-                    console.log("Error:", data.error);
-                    res.send(data.error);
-                } else {
-                    res.send(data.output);
-                }
-            });
-        } else {
-            compiler.compilePython(envData, code, function (data) {
-                res.setHeader("Content-Type", "text/plain; charset=utf-8");
-                if (data.error) {
-                    console.log("Error:", data.error);
-                    res.send(data.error);
-                } else {
-                    res.send(data.output);
-                }
-            });
-        }
+    } else {
+        res.status(400).send("Unsupported language.");
     }
 });
 
-app.get("/fullStat", function (req, res) {
-    compiler.fullStat(function (data) {
-        res.setHeader("Content-Type", "text/plain; charset=utf-8");
-        res.send(data);
-    });
-});
-
+// 서버 실행
 app.listen(8080, function () {
     console.log("Server running on port 8080");
 });
 
-compiler.flush(function () {
-    console.log("All temporary files flushed!");
+// 서버 종료 시 임시 파일 삭제
+process.on("SIGINT", function () {
+    compiler.flush(function () {
+        console.log("All temporary files flushed!");
+        process.exit();
+    });
 });
