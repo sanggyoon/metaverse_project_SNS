@@ -9,14 +9,15 @@
 }
 .callPostLeft {
     width: 150px;
+    color: var(--textColor2)
 }
 .postWriterImg {
-    background-image: url(../img/google_icon.png);
+    background-image: url(../img/unknown.png);
     background-size: cover;
     width: 100px;
     height: 100px;
     border-radius: 50%;
-    border: 1px solid black;
+    /*border: 1px solid white;*/
     margin: 20px auto 10px auto;
     position: relative;
 }
@@ -29,6 +30,7 @@
     right: -5px;
     bottom: -5px;
     padding: 2px 4px;
+    color:var(--textColor2)
 }
 .postStack {
     display: flex;
@@ -49,19 +51,21 @@
 }
 .callPostRight a {
     text-decoration: none;
-    color: black;
+    color:var(--textColor2)
 }
 .callPostTitle {
     word-wrap: break-word;
     overflow: hidden;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid var(--textColor2);
     font-size: 20px;
+    color:var(--textColor2)
 }
 .callPostText {
     overflow: hidden;
     height: 165px;
+    color:var(--textColor2)
 }
 .callPostHashtag {
     overflow: hidden;
-    border-top: 1px solid black;
+    border-top: 1px solid var(--textColor2);
 }

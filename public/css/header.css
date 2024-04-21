@@ -3,6 +3,7 @@
     --headerIconSize: 50px;
     --headerIconColor: #fff;
     --headerBackground: #1C233A;
+    --headerBgWhite:#fff;
     --headerFontSize: 18px;
     --boxColor: #1A2A63;
 }
@@ -36,7 +37,7 @@ header {
 .headerMenu > a > span{
     font-size: calc(var(--headerIconSize) - 10px);
     line-height: var(--headerSize);
-    color: white;
+    color: var(--headerIconColor);
 }
 /*토글 스위치*/
 .darkMode {
@@ -44,7 +45,7 @@ header {
     align-items: center;
     justify-content: center;
     margin: 10px auto;
-    font-size: 20px;
+    font-size: 15px;
 }
 .darkMode label {
     display: inline-flex;

@@ -1,4 +1,20 @@
-#slider {
+.album{
+    height: 400px;
+    width: 100%;
+    overflow: hidden;/*overflow되면 숨김*/
+}
+.image-box{
+    display: flex;
+    height: 400px;
+    width: 2560px;
+    transition-property: transform; 
+    transition-duration: 1s; /*transition 지속시간*/
+}
+button{
+    
+}
+
+/*#slider {
     overflow: hidden;
     position: relative;
     width: 100%;  
@@ -18,7 +34,7 @@
    100% {
        transform: translate(-50%, 0);
    }
- }
+ }*/
 /* -------------------------------------------------------------------- */
 .mainBox{
     width: 100%;
@@ -58,7 +74,7 @@
     align-items: center;
     box-sizing: border-box;
     cursor: pointer;
-    color:white;
+    color:var(--textColor2);
 }
 .popularPost {
     width: 80%;
