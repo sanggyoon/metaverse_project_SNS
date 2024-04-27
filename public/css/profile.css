@@ -50,7 +50,7 @@
     margin: 10px auto;
     padding: 10px;
     box-sizing: border-box;
-    border: 5px solid var(--signatureColor);
+    border: 15px solid var(--signatureColor);
     border-radius: 15px;
 }
 .introduceText table {

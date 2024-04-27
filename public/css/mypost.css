@@ -1,0 +1,71 @@
+.callPost {
+    width: calc(100% - 47px);
+    background-color: var(--boxColor);
+    border-radius: 15px;
+    border: 0.6px solid var(--signatureColor);
+    box-sizing: border-box;
+    display: flex;
+    padding: 10px;
+}
+.callPostLeft {
+    width: 150px;
+    color: var(--textColor2)
+}
+.postWriterImg {
+    background-image: url(../img/unknown.png);
+    background-size: cover;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    /*border: 1px solid white;*/
+    margin: 20px auto 10px auto;
+    position: relative;
+}
+.writerFollowBT {
+    background-color: #8995FF;
+    border-radius: 15px;
+    box-sizing: content-box;
+    font-size: 12px;
+    position: absolute;
+    right: -5px;
+    bottom: -5px;
+    padding: 2px 4px;
+    color:var(--textColor2)
+}
+.postStack {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 16px;
+    line-height: 16px;
+    margin-top: 20px;
+}
+.postStack span{
+    font-size: 16px;
+}
+.callPostRight {
+    width: calc(100% - 150px);
+    box-sizing: border-box;
+    padding: 0 20px;
+    position: relative;
+}
+.callPostRight a {
+    text-decoration: none;
+    color:var(--textColor2)
+}
+.callPostTitle {
+    word-wrap: break-word;
+    overflow: hidden;
+    border-bottom: 1px solid var(--textColor2);
+    font-size: 20px;
+    color:var(--textColor2)
+}
+.callPostText {
+    overflow: hidden;
+    height: 165px;
+    color:var(--textColor2)
+}
+.callPostHashtag {
+    overflow: hidden;
+    border-top: 1px solid var(--textColor2);
+}

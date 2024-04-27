@@ -110,7 +110,14 @@
   margin: 0 auto;         
 }
 /*---------------------------------------------*/
-.postsBox {
+.postBox {
+  width:75%;
+}
+.postsBox1 {
+  width: 75%;
+  padding: 20px 0;
+}
+.postsBox2 {
   width: 75%;
   padding: 20px 0;
 }
