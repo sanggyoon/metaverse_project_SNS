@@ -35,7 +35,7 @@ header {
     -ms-user-select: none; /* 인터넷익스플로러 */
 }
 .headerMenu > a > span{
-    font-size: calc(var(--headerIconSize) - 10px);
+    font-size: calc(var(--headerIconSize) - 25px);
     line-height: var(--headerSize);
     color: var(--headerIconColor);
 }
@@ -81,3 +81,54 @@ header {
     background-color: var(--darkGray);
     left: 30px;
 }
+
+/*--------드롭다운 메뉴------*/
+.dropdown{
+    position : relative;
+    display : inline-block;
+  }
+  
+  .dropbtn_icon{
+    font-family : 'Material Icons';
+  }
+  .dropbtn{
+    /*border : 1px solid rgb(37, 37, 37);
+    border-radius : 4px;*/
+    background-color: var(--headerBackground);
+    font-weight: 400;
+    /*color : rgb(37, 37, 37);*/
+    padding : 12px;
+    /*width :200px;*/
+    text-align: right;
+    cursor : pointer;
+    font-size : 12px;
+    border:none;
+    margin-top: 10px;
+    color:var(--textColor1)
+  }
+  .dropdown-content{
+    display : none;
+    position : absolute;
+    z-index : 1; /*다른 요소들보다 앞에 배치*/
+    font-weight: 400;
+    background-color: var(--headerBackground);
+    color:var(--textColor1); opacity: 0.9;
+    min-width : 200px;
+    right: 0;
+  }
+  
+  .dropdown-content a{
+    display : block;
+    text-decoration : none;
+    color : var(--textColor1);
+    font-size: 12px;
+    padding : 12px 20px;
+  }
+  
+  .dropdown-content a:hover{
+    background-color : var(--boxColor);
+  }
+  
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }

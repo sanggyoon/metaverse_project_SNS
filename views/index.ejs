@@ -9,23 +9,59 @@
     2.무한스크롤 게시글
     3.좌측 네비게이션 기능(#디테일 미정#)
 -->
-<div id="slider">
-    <div class="album">
-        <div class="image-box">
+
+<div class="swiper">
+    <div class="swiper-wrapper">
+        <div class="swiper-slide">
             <img src="../img/banner01.png" />
+        </div>
+        <div class="swiper-slide">
             <img src="../img/banner02.png" />
+        </div>
+        <div class="swiper-slide">
             <img src="../img/banner03.png" />
+        </div>
+        <div class="swiper-slide">
             <img src="../img/banner01.png" />
+        </div>
+        <div class="swiper-slide">
             <img src="../img/banner02.png" />
-            <img src="../img/banner03.png" />
-            <img src="../img/banner01.png" />
-            <img src="../img/banner02.png" />
+        </div>
+        <div class="swiper-slide">
             <img src="../img/banner03.png" />
         </div>
     </div>
-</div>
- <button class="prev">prev</button>
- <button class="next">next</button>
+    <div class="swiper-pagination"></div>
+    <div class="swiper-button-prev">
+        <div class="material-symbols-outlined">arrow_back</div>
+    </div>
+    <div class="swiper-button-next">
+        <div class="material-symbols-outlined">arrow_forward</div>
+    </div>
+    <div class="swiper-scollbar"></div>
+ </div>
+
+ <script>
+    new Swiper('.swiper', {
+        autoplay: {
+            delay: 5000,
+            disableOnInteraction: false // 사용자 상호 작용 후에도 자동 재생 유지
+        },
+        loop: true,
+        slidesPerView: 2,
+        spaceBetween: 20,
+        centeredSlides: true,
+        watchOverflow:true,
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true
+        },
+        navigation: {
+            prevEl: '.swiper-button-prev',
+            nextEl: '.swiper-button-next'
+        }
+    })
+ </script>
 
 <div class="mainBox alignment">
     <div class="navBox">
