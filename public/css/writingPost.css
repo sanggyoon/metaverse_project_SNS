@@ -42,4 +42,5 @@
     margin: 5px 5px;
     background-color: var(--signatureColor);
     color: white;
+    cursor: pointer;
 }

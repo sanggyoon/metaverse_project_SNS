@@ -4,21 +4,27 @@
     --gray: #5e5e5e;
     --lightGray: #a0a0a0;
     --signatureColor: #1C233A;
+    --headerBackground: #1C233A;
+    --headerIconColor: #fff;
     /* 기본은 다크모드 */
-    --bodyColor: #5e5e5e;
-    --boxColor: #a0a0a0;
-    --textColor1: black;
+    --bodyColor: #1C233A;
+    --boxColor: #1A2A63;
+    --textColor1: white;
     --textColor2: white;
 }
 :root[color-theme="dark"] {
-    --bodyColor: #5e5e5e;
-    --boxColor: #a0a0a0;
-    --textColor1: black;
+    --headerBackground: #1C233A;
+    --headerIconColor: #fff;
+    --bodyColor: #1C233A;
+    --boxColor: #1A2A63;
+    --textColor1: white;
     --textColor2: white;
 }
 :root[color-theme="light"] {
+    --headerBackground: white;
+    --headerIconColor: black;
     --bodyColor: white;
-    --boxColor: white;
+    --boxColor: #BFBFBF;
     --textColor1: white;
     --textColor2: black;
 }
