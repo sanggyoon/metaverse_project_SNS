@@ -9,19 +9,59 @@
     2.무한스크롤 게시글
     3.좌측 네비게이션 기능(#디테일 미정#)
 -->
-<div id="slider">
-    <div class="image-box">
-       <img src="../img/banner01.png" />
-       <img src="../img/banner02.png" />
-       <img src="../img/banner03.png" />
-       <img src="../img/banner01.png" />
-       <img src="../img/banner02.png" />
-       <img src="../img/banner03.png" />
-       <img src="../img/banner01.png" />
-       <img src="../img/banner02.png" />
-       <img src="../img/banner03.png" />
+
+<div class="swiper">
+    <div class="swiper-wrapper">
+        <div class="swiper-slide">
+            <img src="../img/banner01.png" />
+        </div>
+        <div class="swiper-slide">
+            <img src="../img/banner02.png" />
+        </div>
+        <div class="swiper-slide">
+            <img src="../img/banner03.png" />
+        </div>
+        <div class="swiper-slide">
+            <img src="../img/banner01.png" />
+        </div>
+        <div class="swiper-slide">
+            <img src="../img/banner02.png" />
+        </div>
+        <div class="swiper-slide">
+            <img src="../img/banner03.png" />
+        </div>
     </div>
+    <div class="swiper-pagination"></div>
+    <div class="swiper-button-prev">
+        <div class="material-symbols-outlined">arrow_back</div>
+    </div>
+    <div class="swiper-button-next">
+        <div class="material-symbols-outlined">arrow_forward</div>
+    </div>
+    <div class="swiper-scollbar"></div>
  </div>
+
+ <script>
+    new Swiper('.swiper', {
+        autoplay: {
+            delay: 5000,
+            disableOnInteraction: false // 사용자 상호 작용 후에도 자동 재생 유지
+        },
+        loop: true,
+        slidesPerView: 2,
+        spaceBetween: 20,
+        centeredSlides: true,
+        watchOverflow:true,
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true
+        },
+        navigation: {
+            prevEl: '.swiper-button-prev',
+            nextEl: '.swiper-button-next'
+        }
+    })
+ </script>
 
 <div class="mainBox alignment">
     <div class="navBox">
@@ -34,48 +74,53 @@
             </form>
         </div>
         <div class="popularPost">  
-
         </div>
     </div>
-    <div class="postsBox">
-        <!--1번 게시글-->
-        <div class="callPost">
-            <div class="callPostLeft">
-                <div class="postWrittenDay">
-                    <span>2024-04-13 14:39</span>
-                </div>
-                <a href="/otherProfile"><div class="postWriterImg">
-                    <div class="writerFollowBT">팔로우</div>
-                </div></a>
-                <div class="postWriterName alignment">
-                    <span>구글직원호소인</span>
-                </div>
-                <div class="postStack">
-                    <div class="postLike alignment"><span class="material-symbols-outlined">thumb_up</span>
-                        <span>10</span>
-                    </div>
-                    <div class="postComments alignment"><span class="material-symbols-outlined">comment</span>
-                        <span>20</span>
-                    </div>
-                    <div class="postLove alignment"><span class="material-symbols-outlined">favorite</span>
-                        <span>30</span>
-                    </div>
-                </div>
-            </div>
-            <div class="callPostRight"><a href="/postDetails">
-                <div class="callPostTitle">
-                    <span>제목입니당</span>
-                </div>
-                <div class="callPostText">
-                    <span>내용입니당</span>
-                </div>
-                <div class="callPostHashtag">
-                    <span>#해시태그</span>
-                </div>
-            </a></div>
+    <div class="postBox">
+        <div class="postsBox1">
+            <%-include('aPost.ejs')-%>
         </div>
-    </div>
+        <div class="postsBox2">
+            <%-include('myPost.ejs')-%>
+        </div>
 </div>
+</div>
+
+<script>
+    let lastId = 0; // 마지막 게시글의 ID를 저장하는 변수
+    
+    // 게시글을 로드하는 함수
+    function loadPosts() {
+        fetch(`/api/posts?lastId=${lastId}`)
+            .then(response => response.json())
+            .then(posts => {
+                if (posts.length > 0) {
+                    posts.forEach(post => {
+                        const postElement = document.createElement('div');
+                        postElement.innerHTML = `
+                            <div class="callPost">
+                                <!-- 게시글 내용을 여기에 채웁니다 -->
+                            </div>
+                        `;
+                        // 포스트 박스에 게시글 요소를 추가
+                        document.querySelector('.postsBox').appendChild(postElement);
+                    });
+                    // 마지막 게시글의 ID를 업데이트
+                    lastId = posts[posts.length - 1].id;
+                }
+            });
+    }
+    
+    // 스크롤 이벤트 리스너를 추가하여 페이지 끝에 도달하면 추가 게시글을 로드
+    window.addEventListener('scroll', () => {
+        if (window.innerHeight + window.pageYOffset >= document.body.offsetHeight) {
+            loadPosts();
+        }
+    });
+    
+    // 페이지 로드 시 첫 번째 게시글 로드
+    loadPosts();
+    </script>    
 
 <!-- Start of footer -->
 <%-include('footer.ejs')-%>
