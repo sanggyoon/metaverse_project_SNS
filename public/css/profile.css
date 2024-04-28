@@ -8,8 +8,8 @@
     position: relative;
 }
 .imgProfile img {
-    width: 70%;
-    height: 70%; 
+    width: 60%;
+    height: 60%; 
     box-sizing: border-box;
     border-radius: 50%;
 }
@@ -50,7 +50,7 @@
     margin: 10px auto;
     padding: 10px;
     box-sizing: border-box;
-    border: 5px solid var(--signatureColor);
+    border: 15px solid var(--signatureColor);
     border-radius: 15px;
 }
 .introduceText table {
