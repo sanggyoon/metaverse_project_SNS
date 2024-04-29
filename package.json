@@ -19,6 +19,7 @@
     "mysql": "^2.18.1",
     "passport": "^0.7.0",
     "passport-kakao": "^1.0.1",
+    "sequelize": "^6.37.3",
     "swiper": "^11.1.1"
   }
 }
