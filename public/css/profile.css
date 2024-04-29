@@ -59,11 +59,14 @@
     color: var(--textColor2);
 }
 .myPost {
-    width: 75%;
+    width: 65%;
     margin: 0;
     height: calc(100vh - var(--headerSize));
 }
 .myPost p {
     color: var(--textColor2);
     font-size: 25px;
+}
+.profileEmptyBox {
+    width: 10%;
 }

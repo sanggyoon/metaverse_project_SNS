@@ -1,17 +1,19 @@
 .callPost {
-    width: calc(100% - 47px);
+    width: 100%;
     background-color: var(--boxColor);
     border-radius: 15px;
     border: 0.6px solid var(--signatureColor);
     box-sizing: border-box;
     display: flex;
     padding: 10px;
+    margin-top: 20px;
 }
 .callPostLeft {
     width: 150px;
+    color:var(--textColor2)
 }
 .postWriterImg {
-    background-image: url(../img/google_icon.png);
+    background-image: url(../img/unknown.png);
     background-size: cover;
     width: 100px;
     height: 100px;
@@ -29,7 +31,7 @@
     right: -5px;
     bottom: -5px;
     padding: 2px 4px;
-    color:var(--textColor2)
+    color:var(--textColor2);
 }
 .postStack {
     display: flex;
