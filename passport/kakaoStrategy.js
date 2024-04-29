@@ -12,7 +12,7 @@ module.exports = () => {
         console.log('kakao profile', profile);
         try { 
             const exUser = await User.findOne({
-                where: {snsId: profile.id, provider: 'kakao'}, //  snsId: 카카오 아이디와 같은 지?, provider: 카카오에서 로그인했는지?
+                where: {userID: profile.id, provider: 'kakao'}, //  snsId: 카카오 아이디와 같은 지?, provider: 카카오에서 로그인했는지?
             }); // 기존에 카카오를 통해 회원가입한 사용자가 있는지 조회
             if(exUser){ // 이미 User로 존재하는 경우(회원가입이 이미 되어있는 경우)
                 done(null, exUser); // 사용자 정보와 함께 done함수 호출
@@ -20,7 +20,7 @@ module.exports = () => {
                 const newUser = await User.create({
                     email: profile._json && profile._json.kakao_account_email,
                     nick: profile.displayName,
-                    snsId: profile.id,
+                    userID: profile.id,
                     provider: 'kakao',
                 });
                 done(null, newUser); // 새로운 유저와 함께 done 실행

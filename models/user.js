@@ -13,7 +13,7 @@ module.exports = class User extends Sequelize.Model { // User 모델을 만들�
                 type: Sequelize.STRING(15),
                 allowNull: false,
             },
-            password: { // 비밀번호
+            userPW: { // 비밀번호
                 type: Sequelize.STRING(100),
                 allowNull: true,
             },
@@ -22,7 +22,7 @@ module.exports = class User extends Sequelize.Model { // User 모델을 만들�
                 allowNull: false,
                 defaultValue: 'local', // 기본 값 local 로그인, sns으로 로그인 한 경우는 kakao 저장 
             },
-            snsId: { // snsId
+            userID: { // userID
                 type: Sequelize.STRING(30),
                 allowNull: true,
             },
@@ -37,20 +37,20 @@ module.exports = class User extends Sequelize.Model { // User 모델을 만들�
             collate: 'utf8_general_ci',
         });
     }
-    static associate(db) {  // 다른 모델과의 관계 <-> static init: 테이블에 대한 설정
-        db.User.hasMany(db.Post); // user과 post는 1:N관계
-        // User과 User는 N:M관계 (팔로잉 기능 - 팔로워, 팔로우)
-        // 같은 테이블 간 N:M은 모델 이름과 컬럼 이름을 따로 정해야 함
-        db.User.belongsToMany(db.User, { 
-            foreignKey: 'followingId', // user1에게 생기는 following
-            as: 'Followers', // 생성된 Follow라는 테이블을 이름을 바꿔서 가져옴 - user.getFollowers, user.getFollowings 같은 관계 메소드 사용 가능
-                            // include 시에도 as에 넣은 값을 넣으면 관계 쿼리가 작동함
-            through: 'Follow', // 생성할 테이블 이름 , 유저-테이블 -유저, 특정 유저의 팔로잉/팔로워 목록이 저장됨
-        });
-        db.User.belongsToMany(db.User, {
-            foreignKey: 'followerId', // user2에게 생기는 follower
-            as: 'Followings',
-            through: 'Follow', 
-        });
-    }
+    // static associate(db) {  // 다른 모델과의 관계 <-> static init: 테이블에 대한 설정
+    //     db.User.hasMany(db.Post); // user과 post는 1:N관계
+    //     // User과 User는 N:M관계 (팔로잉 기능 - 팔로워, 팔로우)
+    //     // 같은 테이블 간 N:M은 모델 이름과 컬럼 이름을 따로 정해야 함
+    //     db.User.belongsToMany(db.User, { 
+    //         foreignKey: 'followingId', // user1에게 생기는 following
+    //         as: 'Followers', // 생성된 Follow라는 테이블을 이름을 바꿔서 가져옴 - user.getFollowers, user.getFollowings 같은 관계 메소드 사용 가능
+    //                         // include 시에도 as에 넣은 값을 넣으면 관계 쿼리가 작동함
+    //         through: 'Follow', // 생성할 테이블 이름 , 유저-테이블 -유저, 특정 유저의 팔로잉/팔로워 목록이 저장됨
+    //     });
+    //     db.User.belongsToMany(db.User, {
+    //         foreignKey: 'followerId', // user2에게 생기는 follower
+    //         as: 'Followings',
+    //         through: 'Follow', 
+    //     });
+    // }
 }

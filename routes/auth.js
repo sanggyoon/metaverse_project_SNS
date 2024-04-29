@@ -5,6 +5,11 @@ const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
 const User = require('../models/user');
 
 const router = express.Router();
+router.get('/logout', isLoggedIn, (req, res) => {
+    req.logout();
+    req.session.destroy();
+    req.redirect('/');
+});
 // 카카오 로그인 라우터, /auth/kakao
 router.get('/kakao', passport.authenticate('kakao')); // 카카오 api가 get으로 되어있어서 무조건 get으로 받아옴
                                                       // passport가 알아서 kakao 로그인 창으로 redirect 함
