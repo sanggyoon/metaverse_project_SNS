@@ -8,6 +8,7 @@ const passport = require('passport');
 const app = express() //espress 변수 지정
 const port = 3000 //포트번호 3000 (localhost:3000)
 const passportConfig = require('./passport'); // require('./passport/index.js')와 같음
+require('dotenv').config();
 passportConfig(); // 패스포트 설정, 한 번 실행해두면 ()에 있는 deserializeUser 계속 실행
 // 세션 설정
 app.use(session({
@@ -111,6 +112,16 @@ app.post('/signup', (req, res) => {
     res.redirect('/'); //회원가입이 완료되면 로그인 페이지로 이동
   });
 });
+
+//카카오 로그인 연동
+app.get('/auth/kakao', passport.authenticate('kakao'));
+
+app.get('/auth/kakao/callback',
+  passport.authenticate('kakao', { failureRedirect: '/login' }),
+  function(req, res) {
+    // Successful authentication, redirect home.
+    res.redirect('/');
+  });
 
 //서버 실행
 app.listen(port, () => {

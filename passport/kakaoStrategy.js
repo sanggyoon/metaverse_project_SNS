@@ -7,7 +7,7 @@ const User = require('../models/user');
 module.exports = () => {
     passport.use(new KakaoStrategy({  
         clientID: process.env.KAKAO_ID, // clientID: 전략 구현을 위해 카카오에서 발급해주는 id, 노출 방지로 .env 파일에서 관리함
-        callbackURL: '/auth/kakao/callback', // callbackURL: 카카오로부터 인증 결과를 받을 라우터 주소
+        callbackURL: '/main', // callbackURL: 카카오로부터 인증 결과를 받을 라우터 주소
     }, async (accessToken, refreshToken, profile, done) => {
         console.log('kakao profile', profile);
         try { 
