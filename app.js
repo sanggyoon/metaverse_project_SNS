@@ -4,6 +4,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
 const session = require('express-session');
+const router = express.Router();
 
 const app = express() //espress 변수 지정
 const port = 3000 //포트번호 3000 (localhost:3000)
@@ -55,8 +56,22 @@ app.get('/signup', (req, res) => {
 })//회원가입 페이지
 
 app.get('/main', (req, res) => {
-  res.render('index')
-})//메인 페이지
+  let lastId = parseInt(req.query.lastId);
+  if (isNaN(lastId) || lastId <= 0) { // lastId가 숫자가 아니거나 0 이하인 경우
+    lastId = 9999999999; // 예시로 큰 숫자를 사용. 실제로는 테이블의 id 상황에 맞게 조정 필요
+  }
+  let query = 'SELECT * FROM posts WHERE id < ? ORDER BY id DESC LIMIT 10';
+
+  connection2.query(query, [lastId], (error, results, fields) => {
+    if (error) throw error;
+    if (req.query.ajax) {
+      res.json(results);
+    } else {
+      res.render('index', {posts: results});
+    }
+  });
+});
+//메인 페이지
 
 app.get('/profile', (req, res) => {
   if (req.session.user) { // 세션에 유저 정보가 있으면

@@ -1,35 +1,35 @@
 <div class="callPost">
     <div class="callPostLeft">
         <div class="postWrittenDay">
-            <span>이곳에 created_at</span>
+            <span><%= post.created_at %></span>
         </div>
         <a href="/otherProfile"><div class="postWriterImg">
             <div class="writerFollowBT">팔로우</div>
         </div></a>
         <div class="postWriterName alignment">
-            <span>이곳에 username</span>
+            <span><%= post.username %></span>
         </div>
         <div class="postStack">
             <div class="postLike alignment"><span class="material-symbols-outlined">thumb_up</span>
-                <span>10</span>
+                <span><%= post.likes %></span>
             </div>
             <div class="postComments alignment"><span class="material-symbols-outlined">comment</span>
-                <span>20</span>
+                <span><%= post.comments %></span>
             </div>
             <div class="postLove alignment"><span class="material-symbols-outlined">favorite</span>
-                <span>30</span>
+                <span><%= post.loves %></span>
             </div>
         </div>
     </div>
     <div class="callPostRight"><a href="/postDetails">
         <div class="callPostTitle">
-            <span>이곳에 title</span>
+            <span><%= post.title %></span>
         </div>
         <div class="callPostText">
-            <span>이곳에 content</span>
+            <span><%= post.content %></span>
         </div>
         <div class="callPostHashtag">
-            <span>이곳에 tags</span>
+            <span><%= post.tags %></span>
         </div>
     </a></div>
 </div>
