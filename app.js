@@ -102,9 +102,18 @@ app.get('/main', (req, res) => {
 //개인 프로필 페이지-----------------------------------------------------------------------------
 app.get('/profile', (req, res) => {
   if (req.session.user) { // 세션에 유저 정보가 있으면
-    res.render('profile', { user: req.session.user }); // 유저 정보와 함께 마이 프로필 페이지 렌더링
+    // 세션에서 유저 ID 가져오기
+    const userId = req.session.user.id;
+
+    // 유저 ID를 이용하여 유저 정보 조회
+    const sql = 'SELECT username, introduce, connection FROM users WHERE id = ?';
+    connection1.query(sql, [userId], function(err, result) {
+      if (err) throw err;
+      // EJS에 유저 정보 전달 및 렌더링
+      res.render('profile.ejs', { user: result[0] });
+    });
   } else { //세션에 유저 정보가 없다면
-    res.redirect('/'); // 세션에 유저 정보가 없으면 로그인 페이지로 이동
+    res.redirect('/'); // 로그인 페이지로 이동
   }
 });
 
