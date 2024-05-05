@@ -30,7 +30,6 @@ connection2.connect();
 app.set('view engine', 'ejs');
 app.set('views', './views');
 
-
 // 세션 설정
 app.use(session({
   secret: 'my_secret_key', // 이 값을 통해 세션을 암호화하여 관리합니다. 복잡한 키를 사용하세요.
@@ -40,6 +39,7 @@ app.use(session({
 
 //static 요소 사용
 app.use(express.static(__dirname+'/public'));
+app.use('/profile_image', express.static(path.join(__dirname, 'profile_image')));
 
 //body-parser
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -106,7 +106,7 @@ app.get('/profile', (req, res) => {
     const userId = req.session.user.id;
 
     // 유저 ID를 이용하여 유저 정보 조회
-    const sql = 'SELECT username, introduce, connection FROM users WHERE id = ?';
+    const sql = 'SELECT username, introduce, connection, profile_image FROM users WHERE id = ?';
     connection1.query(sql, [userId], function(err, result) {
       if (err) throw err;
       // EJS에 유저 정보 전달 및 렌더링
