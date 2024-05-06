@@ -94,7 +94,7 @@ app.get('/main', (req, res) => {
   if (isNaN(lastId) || lastId <= 0) { // lastId가 숫자가 아니거나 0 이하인 경우
     lastId = 9999999999; // 예시로 큰 숫자를 사용. 실제로는 테이블의 id 상황에 맞게 조정 필요
   }
-  let query = 'SELECT * FROM posts WHERE id < ? ORDER BY id DESC LIMIT 10';
+  let query = 'SELECT posts.*, users.user_name, users.profile_image FROM posts INNER JOIN users ON posts.user_id = users.id WHERE posts.id < ? ORDER BY posts.id DESC LIMIT 10';
 
   connection.query(query, [lastId], (error, results, fields) => {
     if (error) throw error;
@@ -105,6 +105,7 @@ app.get('/main', (req, res) => {
     }
   });
 });
+
 
 //개인 프로필 페이지-----------------------------------------------------------------------------
 app.get('/profile', (req, res) => {

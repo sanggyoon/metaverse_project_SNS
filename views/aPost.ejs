@@ -3,13 +3,13 @@
         <div class="postWrittenDay">
             <span><%= post.created_at %></span>
         </div>
-        <a href="/otherProfile">
-            <div class="postWriterImg"  style="background-image: url('<%= post.profile_image %>');">
+        <a href="/otherProfile?userId=<%= post.userId %>">
+            <div class="postWriterImg" style="background-image: url('<%= post.profile_image %>');">
                 <div class="writerFollowBT">팔로우</div>
             </div>
         </a>
         <div class="postWriterName alignment">
-            <span><%= post.username %></span>
+            <span><%= post.user_name %></span>
         </div>
         <div class="postStack">
             <div class="postLike alignment"><span class="material-symbols-outlined">thumb_up</span>
@@ -23,7 +23,7 @@
             </div>
         </div>
     </div>
-    <div class="callPostRight"><a href="/postDetails">
+    <div class="callPostRight"><a href="/postDetails?postId=<%= post.id %>">
         <div class="callPostTitle">
             <span><%= post.title %></span>
         </div>
