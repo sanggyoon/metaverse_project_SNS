@@ -16,7 +16,7 @@ const connection = mysql.createConnection({
   password: '0000',
   database: 'mz_database'
 })
-const connection1 = mysql.createConnection({ //test_userDB
+const connection1 = mysql.createConnection({ //test_usersDB
   host: 'localhost',
   user: 'root',
   password: '0000',
@@ -145,10 +145,26 @@ app.get('/editProfile', (req, res) => {
 
 //게시글 페이지-----------------------------------------------------------------------------
 app.get('/postDetails', (req, res) => {
-  if (req.session.user) { // 세션에 유저 정보가 있으면
-    res.render('postDetails', { user: req.session.user }); // 유저 정보와 함께 게시글 페이지 렌더링
-  } else { //세션에 유저 정보가 없다면
-    res.redirect('/'); // 세션에 유저 정보가 없으면 로그인 페이지로 이동
+  if (req.session.user) {
+    const postId = req.query.postId; // URL에서 postId를 가져옵니다.
+    const query = `
+      SELECT posts.*, users.user_name 
+      FROM posts 
+      JOIN users ON posts.user_id = users.id 
+      WHERE posts.id = ?`;
+
+    connection.query(query, [postId], (error, results) => {
+      if (error) throw error;
+      
+      if (results.length > 0) {
+        const post = results[0];
+        res.render('postDetails', { user: req.session.user, post: post });
+      } else {
+        res.send('게시글을 찾을 수 없습니다.');
+      }
+    });
+  } else {
+    res.redirect('/');
   }
 });
 
