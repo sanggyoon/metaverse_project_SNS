@@ -3,11 +3,13 @@
         <div class="postWrittenDay">
             <span><%= post.created_at %></span>
         </div>
-        <a href="/otherProfile"><div class="postWriterImg">
-            <div class="writerFollowBT">팔로우</div>
-        </div></a>
+        <a href="/otherProfile">
+            <div class="postWriterImg"  style="background-image: url('<%= post.profile_image %>');">
+                <div class="writerFollowBT">팔로우</div>
+            </div>
+        </a>
         <div class="postWriterName alignment">
-            <span>여기에 userName 표시</span>
+            <span><%= post.username %></span>
         </div>
         <div class="postStack">
             <div class="postLike alignment"><span class="material-symbols-outlined">thumb_up</span>

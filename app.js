@@ -10,21 +10,28 @@ const app = express() //express 변수 지정
 const port = 3000 //포트번호 3000 (localhost:3000)
 
 //DB 연결
-const connection1 = mysql.createConnection({
+const connection = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',
+  password: '0000',
+  database: 'mz_database'
+})
+const connection1 = mysql.createConnection({ //test_userDB
   host: 'localhost',
   user: 'root',
   password: '0000',
   database: 'ex01_database'
 });
-const connection2 = mysql.createConnection({
+const connection2 = mysql.createConnection({ //test_postsDB
   host: 'localhost',
   user: 'root',
   password: '0000',
   database: 'ex02_database'
 });
 
-connection1.connect();
-connection2.connect();
+connection.connect();
+connection1.connect(); //test
+connection2.connect(); //test
 
 //ejs 뷰엔진 사용
 app.set('view engine', 'ejs');
