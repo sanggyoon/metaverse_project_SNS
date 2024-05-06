@@ -60,7 +60,7 @@ app.get('/', (req, res) => {
 app.post('/', (req, res) => {
   const { userID, userPW } = req.body;
   //MySQL에 데이터 저장
-  connection1.query('SELECT * FROM users WHERE userID = ? AND userPW = ?', [userID, userPW], (error, results, fields) => {
+  connection.query('SELECT * FROM users WHERE userID = ? AND userPW = ?', [userID, userPW], (error, results, fields) => {
     if (error) throw error;
     if (results.length > 0) { //로그인 성공
       req.session.user = results[0]; // 로그인한 유저의 정보를 세션에 저장
@@ -78,10 +78,10 @@ app.get('/signup', (req, res) => {
 
 //회원가입 폼 제출 처리
 app.post('/signup', (req, res) => {
-  const { userID, userPW, email, username } = req.body;
-  const user = { userID, userPW, email, username };
+  const { userID, userPW, email, user_name } = req.body;
+  const user = { userID, userPW, email, user_name };
   // MySQL에 데이터 저장
-  connection1.query('INSERT INTO users SET ?', user, (error, results, fields) => {
+  connection.query('INSERT INTO users SET ?', user, (error, results, fields) => {
     if (error) throw error;
     console.log('새로운 회원이 등록되었습니다.');
     res.redirect('/'); //회원가입이 완료되면 로그인 페이지로 이동
@@ -96,7 +96,7 @@ app.get('/main', (req, res) => {
   }
   let query = 'SELECT * FROM posts WHERE id < ? ORDER BY id DESC LIMIT 10';
 
-  connection2.query(query, [lastId], (error, results, fields) => {
+  connection.query(query, [lastId], (error, results, fields) => {
     if (error) throw error;
     if (req.query.ajax) {
       res.json(results);
@@ -113,8 +113,8 @@ app.get('/profile', (req, res) => {
     const userId = req.session.user.id;
 
     // 유저 ID를 이용하여 유저 정보 조회
-    const sql = 'SELECT username, introduce, connection, profile_image FROM users WHERE id = ?';
-    connection1.query(sql, [userId], function(err, result) {
+    const sql = 'SELECT user_name, introduce, email, profile_image FROM users WHERE id = ?';
+    connection.query(sql, [userId], function(err, result) {
       if (err) throw err;
       // EJS에 유저 정보 전달 및 렌더링
       res.render('profile.ejs', { user: result[0] });
@@ -162,12 +162,12 @@ app.get('/writingPost', (req, res) => {
 
 app.post('/writingPost', (req, res) => {
   if (req.session.user) {
-    const { title, tags, content, compileInput, compileOutput } = req.body;
-    const userID = req.session.user.id; // 세션에서 users id 가져오기
+    const { title, hashtags, content, compileInput, compileOutput } = req.body;
+    const user_id = req.session.user.id; // 세션에서 users id 가져오기
 
     // posts 테이블에 게시글 정보와 userID 저장
-    const post = { title, tags, content, compileInput, compileOutput, userID, created_at: new Date() };
-    connection2.query('INSERT INTO posts SET ?', post, (error, results, fields) => {
+    const post = { title, hashtags, content, compileInput, compileOutput, user_id, created_at: new Date() };
+    connection.query('INSERT INTO posts SET ?', post, (error, results, fields) => {
       if (error) {
         console.error("게시글 저장 중 오류 발생:", error);
         res.send("게시글 저장 중 오류가 발생했습니다.");
