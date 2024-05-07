@@ -1,13 +1,11 @@
 .swiper {
   width: 100%;
-  height: 310px;
   position: relative;
-  margin-top: 80px;
+  margin-top: 66px;
 }
 
 .swiper .swiper-slide{
   text-align: center;
-  height: 320px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -19,7 +17,6 @@
 .swiper-slide img{
   display: block;
   width: 100%;
-  height: 280px;
   object-fit: cover;
 }
 
@@ -101,28 +98,20 @@
   cursor: pointer;
   color:white;
 }
-.popularPost {
-  width: 80%;
-  height: 100px; /*temp*/
-  background-color: var(--boxColor);
-  border-radius: 15px;
-  border: 0.6px solid var(--signatureColor);
-  margin: 0 auto;         
-}
 /*---------------------------------------------*/
 .postBox {
-  width:75%;
+  width:50%;
 }
-.postsBox1 {
+/* .postsBox1 {
   width: 75%;
   padding: 20px 0;
 }
 .postsBox2 {
   width: 75%;
   padding: 20px 0;
-}
-.callPost {
-  width: calc(100% - 47px);
+} */
+/* .callPost {
+  width: calc(100%;
   background-color: var(--boxColor);
   border-radius: 15px;
   border: 0.6px solid var(--signatureColor);
@@ -187,4 +176,17 @@
 .callPostHashtag {
   overflow: hidden;
   border-top: 1px solid black;
+} */
+/* ----------------------------------------------------------- */
+.popularBox {
+  width: 25%;
+}
+.popularPost {
+  width: 80%;
+  background-color: var(--boxColor);
+  border-radius: 15px;
+  border: 0.6px solid var(--signatureColor);
+  margin: 20px auto;         
+  box-sizing: border-box;
+  color: var(--textColor1);
 }
