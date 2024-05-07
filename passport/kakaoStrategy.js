@@ -19,7 +19,7 @@ module.exports = () => {
             } else { // user가 존재하지 않는 경우 - 회원가입 진행
                 const newUser = await User.create({
                     email: profile._json && profile._json.kakao_account_email,
-                    nick: profile.displayName,
+                    username: profile.displayName,
                     userID: profile.id,
                     provider: 'kakao',
                 });

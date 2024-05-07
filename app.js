@@ -10,12 +10,6 @@ const port = 3000 //포트번호 3000 (localhost:3000)
 const passportConfig = require('./passport'); // require('./passport/index.js')와 같음
 require('dotenv').config();
 passportConfig(); // 패스포트 설정, 한 번 실행해두면 ()에 있는 deserializeUser 계속 실행
-// 세션 설정
-app.use(session({
-  secret: 'my_secret_key', // 이 값을 통해 세션을 암호화하여 관리합니다. 복잡한 키를 사용하세요.
-  resave: false,
-  saveUninitialized: true
-}));
 
 //DB 연결
 const connection = mysql.createConnection({
