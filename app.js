@@ -127,10 +127,32 @@ app.get('/profile', (req, res) => {
 
 //타인 프로필 페이지-----------------------------------------------------------------------------
 app.get('/otherProfile', (req, res) => {
-  if (req.session.user) { // 세션에 유저 정보가 있으면
-    res.render('otherProfile', { user: req.session.user }); // 유저 정보와 함께 타인 프로필 페이지 렌더링
-  } else { //세션에 유저 정보가 없다면
-    res.redirect('/'); // 세션에 유저 정보가 없으면 로그인 페이지로 이동
+  // 세션에 유저 정보가 있는지 확인
+  if (req.session.user) {
+      // userId 쿼리 파라미터 가져오기
+      const userId = req.query.userId;
+      
+      if (!userId) {
+          return res.status(400).send('Bad Request: userId is required');
+      }
+      
+      // 데이터베이스에서 해당 userId의 사용자 정보 조회
+      const query = "SELECT user_name, profile_image, email, introduce FROM users WHERE id = ?";
+      connection.query(query, [userId], (err, result) => {
+          if (err) throw err;
+          
+          // 조회된 사용자 정보가 없으면 404 에러 처리
+          if (result.length === 0) {
+              return res.status(404).send('User not found');
+          }
+          
+          // 조회된 사용자 정보를 otherProfile.ejs로 전달하여 렌더링
+          const userData = result[0];
+          res.render('otherProfile', { user: req.session.user, otherUser: userData });
+      });
+  } else {
+      // 세션에 유저 정보가 없으면 로그인 페이지로 리다이렉트
+      res.redirect('/');
   }
 });
 
