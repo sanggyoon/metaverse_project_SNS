@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const mysql = require('mysql');
 const session = require('express-session');
 const passport = require('passport');
+
 const app = express() //espress 변수 지정
 const port = 3000 //포트번호 3000 (localhost:3000)
 const passportConfig = require('./passport'); // require('./passport/index.js')와 같음
@@ -69,7 +70,7 @@ app.post('/', (req, res) => {
       req.session.user = results[0]; // 로그인한 유저의 정보를 세션에 저장
       res.redirect('/main');
     } else { //로그인 실패
-      res.render('login', {error: '아이디 또는 비밀번호가 올바르지 않습니다.'});
+      res.render('/', {error: '아이디 또는 비밀번호가 올바르지 않습니다.'});
     }
   });
 });
