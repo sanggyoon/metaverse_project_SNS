@@ -13,7 +13,7 @@
     color:var(--textColor2)
 }
 .postWriterImg {
-    background-image: url(../img/unknown.png);
+    /* background-image: url(../img/unknown.png); */
     background-size: cover;
     width: 100px;
     height: 100px;
