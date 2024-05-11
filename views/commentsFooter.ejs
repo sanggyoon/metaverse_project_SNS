@@ -2,21 +2,21 @@
 <footer>
 
 <div class="commentsFooter alignment">
-    <div class="commentsBox">
+  <div class="commentsBox">
+    <div class="inputComments">
+      <form action="/addComment" method="POST">
         <div class="commentsImg">
-            <img src="../img/google_icon.png" alt="">
+          <img src="../img/google_icon.png" alt="">
         </div>
-        <div class="inputComments">
-            <input type="text" placeholder="댓글 입력">
-        </div>
-        <div class="submitBT">
-            <form action="###">
-                <button>
-                    <span class="material-symbols-outlined">arrow_upward</span>
-                </button>
-            </form>
-        </div>
+        <input type="hidden" name="postId" value="<%= post.id %>">
+        <input type="hidden" name="userId" value="<%= user.id %>">
+        <textarea name="content" required palceholder="댓글입력"></textarea>
+        <button type="submit">
+            <span class="material-symbols-outlined">arrow_upward</span>
+        </button>
+      </form>
     </div>
+  </div>
 </div>
 </footer>
 </body>

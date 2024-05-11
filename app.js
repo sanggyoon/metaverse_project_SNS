@@ -168,19 +168,30 @@ app.get('/editProfile', (req, res) => {
 //게시글 페이지-----------------------------------------------------------------------------
 app.get('/postDetails', (req, res) => {
   if (req.session.user) {
-    const postId = req.query.postId; // URL에서 postId를 가져옵니다.
-    const query = `
-      SELECT posts.*, users.user_name 
+    const postId = req.query.postId;
+    let postQuery = `
+      SELECT posts.*, users.user_name, users.profile_image 
       FROM posts 
       JOIN users ON posts.user_id = users.id 
       WHERE posts.id = ?`;
+    let commentsQuery = `
+      SELECT comments.*, users.user_name, users.profile_image 
+      FROM comments 
+      JOIN users ON comments.user_id = users.id 
+      WHERE comments.post_id = ? 
+      ORDER BY comments.id DESC`;
 
-    connection.query(query, [postId], (error, results) => {
+    connection.query(postQuery, [postId], (error, postResults) => {
       if (error) throw error;
       
-      if (results.length > 0) {
-        const post = results[0];
-        res.render('postDetails', { user: req.session.user, post: post });
+      if (postResults.length > 0) {
+        const post = postResults[0];
+        
+        // 게시글에 대한 댓글을 불러옵니다.
+        connection.query(commentsQuery, [postId], (error, commentResults) => {
+          if (error) throw error;
+          res.render('postDetails', { user: req.session.user, post: post, comments: commentResults });
+        });
       } else {
         res.send('게시글을 찾을 수 없습니다.');
       }
@@ -189,6 +200,23 @@ app.get('/postDetails', (req, res) => {
     res.redirect('/');
   }
 });
+
+// 댓글 작성 폼 제출
+app.post('/addComment', (req, res) => {
+  if (req.session.user) {
+    const { content, postId } = req.body;
+    const userId = req.session.user.id; // 세션에서 사용자 ID를 가져옵니다.
+    const query = `INSERT INTO comments (content, user_id, post_id) VALUES (?, ?, ?)`;
+    
+    connection.query(query, [content, userId, postId], (error, results) => {
+      if (error) throw error;
+      res.redirect('/postDetails?postId=' + postId); // 댓글을 추가한 후, 게시글 상세 페이지로 리다이렉트합니다.
+    });
+  } else {
+    res.redirect('/login');
+  }
+});
+
 
 //게시글 작성 페이지-----------------------------------------------------------------------------
 app.get('/writingPost', (req, res) => {

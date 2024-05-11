@@ -25,45 +25,13 @@
         <div class="separateLine"></div>
         <div class="detailComments">
             <table>
-                <!-- 댓글1 -->
-                <tr><td><div class="loadComments">
-                            <div class="loadCommentsImg">
-                                <a href="/otherProfile"><img src="../img/google_icon.png" alt=""></a>
-                            </div>
-                            <div class="loadCommentsInfo">
-                                <p style="margin: 0;">창주렁주렁</p>
-                                <div class="separateLine2"></div>
-                                <div class="loadCommentsText">
-                                    <p>댓글</p>
-                                </div>
-                            </div>
-                </div></td></tr>
-                <!-- 댓글2 -->
-                <tr><td><div class="loadComments">
-                            <div class="loadCommentsImg">
-                                <a href="/otherProfile"><img src="../img/google_icon.png" alt=""></a>
-                            </div>
-                            <div class="loadCommentsInfo">
-                                <p style="margin: 0;">민규렁규렁</p>
-                                <div class="separateLine2"></div>
-                                <div class="loadCommentsText">
-                                    <p>댓글</p>
-                                </div>
-                            </div>
-                </div></td></tr>
-                <!-- 댓글3 -->
-                <tr><td><div class="loadComments">
-                            <div class="loadCommentsImg">
-                                <a href="/otherProfile"><img src="../img/google_icon.png" alt=""></a>
-                            </div>
-                            <div class="loadCommentsInfo">
-                                <p style="margin: 0;">작성자</p>
-                                <div class="separateLine2"></div>
-                                <div class="loadCommentsText">
-                                    <p>댓글</p>
-                                </div>
-                            </div>
-                </div></td></tr>
+                <% if (comments.length > 0) { %>
+                    <% comments.forEach(function(comment) { %>
+                      <%- include('aComment', {comment: comment}); %>
+                    <% }) %>
+                    <% } else { %>
+                      <p style="text-align: center;">댓글이 없습니다.</p>
+                    <% } %>               
             </table>
         </div>
         <div class="menuOpen">
