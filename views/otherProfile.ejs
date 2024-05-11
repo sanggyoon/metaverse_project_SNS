@@ -16,12 +16,15 @@
 <div class="profileBox alignment">
     <div class="profileInfo">
         <div class="imgProfile alignment">
-            <img src="../img/logo_blackBG.png" alt="">
+            <!-- 조회된 다른 사용자의 프로필 이미지 -->
+            <img src="<%= otherUser.profile_image %>" alt="">
         </div>
         <div class="name alignment">
-            <p>엠지디알엔</p>
+            <!-- 조회된 다른 사용자의 이름 -->
+            <p><%= otherUser.user_name %></p>
         </div>
         <div class="followInfo alignment">
+            <!-- 팔로우/팔로잉 정보, 실제 데이터베이스 연동이 필요한 부분 -->
             <div class="follow">
                 <p>팔로우   <span>0</span></p>
             </div>
@@ -30,56 +33,26 @@
             </div>
         </div>
         <div class="follow_edit alignment">
-            <a href="/editProfile">팔로우</a>
+            <!-- 팔로우 버튼, 실제 기능 구현 필요 -->
+            <a href="#">팔로우</a>
         </div>
         <div class="introduceText">
+            <!-- 조회된 다른 사용자의 소개 및 이메일 -->
             <table>
-                <tr><td>테이블 1행 : 소개글</td></tr>
-                <tr><td>테이블 2행 : 커넥션</td></tr>
+                <tr><td><%= otherUser.introduce %></td></tr>
+                <tr><td><%= otherUser.email %></td></tr>
             </table>
         </div>
     </div>
     <div class="myPost">
         <p>작성한 게시글</p>
         <!-- 게시글 시작 -->
-        <div class="callPost">
-            <div class="callPostLeft">
-                <div class="postWrittenDay">
-                    <span>2024-04-13 14:39</span>
-                </div>
-                <div class="postWriterImg">
-                    <div class="writerFollowBT">팔로우</div>
-                </div>
-                <div class="postWriterName alignment">
-                    <span>구글직원호소인</span>
-                </div>
-                <div class="postStack">
-                    <div class="postLike alignment"><span class="material-symbols-outlined">thumb_up</span>
-                        <span>10</span>
-                    </div>
-                    <div class="postComments alignment"><span class="material-symbols-outlined">comment</span>
-                        <span>20</span>
-                    </div>
-                    <div class="postLove alignment"><span class="material-symbols-outlined">favorite</span>
-                        <span>30</span>
-                    </div>
-                </div>
-            </div>
-            <div class="callPostRight"><a href="/postDetails">
-                <div class="callPostTitle">
-                    <span>제목입니당</span>
-                </div>
-                <div class="callPostText">
-                    <span>내용입니당</span>
-                </div>
-                <div class="callPostHashtag">
-                    <span>#해시태그</span>
-                </div>
-            </a></div>
-        </div>
+        
         <!-- 게시글 끝 -->
     </div>
+    <div class="profileEmptyBox"></div>
 </div>
+
 
 <!-- Start of footer -->
 <%-include('footer.ejs')-%>

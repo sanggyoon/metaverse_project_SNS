@@ -1,5 +1,6 @@
 <%-include('head.ejs')-%>
 <!-- End of head -->
+<<<<<<< HEAD
     <h1>회원가입</h1>
     <form action="/signup" method="post">
         <label for="username">사용자 이름:</label>
@@ -9,6 +10,36 @@
         <label for="password">비밀번호:</label>
         <input type="password" id="password" name="password"><br>
         <button type="submit">가입하기</button>
+=======
+    
+<div class="signupbox">
+    <div class="signuplogo">
+        <img src="../img/MZDRN_logo_row_removeBG.png" alt=""><br>
+    <span>MZ들이 선택한 개발자 커뮤니티</span><br>
+    <span>MZDRN과 함께하세요!</span>
+    </div>
+    <form class="sign" action="/signup" method="post">
+        <div class="IDbox">
+            <label for="userID">ID:</label>
+            <input type="text" id="userID" name="userID" placeholder=""><br>
+        </div>
+        <div class="PWbox">
+            <label for="userPW">PASSWORD:</label>
+            <input type="password" id="userPW" name="userPW" placeholder=""><br>
+        </div>
+        <div class="emailbox">
+            <label for="email">EMAIL:</label>
+            <input type="email" id="email" name="email" placeholder="mzdrn@metaverse.com"><br>
+        </div>
+        <div class="namebox">
+            <label for="username">NAME :</label>
+            <input type="text" id="user_name" name="user_name" placeholder="프로필 이름"><br>
+        </div>
+        <div class="signupBT">
+            <button type="submit">가입하기</button>
+        </div>
+>>>>>>> sanggyoon
     </form>
-</body>
-</html>
+</div>
+<!-- Start of footer -->
+<%-include('footer.ejs')-%>
