@@ -62,6 +62,7 @@
   width: 100%;
 }
 .navBox {
+
   width: 25%;
   padding: 20px auto;
 }
@@ -70,10 +71,10 @@
   margin: 20px auto;
   background-color: var(--boxColor);
   border-radius: 15px;
-  border: 0.6px solid var(--signatureColor);
+  /*border: 0.6px solid var(--signatureColor);*/
 }
 .searching form {
-  position: relative;
+  /*position: relative;*/
   height: 36px;
   display: flex;
   align-items: center;
@@ -96,87 +97,12 @@
   align-items: center;
   box-sizing: border-box;
   cursor: pointer;
-  color:white;
+  color:var(--textColor2);
 }
 /*---------------------------------------------*/
 .postBox {
   width:50%;
 }
-/* .postsBox1 {
-  width: 75%;
-  padding: 20px 0;
-}
-.postsBox2 {
-  width: 75%;
-  padding: 20px 0;
-} */
-/* .callPost {
-  width: calc(100%;
-  background-color: var(--boxColor);
-  border-radius: 15px;
-  border: 0.6px solid var(--signatureColor);
-  box-sizing: border-box;
-  display: flex;
-  padding: 10px;
-}
-.callPostLeft {
-  width: 150px;
-}
-.postWriterImg {
-  background-image: url(../img/google_icon.png);
-  background-size: cover;
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  border: 1px solid black;
-  margin: 20px auto 10px auto;
-  position: relative;
-}
-.writerFollowBT {
-  background-color: #8995FF;
-  border-radius: 15px;
-  box-sizing: content-box;
-  font-size: 12px;
-  position: absolute;
-  right: -5px;
-  bottom: -5px;
-  padding: 2px 4px;
-}
-.postStack {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 16px;
-  line-height: 16px;
-  margin-top: 20px;
-}
-.postStack span{
-  font-size: 16px;
-}
-.callPostRight {
-  width: calc(100% - 150px);
-  box-sizing: border-box;
-  padding: 0 20px;
-  position: relative;
-}
-.callPostRight a {
-  text-decoration: none;
-  color: black;
-}
-.callPostTitle {
-  word-wrap: break-word;
-  overflow: hidden;
-  border-bottom: 1px solid black;
-  font-size: 20px;
-}
-.callPostText {
-  overflow: hidden;
-  height: 165px;
-}
-.callPostHashtag {
-  overflow: hidden;
-  border-top: 1px solid black;
-} */
 /* ----------------------------------------------------------- */
 .popularBox {
   width: 25%;
@@ -188,5 +114,5 @@
   border: 0.6px solid var(--signatureColor);
   margin: 20px auto;         
   box-sizing: border-box;
-  color: var(--textColor1);
+  color: var(--textColor2);
 }
