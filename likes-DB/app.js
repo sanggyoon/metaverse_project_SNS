@@ -50,3 +50,23 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`서버가 ${PORT} 포트에서 실행 중입니다.`);
 });
+
+
+//인기게시글
+app.get('/popular-posts', (req, res) => {
+    const query = `
+        SELECT posts.*, COUNT(post_likes.id) AS like_count
+        FROM posts
+        LEFT JOIN post_likes ON posts.id = post_likes.post_id
+        GROUP BY posts.id
+        ORDER BY like_count DESC
+        LIMIT 10
+    `;
+    connection.query(query, (error, results, fields) => {
+        if (error) {
+            res.status(500).send('인기 게시물을 가져오는 데 실패했습니다.');
+        } else {
+            res.render('popular-posts', { posts: results });
+        }
+    });
+  });
