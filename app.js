@@ -4,10 +4,14 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
 const session = require('express-session');
+const passport = require('passport');
 
-const router = express.Router();
-const app = express() //express 변수 지정
+const app = express() //espress 변수 지정
 const port = 3000 //포트번호 3000 (localhost:3000)
+const passportConfig = require('./passport'); // require('./passport/index.js')와 같음
+// const { sequelize } = require('./models');  // require('./models/index.js')와 같음, 구조분해 할당으로 sequelize 가져옴
+require('dotenv').config();
+passportConfig(); // 패스포트 설정, 한 번 실행해두면 ()에 있는 deserializeUser 계속 실행
 
 //DB 연결
 const connection = mysql.createConnection({
@@ -88,23 +92,47 @@ app.post('/signup', (req, res) => {
   });
 });
 
+//카카오 로그인 연동
+app.get('/auth/kakao', passport.authenticate('kakao'));
+
+app.get('/auth/kakao/callback',
+  passport.authenticate('kakao', { failureRedirect: '/login' }),
+  function(req, res) {
+    // Successful authentication, redirect home.
+    res.redirect('/');
+  });
+
+
 //메인 페이지-----------------------------------------------------------------------------
 app.get('/main', (req, res) => {
   let lastId = parseInt(req.query.lastId);
-  if (isNaN(lastId) || lastId <= 0) { // lastId가 숫자가 아니거나 0 이하인 경우
-    lastId = 9999999999; // 예시로 큰 숫자를 사용. 실제로는 테이블의 id 상황에 맞게 조정 필요
+  if (isNaN(lastId) || lastId <= 0) {
+    lastId = 9999999999;
   }
   let query = 'SELECT posts.*, users.user_name, users.profile_image FROM posts INNER JOIN users ON posts.user_id = users.id WHERE posts.id < ? ORDER BY posts.id DESC LIMIT 10';
 
+  // 검색 키워드를 가져옴
+  const searchKeyword = req.query.search;
+
+  // 검색 키워드가 있는 경우, 쿼리에 검색 조건 추가
+  if (searchKeyword) {
+    query = `SELECT posts.*, users.user_name, users.profile_image FROM posts INNER JOIN users ON posts.user_id = users.id WHERE posts.id < ${lastId} AND hashtags LIKE '%${searchKeyword}%' ORDER BY posts.id DESC LIMIT 10`;
+  }
+
   connection.query(query, [lastId], (error, results, fields) => {
-    if (error) throw error;
-    if (req.query.ajax) {
-      res.json(results);
+    if (error) {
+      console.error('검색 중 오류 발생:', error);
+      res.status(500).send('검색 중 오류가 발생했습니다.');
     } else {
-      res.render('index', {posts: results});
+      if (req.query.ajax) {
+        res.json(results);
+      } else {
+        res.render('index', {posts: results});
+      }
     }
   });
 });
+
 
 
 //개인 프로필 페이지-----------------------------------------------------------------------------
