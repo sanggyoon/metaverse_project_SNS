@@ -38,7 +38,7 @@
     align-items: center;
     justify-content: space-between;
 }
-.inputComments textarea {
+.inputComments .commentContent {
     box-sizing: border-box;
     width: 100%;
     height: calc(var(--commentsSize) - 20px);
