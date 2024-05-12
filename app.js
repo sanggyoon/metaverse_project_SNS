@@ -145,17 +145,38 @@ app.get('/profile', (req, res) => {
     // 세션에서 유저 ID 가져오기
     const userId = req.session.user.id;
 
-    // 유저 ID를 이용하여 유저 정보 조회
-    const sql = 'SELECT user_name, introduce, email, profile_image FROM users WHERE id = ?';
-    connection.query(sql, [userId], function(err, result) {
+    // 유저 정보 조회 쿼리
+    const userSql = 'SELECT user_name, introduce, email, profile_image FROM users WHERE id = ?';
+    
+    // 유저가 작성한 게시글 조회 쿼리
+    const postsSql = `
+        SELECT p.id, p.title, p.content, p.hashtags, p.created_at, u.user_name, u.profile_image
+        FROM posts p
+        JOIN users u ON p.user_id = u.id
+        WHERE p.user_id = ?
+        ORDER BY p.created_at DESC
+    `;
+
+    // 유저 정보 조회
+    connection.query(userSql, [userId], function(err, userResult) {
       if (err) throw err;
-      // EJS에 유저 정보 전달 및 렌더링
-      res.render('profile.ejs', { user: result[0] });
+    
+      // 유저가 작성한 게시글 조회 
+      connection.query(postsSql, [userId], function(err, postsResult) {
+        if (err) throw err;
+      
+        // EJS에 유저 정보와 게시글 정보 전달 및 렌더링
+        res.render('profile.ejs', {
+          user: userResult[0],
+          posts: postsResult
+        });
+      });
     });
-  } else { //세션에 유저 정보가 없다면
+  } else { // 세션에 유저 정보가 없다면
     res.redirect('/'); // 로그인 페이지로 이동
   }
 });
+
 
 //타인 프로필 페이지-----------------------------------------------------------------------------
 app.get('/otherProfile', (req, res) => {
