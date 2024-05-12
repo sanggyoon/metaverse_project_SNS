@@ -1,0 +1,73 @@
+<div class="callPost">
+    <div class="callPostLeft">
+        <div class="postWrittenDay">
+            <span><%= post.created_at %></span>
+        </div>
+        <a href="/otherProfile?userId=<%= post.user_id %>">
+            <div class="postWriterImg" style="background-image: url('<%= post.profile_image %>');">
+                <div class="writerFollowBT">팔로우</div>
+            </div>
+        </a>
+        <div class="postWriterName alignment">
+            <span><%= post.user_name %></span>
+        </div>
+        <div class="postStack">
+            <div class="postLike alignment">
+                <button id="likeButton" data-postid="<%= post.id %>">
+                    <span class="material-symbols-outlined">thumb_up</span>
+                </button>
+                <span id="likesCount"><%= post.likes %></span>
+            </div>
+            
+            
+
+            <div class="postComments alignment">
+                <button id="commentButton">
+                    <span class="material-symbols-outlined">comment</span>
+                </button>
+                <span id="commentsCount"><%= post.comments %></span>
+            </div>
+        </div>
+    </div>
+    <div class="callPostRight"><a href="/postDetails?postId=<%= post.id %>">
+        <div class="callPostTitle">
+            <span><%= post.title %></span>
+        </div>
+        <div class="callPostText">
+            <span><%= post.content %></span>
+        </div>
+        <div class="callPostHashtag">
+            <span><%= post.hashtags %></span>
+        </div>
+    </a></div>
+</div>
+
+
+<!-- JavaScript 코드 -->
+<script>
+    document.getElementById('likeButton').addEventListener('click', function() {
+        const postId = this.getAttribute('data-postid');
+
+        fetch('/likePost', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ postId: postId }) // post_id를 postId로 변경
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                const likesCount = parseInt(document.getElementById('likesCount').innerText);
+                document.getElementById('likesCount').innerText = likesCount + 1; // 좋아요 수를 1 증가시킴
+            } else {
+                console.error('Failed to update likes:', data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error updating likes:', error);
+        });
+    });
+</script>
+
+

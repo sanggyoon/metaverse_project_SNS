@@ -1,0 +1,69 @@
+.profileBox{
+    margin-top: var(--headerSize);
+    width: 100%;
+}
+.profileInfo {
+    width: 25%;
+    padding: 10px 0;
+    position: relative;
+}
+.imgProfile img {
+    width: 60%;
+    height: 60%; 
+    box-sizing: border-box;
+    border-radius: 50%;
+}
+.name {
+    font-size: 25px;
+    color: var(--textColor2);
+}
+.name p {
+    margin: 10px 0;
+}
+.followInfo {
+    gap: 20px;
+    font-size: 20px;
+    color: var(--textColor2);
+}
+.followInfo p {
+    margin: 10px 0;
+}
+.follow_edit {
+    width: 80%;
+    height: 50px;
+    line-height: 50px;
+    margin: 10px auto;
+    display: flex;
+}
+.follow_edit a{
+    width: 100%;
+    height: 100%;
+    background-color: var(--boxColor);
+    border-radius: 15px;
+    font-size: 25px;
+    text-align: center;
+    text-decoration: none;
+    color: white;
+}
+.introduceText {
+    width: 80%;
+    margin: 10px auto;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 5px solid var(--signatureColor);
+    border-radius: 15px;
+}
+.introduceText table {
+    width: 100%;
+    overflow-wrap: break-word;
+    color: var(--textColor2);
+}
+.myPost {
+    width: 65%;
+    margin: 0;
+    height: calc(100vh - var(--headerSize));
+}
+.myPost p {
+    color: var(--textColor2);
+    font-size: 25px;
+}
