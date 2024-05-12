@@ -16,7 +16,7 @@
             <form action="/" method="post">
               <div class="loginInput">
                 <input type="text" id="userID" name="userID" placeholder="ID를 입력하세요.">
-                <input type="text" id="userPW" name="userPW" placeholder="PW를 입력하세요.">
+                <input type="password" id="userPW" name="userPW" placeholder="PW를 입력하세요.">
               </div>                
               <div class="loginBT">
                 <button type="submit">로그인</button> 
@@ -36,10 +36,11 @@
             <div class="kakaoBT">
                 <img src="../img/kakao_icon.png" alt="">
                 <a id="kakao" href="/auth/kakao" class="btn">카카오 로그인</a>
-            </div>
-            <div class="creatBT">
-                <a href="/signup">회원가입</a>
-            </div>
+            </div>    
+        </div>
+        <div class="creatBT">
+          <p> 아직 회원이 아니신가요? </p><br>
+          <a href="/signup">회원가입</a>
         </div>
     </div>
 </body>

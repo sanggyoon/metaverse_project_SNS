@@ -43,15 +43,17 @@
     font-size: 25px;
     text-align: center;
     text-decoration: none;
-    color: white;
+    color: var(--textColor2);
 }
 .introduceText {
+    text-align: center;
     width: 80%;
     margin: 10px auto;
     padding: 10px;
     box-sizing: border-box;
-    border: 15px solid var(--signatureColor);
-    border-radius: 15px;
+    border: 1px solid var(--boxColor);
+    border-radius: 10px;
+    background-color:var(--boxColor);
 }
 .introduceText table {
     width: 100%;

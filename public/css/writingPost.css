@@ -8,39 +8,55 @@
 }
 .writingPost form {
     display: flex;
-    align-items: center;
+    /*align-items: center;*/
     justify-content: center;
     flex-direction: column;
     padding: 20px 0;
 }
+
+.writingPost span{
+    margin-left: 25px;
+    align-items: left;
+    font-size: 18px;
+    color:var(--textColor2);
+}
+
 .writingPost input {
     width: 90%;
-    font-size: 20px;
-    text-align: center;
-    border-radius: 20px;
-    margin: 5px auto;
-    padding: 10px 0;
+    font-size: 15px;
+    text-align: left;
+    border-radius: 10px;
+    margin: 10px auto;
+    padding: 15px;
     border: none;
     background-color: var(--boxColor);
-    border: 0.6px solid var(--signatureColor);
+    color:var(--textColor2);
 }
+
 .writingPost textarea {
+    padding: 15px;
     width: 90%;
-    font-size: 20px;
-    text-align: center;
-    border-radius: 20px;
+    font-size: 15px;
+    text-align: left;
+    border-radius: 10px;
     resize: none;
     margin: 5px auto;
     background-color: var(--boxColor);
-    border: 0.6px solid var(--signatureColor);
+    border: none;
+    color:var(--textColor2);
+}
+
+.writingBT{
+    align-items: center;
+    text-align: center;
 }
 .writingPost button {
-    font-size: 20px;
+    font-size: 15px;
     border-radius: 15px;
     border: none;
     padding: 10px 40px;
     margin: 5px 5px;
-    background-color: var(--signatureColor);
-    color: white;
+    background-color: var(--loginBTcolor);
+    color: var(--textColor1);
     cursor: pointer;
 }

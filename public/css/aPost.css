@@ -2,7 +2,7 @@
     width: 100%;
     background-color: var(--boxColor);
     border-radius: 15px;
-    border: 0.6px solid var(--signatureColor);
+    /*border: 0.6px solid var(--signatureColor);*/
     box-sizing: border-box;
     display: flex;
     padding: 10px;
@@ -11,6 +11,10 @@
 .callPostLeft {
     width: 150px;
     color:var(--textColor2)
+}
+
+.postWrittenDay{
+    font-size: 5px;
 }
 .postWriterImg {
     /* background-image: url(../img/unknown.png); */
@@ -26,12 +30,13 @@
     background-color: #8995FF;
     border-radius: 15px;
     box-sizing: content-box;
-    font-size: 12px;
+    font-size: 8px;
     position: absolute;
     right: -5px;
     bottom: -5px;
     padding: 2px 4px;
     color:var(--textColor2);
+    
 }
 .postStack {
     display: flex;
@@ -44,6 +49,12 @@
 .postStack span{
     font-size: 16px;
 }
+
+.postStack button{
+    border: none;
+    background-color: #00ff0000;
+    color:var(--textColor2)
+}
 .callPostRight {
     width: calc(100% - 150px);
     box-sizing: border-box;
@@ -55,18 +66,27 @@
     color:var(--textColor2)
 }
 .callPostTitle {
+    margin: 8px 0;
+    font-weight: bolder;
     word-wrap: break-word;
     overflow: hidden;
-    border-bottom: 1px solid var(--textColor2);
+    /*border-bottom: 1px solid var(--textColor2);*/
     font-size: 20px;
-    color:var(--textColor2)
+    color:var(--textColor2);
+    
 }
 .callPostText {
+    margin: 8 0px;
+    font-weight: normal;
     overflow: hidden;
     height: 165px;
-    color:var(--textColor2)
+    color:var(--textColor2);
+    font-size: 15px;
+    
 }
 .callPostHashtag {
     overflow: hidden;
-    border-top: 1px solid var(--textColor2);
+    /*border-top: 1px solid var(--textColor2);*/
+    font-size: 14px;
+    margin-bottom: 10px;
 }
