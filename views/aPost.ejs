@@ -12,14 +12,44 @@
             <span><%= post.user_name %></span>
         </div>
         <div class="postStack">
-            <div class="postLike alignment"><span class="material-symbols-outlined">thumb_up</span>
-                <span><%= post.likes %></span>
+            <div class="postLike alignment">
+                <button id="likeButton" data-postid="<%= post.id %>">
+                    <span class="material-symbols-outlined">thumb_up</span>
+                </button>
+                <span id="likesCount"><%= post.likes %></span>
             </div>
-            <div class="postComments alignment"><span class="material-symbols-outlined">comment</span>
-                <span><%= post.comments %></span>
-            </div>
-            <div class="postLove alignment"><span class="material-symbols-outlined">favorite</span>
-                <span><%= post.loves %></span>
+            
+            <!-- JavaScript 코드 -->
+            <script>
+                document.getElementById('likeButton').addEventListener('click', function() {
+    const postId = this.getAttribute('data-postid');
+    
+    fetch('/likePost', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ post_id: postId })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            const likesCount = data.likes;
+            document.getElementById('likesCount').innerText = likesCount;
+        } else {
+            console.error('Failed to update likes:', data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error updating likes:', error);
+    });
+});
+            </script>
+            <div class="postComments alignment">
+                <button id="commentButton">
+                    <span class="material-symbols-outlined">comment</span>
+                </button>
+                <span id="commentsCount"><%= post.comments %></span>
             </div>
         </div>
     </div>
@@ -35,3 +65,32 @@
         </div>
     </a></div>
 </div>
+
+<!-- 클라이언트 측 JavaScript (aPost.ejs 파일 내에 추가) -->
+<script>
+    // 좋아요 버튼을 클릭할 때마다 실행될 함수
+    function likePost(postId) {
+        // 해당 게시물의 좋아요 버튼 요소 가져오기
+        const likeButton = document.getElementById('likeButton-' + postId);
+        
+        // 서버에 좋아요 요청 보내기
+        fetch('/likePost', {
+            method: 'POST',
+            body: JSON.stringify({ postId: postId }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => {
+            // 요청이 성공하면 좋아요 개수를 1 증가시키고 버튼의 텍스트를 업데이트합니다.
+            if (response.ok) {
+                const likesCount = document.getElementById('likesCount-' + postId);
+                let currentLikes = parseInt(likesCount.textContent);
+                likesCount.textContent = currentLikes + 1;
+            }
+        })
+        .catch(error => {
+            console.error('좋아요 요청 실패:', error);
+        });
+    }
+</script>
