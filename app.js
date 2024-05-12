@@ -105,32 +105,36 @@ app.get('/auth/kakao/callback',
 
 //메인 페이지-----------------------------------------------------------------------------
 app.get('/main', (req, res) => {
-  let lastId = parseInt(req.query.lastId);
-  if (isNaN(lastId) || lastId <= 0) {
-    lastId = 9999999999;
-  }
-  let query = 'SELECT posts.*, users.user_name, users.profile_image FROM posts INNER JOIN users ON posts.user_id = users.id WHERE posts.id < ? ORDER BY posts.id DESC LIMIT 10';
-
-  // 검색 키워드를 가져옴
-  const searchKeyword = req.query.search;
-
-  // 검색 키워드가 있는 경우, 쿼리에 검색 조건 추가
-  if (searchKeyword) {
-    query = `SELECT posts.*, users.user_name, users.profile_image FROM posts INNER JOIN users ON posts.user_id = users.id WHERE posts.id < ${lastId} AND hashtags LIKE '%${searchKeyword}%' ORDER BY posts.id DESC LIMIT 10`;
-  }
-
-  connection.query(query, [lastId], (error, results, fields) => {
-    if (error) {
-      console.error('검색 중 오류 발생:', error);
-      res.status(500).send('검색 중 오류가 발생했습니다.');
-    } else {
-      if (req.query.ajax) {
-        res.json(results);
-      } else {
-        res.render('index', {posts: results});
-      }
+  if (req.session.user) {
+    let lastId = parseInt(req.query.lastId);
+    if (isNaN(lastId) || lastId <= 0) {
+      lastId = 9999999999;
     }
-  });
+    let query = 'SELECT posts.*, users.user_name, users.profile_image FROM posts INNER JOIN users ON posts.user_id = users.id WHERE posts.id < ? ORDER BY posts.id DESC LIMIT 10';
+  
+    // 검색 키워드를 가져옴
+    const searchKeyword = req.query.search;
+  
+    // 검색 키워드가 있는 경우, 쿼리에 검색 조건 추가
+    if (searchKeyword) {
+      query = `SELECT posts.*, users.user_name, users.profile_image FROM posts INNER JOIN users ON posts.user_id = users.id WHERE posts.id < ${lastId} AND hashtags LIKE '%${searchKeyword}%' ORDER BY posts.id DESC LIMIT 10`;
+    }
+  
+    connection.query(query, [lastId], (error, results, fields) => {
+      if (error) {
+        console.error('검색 중 오류 발생:', error);
+        res.status(500).send('검색 중 오류가 발생했습니다.');
+      } else {
+        if (req.query.ajax) {
+          res.json(results);
+        } else {
+          res.render('index', {posts: results});
+        }
+      }
+    });
+  } else { //세션에 유저 정보가 없다면
+    res.redirect('/'); // 로그인 페이지로 이동
+  }
 });
 
 
