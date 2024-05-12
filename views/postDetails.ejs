@@ -10,60 +10,28 @@
     3.본인이 작성한 게시글일 경우 '수정하기', '삭제하기' 포함하는 메뉴 버튼 추가
  -->
 
-<div class="postDetailBox">
+ <div class="postDetailBox">
     <div class="postInfo">
-        <div class="detailUser">
-            <div class="detailWriter">작성자 : <span>신짱구</span></div>
-            <div class="detailDate"><span>2024-03-24</span></div>
-        </div>
-        <div class="detail detailTitle"><span>제목</span></div>
-        <div class="detail detailHashtag"><span>해시태그</span></div>
-        <div class="detail detailText"><span>내용</span></div>
-        <div class="detail detailCode"><span>코드</span></div>
-        <div class="detail detailOutput"><span>결과</span></div>
+      <div class="detailUser">
+        <div class="detailWriter">작성자 : <span><%= post.user_name %></span></div>
+        <div class="detailDate"><span><%= post.created_at %></span></div>
+      </div>
+      <div class="detail detailTitle"><span><%= post.title %></span></div>
+      <div class="detail detailHashtag"><span><%= post.hashtags %></span></div>
+      <div class="detail detailText"><span><%= post.content %></span></div>
+      <div class="detail detailCode"><span><%= post.compileInput %></span></div>
+      <div class="detail detailOutput"><span><%= post.compileOutput %></span></div>
         
         <div class="separateLine"></div>
         <div class="detailComments">
             <table>
-                <!-- 댓글1 -->
-                <tr><td><div class="loadComments">
-                            <div class="loadCommentsImg">
-                                <a href="/otherProfile"><img src="../img/google_icon.png" alt=""></a>
-                            </div>
-                            <div class="loadCommentsInfo">
-                                <p style="margin: 0;">작성자</p>
-                                <div class="separateLine2"></div>
-                                <div class="loadCommentsText">
-                                    <p>댓글</p>
-                                </div>
-                            </div>
-                </div></td></tr>
-                <!-- 댓글2 -->
-                <tr><td><div class="loadComments">
-                            <div class="loadCommentsImg">
-                                <a href="/otherProfile"><img src="../img/google_icon.png" alt=""></a>
-                            </div>
-                            <div class="loadCommentsInfo">
-                                <p style="margin: 0;">작성자</p>
-                                <div class="separateLine2"></div>
-                                <div class="loadCommentsText">
-                                    <p>댓글</p>
-                                </div>
-                            </div>
-                </div></td></tr>
-                <!-- 댓글3 -->
-                <tr><td><div class="loadComments">
-                            <div class="loadCommentsImg">
-                                <a href="/otherProfile"><img src="../img/google_icon.png" alt=""></a>
-                            </div>
-                            <div class="loadCommentsInfo">
-                                <p style="margin: 0;">작성자</p>
-                                <div class="separateLine2"></div>
-                                <div class="loadCommentsText">
-                                    <p>댓글</p>
-                                </div>
-                            </div>
-                </div></td></tr>
+                <% if (comments.length > 0) { %>
+                    <% comments.forEach(function(comment) { %>
+                      <%- include('aComment', {comment: comment}); %>
+                    <% }) %>
+                    <% } else { %>
+                      <p style="text-align: center;">댓글이 없습니다.</p>
+                    <% } %>               
             </table>
         </div>
         <div class="menuOpen">
