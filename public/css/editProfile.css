@@ -10,33 +10,58 @@
     border-radius: 50%;
     margin: 20px auto;
 }
+
+.editImg button{
+    position: absolute; 
+    top: 350px;
+    right: 720px;
+    align-items: center;
+    color:var(--loginBTcolor);
+    background-color: #00ff0000;
+    border:none;
+}
+
+.editImg span{
+    font-size: 50px;
+}
+
 .editInfo {
-    gap: 10px;
+    width: 500px;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+.editInfo span{
+    margin-left: 100px;
+    color: var(--textColor2);
+    font-size: 18px;
 }
 .editInfo input {
     height: 50px;
     width: 300px;
     box-sizing: border-box;
-    border: 2px solid var(--signatureColor);
+    border: none;
     border-radius: 15px;
-    margin: 5px 0;
-    background-color: rgba(0, 0, 0, 0); /* 투명 배경 */
+    margin-top: 10px;
+    margin-bottom: 20px;
+    padding-left: 10px;
+    background-color: var(--boxColor);
     color: var(--textColor2);
-    font-size: 20px;
+    font-size: 15px;
     line-height: 50px;
 }
 .editInfo input::placeholder {
-    color: white;
-    font-size: 20px;
+    color: darkgray;
+    font-size: 15px;
     line-height: 50px;
 }
 .saveBT button {
     height: 50px;
     width: 300px;
-    background-color:  var(--signatureColor);
+    background-color:  var(--loginBTcolor);
     border: none;
     border-radius: 15px;
-    color: white;
+    color: var(--textColor2);
     font-size: 25px;
     line-height: 25px;
     margin: 5px 0;

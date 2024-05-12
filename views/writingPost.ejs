@@ -14,16 +14,19 @@
     <div class="emptyBox"></div>
     <div class="writingPost">
         <form action="/writingPost" method="post">
-            <input type="text" id="title" name="title" placeholder="제목">
-            <input type="text" id="hashtags" name="hashtags" placeholder="태그">
-            <textarea id="content" name="content" rows="9" placeholder="내용"></textarea>
+            <span>제목</span>
+            <input type="text" id="title" name="title" placeholder="제목을 입력해주세요.">
+            <span>태그</span>
+            <input type="text" id="hashtags" name="hashtags" placeholder="내용을 대표하는 태그 3개 정도 입력해주세요.">
+            <span>내용</span>
+            <textarea id="content" name="content" rows="9" placeholder="공유하고싶은 내용을 작성해주세요!"></textarea>
             <textarea id="compileInput" name="compileInput" rows="9" placeholder="코드"></textarea>
-            <textarea id="compileOutput" name="compileOutput" rows="9" placeholder="결과 출력"></textarea>
-            <div class="writingBT">
-                <button type="">컴파일</button>
-                <button type="submit">작성</button>
-            </div>
+            <textarea id="compileOutput" name="compileOutput" rows="9" placeholder="결과 출력"></textarea>      
         </form>
+        <div class="writingBT">
+            <button type="">컴파일</button>
+            <button type="submit">작성</button>
+        </div>
     </div>
     <div class="emptyBox"></div>
 </div>
