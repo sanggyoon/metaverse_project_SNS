@@ -16,13 +16,10 @@
     border: none;
     border-radius: 15px;
     background-color: var(--boxColor);
-    position: relative;
     display: flex;
-    padding: 5px 10px;
-    margin: auto;
-}
-.commentsImg {
-    margin: auto;
+    align-items: center;
+    justify-content: center;
+    margin: 10px auto;
 }
 .commentsImg img{   
     box-sizing: border-box;
@@ -36,25 +33,25 @@
     box-sizing: border-box;
     margin: auto;
 }
-.inputComments input{
+.inputComments form {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.inputComments .commentContent {
     box-sizing: border-box;
     width: 100%;
     height: calc(var(--commentsSize) - 20px);
     font-size: 20px;
-    background-color: rgba(0, 0, 0, 0);
+    background-color: rgba(255, 255, 255, 0.1);
     border: none;
     border-radius: 15px;
+    resize: none;
+    margin: 0 20px;
 }
-.submitBT {
-    margin: auto;
-}
-.submitBT button{
+.inputComments button {
     border-radius: 50%;
     border: none;
-    background-color: #02a676;
-    width: calc(var(--commentsSize) - 20px);
-    height: calc(var(--commentsSize) - 20px);
-}
-.submitBT span {
-    color: white;
+    height: 36px;
+    width: 36px;
 }

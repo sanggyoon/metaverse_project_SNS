@@ -1,5 +1,5 @@
 {
-  "name": "metaverse_project_SNS",
+  "name": "mz-drn",
   "version": "1.0.0",
   "description": "---\r ## 소개 및 개요\r 프로젝트 기간 : 2024.02.01 ~ 2024.06.16",
   "main": "app.js",
@@ -10,11 +10,17 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "body-parser": "^1.20.2",
+    "dotenv": "^16.4.5",
     "ejs": "^3.1.10",
+    "env": "^0.0.2",
     "express": "^4.19.2",
     "express-session": "^1.18.0",
     "mysql": "^2.18.1",
+    "passport": "^0.7.0",
+    "passport-kakao": "^1.0.1",
+    "sequelize": "^6.37.3",
     "swiper": "^11.1.1"
   }
 }
