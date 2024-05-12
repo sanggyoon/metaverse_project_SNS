@@ -4,6 +4,7 @@
     --signatureColor: #1C233A;
     --textColor2: white;
     --boxColor: #1A2A63;
+    --loginBTcolor:#3D68FF;
 }
 .loginBox {
     width: 500px;
@@ -19,16 +20,16 @@
 }
 .inputLoginInfo form input {
     width: 95%;
-    height: 30px;
+    height: 40px;
     margin: 5px 0;
-    background-color: white;
+    background-color: var(--boxColor);
     border: 1px solid var(--signatureColor);
     border-radius: 15px;
     text-align: center;
 }
 
 .inputLoginInfo form input::placeholder{
-    color:black;
+    color: var(--textColor2);
 }
 
 .inputLoginInfo form input:focus {
@@ -49,9 +50,11 @@
     width: var(--loginBTsize);
     height: var(--loginBTsize);
     margin: 5px 0;
-    background-color: var(--boxColor);
+    margin-top: 12px;
+    background-color: var(--loginBTcolor);
     border-radius: 15px;
     text-align: center;
+    border: none;
 }
 .API-login {
     margin-top: 20px;
@@ -61,7 +64,7 @@
     height: var(--API-BT-height);
     margin: 10px auto;
     text-align: center;
-    font-size: large;
+    font-size: small;
     position: relative;
 }
 .API-login div img {
@@ -99,7 +102,13 @@
 }
 .creatBT a {
     text-align: center;
-    background-color: var(--signatureColor);
+    /*background-color: var(--signatureColor);*/
     text-decoration: underline;
-    color: white;
+    color: var(--textColor2);
+}
+
+.creatBT p {
+    text-align: center;
+    color: var(--textColor2);
+    margin-right: 10px;
 }

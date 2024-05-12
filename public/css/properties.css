@@ -11,6 +11,7 @@
     --boxColor: #1A2A63;
     --textColor1: white;
     --textColor2: white;
+    --loginBTcolor:#3D68FF;
 }
 :root[color-theme="dark"] {
     --headerBackground: #1C233A;
