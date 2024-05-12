@@ -285,3 +285,31 @@ app.post('/writingPost', (req, res) => {
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
+
+app.post('/likePost', (req, res) => {
+  const postId = req.body.post_id;
+
+  // postId에 해당하는 게시물의 좋아요 수를 데이터베이스에서 가져와 증가시킴
+  connection.query('UPDATE posts SET likes = likes + 1 WHERE id = ?', [postId], (error, results, fields) => {
+      if (error) {
+          console.error('Error updating likes:', error);
+          res.json({ success: false, message: 'Failed to update likes' });
+      } else {
+          // 업데이트된 좋아요 수를 클라이언트에게 응답으로 보냄
+          connection.query('SELECT likes FROM posts WHERE id = ?', [postId], (error, results, fields) => {
+              if (error) {
+                  console.error('Error fetching updated likes:', error);
+                  res.json({ success: false, message: 'Failed to fetch updated likes' });
+              } else {
+                  if (results.length > 0) {
+                      const updatedLikesCount = results[0].likes; // 수정된 코드
+                      res.json({ success: true, likes: updatedLikesCount });
+                  } else {
+                      console.error('No likes found for the post');
+                      res.json({ success: false, message: 'No likes found for the post' });
+                  }
+              }
+          });
+      }
+  });
+});
