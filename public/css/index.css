@@ -112,7 +112,7 @@
   width: 80%;
   background-color: var(--boxColor);
   border-radius: 15px;
-  border: 0.6px solid var(--signatureColor);
+  border: none;
   margin: 20px auto;         
   box-sizing: border-box;
   color: var(--textColor2);

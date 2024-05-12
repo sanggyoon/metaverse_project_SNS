@@ -14,7 +14,7 @@
 }
 
 .postWrittenDay{
-    font-size: 5px;
+    /* font-size: 10px; */
 }
 .postWriterImg {
     /* background-image: url(../img/unknown.png); */
@@ -30,7 +30,7 @@
     background-color: #8995FF;
     border-radius: 15px;
     box-sizing: content-box;
-    font-size: 8px;
+    /* font-size: 8px; */
     position: absolute;
     right: -5px;
     bottom: -5px;
@@ -79,7 +79,7 @@
     margin: 8 0px;
     font-weight: normal;
     overflow: hidden;
-    height: 165px;
+    /* height: 165px; */
     color:var(--textColor2);
     font-size: 15px;
     
@@ -89,4 +89,6 @@
     /*border-top: 1px solid var(--textColor2);*/
     font-size: 14px;
     margin-bottom: 10px;
+    position: absolute;
+    bottom: 0;
 }

@@ -3,6 +3,7 @@
 }
 .editImg {
     width: 100%;
+    position: relative;
 }
 .editImg img {
     width: 300px;
@@ -13,8 +14,9 @@
 
 .editImg button{
     position: absolute; 
-    top: 350px;
-    right: 720px;
+    bottom: 0;
+    right: 50%;
+    transform: translateX(calc(50% + 120px));
     align-items: center;
     color:var(--loginBTcolor);
     background-color: #00ff0000;
