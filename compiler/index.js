@@ -5,7 +5,7 @@ const { spawn } = require('child_process');
 const fs = require('fs');
 
 const app = express();
-const port = 8080;
+const port = 3000;
 
 // Body parser middleware
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -22,12 +22,12 @@ app.use((req, res, next) => {
 });
 
 // Routes
-app.get('/', (req, res) => {
+app.get('/writingPost', (req, res) => {
     // 파일 이름과 코드를 렌더링할 때 전달
     res.render('index', { filename: '', code: '', input: '', result: null });
 });
 
-app.post('/compile', (req, res) => {
+app.post('/writingPost', (req, res) => {
     console.log('Compilation request received'); // 콘솔에 요청 수신 로그 출력
 
     const fileName = req.body.filename + '.' + req.body.language; // 파일 확장자를 언어에 따라 결정
