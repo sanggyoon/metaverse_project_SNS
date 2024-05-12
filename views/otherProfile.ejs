@@ -46,9 +46,13 @@
     </div>
     <div class="myPost">
         <p>작성한 게시글</p>
-        <!-- 게시글 시작 -->
-        
-        <!-- 게시글 끝 -->
+        <% if(posts.length > 0) { %>
+            <% posts.forEach(function(post) { %>
+                <%- include('aPost.ejs', {post: post}) %>
+            <% }) %>
+        <% } else { %>
+            <p style="text-align: center;">작성한 게시글이 없습니다.</p>
+        <% } %>
     </div>
     <div class="profileEmptyBox"></div>
 </div>

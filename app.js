@@ -180,31 +180,41 @@ app.get('/profile', (req, res) => {
 
 //타인 프로필 페이지-----------------------------------------------------------------------------
 app.get('/otherProfile', (req, res) => {
-  // 세션에 유저 정보가 있는지 확인
   if (req.session.user) {
-      // userId 쿼리 파라미터 가져오기
       const userId = req.query.userId;
-      
+
       if (!userId) {
           return res.status(400).send('Bad Request: userId is required');
       }
-      
-      // 데이터베이스에서 해당 userId의 사용자 정보 조회
-      const query = "SELECT user_name, profile_image, email, introduce FROM users WHERE id = ?";
-      connection.query(query, [userId], (err, result) => {
+
+      const userQuery = "SELECT user_name, profile_image, email, introduce FROM users WHERE id = ?";
+      connection.query(userQuery, [userId], (err, userResult) => {
           if (err) throw err;
-          
-          // 조회된 사용자 정보가 없으면 404 에러 처리
-          if (result.length === 0) {
+
+          if (userResult.length === 0) {
               return res.status(404).send('User not found');
           }
-          
-          // 조회된 사용자 정보를 otherProfile.ejs로 전달하여 렌더링
-          const userData = result[0];
-          res.render('otherProfile', { user: req.session.user, otherUser: userData });
+
+          const postsQuery = `
+            SELECT posts.id, posts.title, posts.content, posts.hashtags, posts.created_at, users.profile_image, users.user_name
+            FROM posts
+            INNER JOIN users ON posts.user_id = users.id
+            WHERE user_id = ?
+            ORDER BY created_at DESC
+          `;
+
+          connection.query(postsQuery, [userId], (err, postsResult) => {
+              if (err) throw err;
+
+              // 조회된 사용자 정보와 게시글 정보를 otherProfile.ejs로 전달하여 렌더링
+              res.render('otherProfile', { 
+                  user: req.session.user, 
+                  otherUser: userResult[0], 
+                  posts: postsResult 
+              });
+          });
       });
   } else {
-      // 세션에 유저 정보가 없으면 로그인 페이지로 리다이렉트
       res.redirect('/');
   }
 });
