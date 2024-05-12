@@ -105,7 +105,7 @@ app.get('/auth/kakao/callback',
 
 //메인 페이지-----------------------------------------------------------------------------
 app.get('/main', (req, res) => {
-  if (req.session.user) {
+  if (req.session.user) { //세션에 로그인 정보 확인
     let lastId = parseInt(req.query.lastId);
     if (isNaN(lastId) || lastId <= 0) {
       lastId = 9999999999;
