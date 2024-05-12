@@ -293,6 +293,8 @@ app.get('/writingPost', (req, res) => {
   }
 });
 
+
+
 app.post('/writingPost', (req, res) => {
   if (req.session.user) {
     const { title, hashtags, content, compileInput, compileOutput } = req.body;
