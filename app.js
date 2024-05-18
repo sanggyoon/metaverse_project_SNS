@@ -70,7 +70,7 @@ app.post('/', (req, res) => {
       req.session.user = results[0]; // 로그인한 유저의 정보를 세션에 저장
       res.redirect('/main');
     } else { //로그인 실패
-      res.render('/', {error: '아이디 또는 비밀번호가 올바르지 않습니다.'});
+      res.render('login', {error: '아이디 또는 비밀번호가 올바르지 않습니다.'});
     }
   });
 });
