@@ -49,6 +49,13 @@ app.use('/profile_image', express.static(path.join(__dirname, 'profile_image')))
 //body-parser
 app.use(bodyParser.urlencoded({ extended: true }));
 
+//시간 포맷
+app.locals.formatDate = function(date){
+  const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
+  return new Date(date).toLocaleString('ko-KR', options).replace(/\./g, '-').replace(/(\d{4})-(\d{2})-(\d{2})\s(\d{2}:\d{2}:\d{2})/, '$1-$2-$3 $4');
+};
+
+
 //로그인 페이지-----------------------------------------------------------------------------
 app.get('/', (req, res) => {
   res.render('login');
@@ -64,7 +71,7 @@ app.post('/', (req, res) => {
       req.session.user = results[0]; // 로그인한 유저의 정보를 세션에 저장
       res.redirect('/main');
     } else { //로그인 실패
-      res.render('login', {error: '아이디 또는 비밀번호가 올바르지 않습니다.'});
+      res.render('login', { loginFailed: true });
     }
   });
 });
@@ -119,10 +126,22 @@ app.get('/main', (req, res) => {
         console.error('검색 중 오류 발생:', error);
         res.status(500).send('검색 중 오류가 발생했습니다.');
       } else {
+        // results의 각 항목에 대해 created_at을 원하는 형식으로 변환
+        const formattedResults = results.map(post => {
+          const createdAt = new Date(post.created_at);
+          // 'en-US' 로케일을 사용하고, 옵션을 조정하여 원하는 날짜 형식을 설정
+          // 이 예에서는 '년-월-일 시:분:초' 형식을 사용합니다.
+          post.created_at = createdAt.toLocaleString('ko-KR', {
+            year: 'numeric', month: '2-digit', day: '2-digit',
+            hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
+          }).replace(/\./g, '-').slice(0, -1); // 마지막 점을 제거하기 위해 slice 사용
+          return post;
+        });
+    
         if (req.query.ajax) {
-          res.json(results);
+          res.json(formattedResults);
         } else {
-          res.render('index', {posts: results});
+          res.render('index', {posts: formattedResults});
         }
       }
     });
@@ -246,7 +265,9 @@ app.post('/updateProfile', (req, res) => {
 //게시글 페이지-----------------------------------------------------------------------------
 app.get('/postDetails', (req, res) => {
   if (req.session.user) {
+
     const postId = req.query.postId;
+
     let postQuery = `
       SELECT posts.*, users.user_name, users.profile_image 
       FROM posts 
@@ -313,82 +334,116 @@ app.get('/writingPost', (req, res) => {
   }
 });
 
-
-
-
 let output = null; // output 변수 정의 및 초기화
 
 // POST 요청 핸들러
 app.post('/writingPost', (req, res) => {
-  // 만약 세션에 유저 정보가 없으면 로그인 페이지로 리다이렉트
   if (!req.session.user) {
       return res.redirect('/');
   }
 
-  // 제목, 태그, 내용, 코드 등의 입력 값을 변수에 할당
-  const { filename, title, hashtags, content, code, input, action } = req.body;
+  const { filename, title, hashtags, content, code, input, action, language } = req.body;
 
-  // 컴파일 버튼을 눌렀을 때
   if (action === 'compile') {
-      console.log('Compilation request received'); // 콘솔에 컴파일 요청 수신 로그 출력
+      console.log('컴파일 요청 수신');
 
-      const fileName = filename ; // 파일 확장자를 언어에 따라 결정
       let command, filePath, outputFileName;
 
-      if (req.body.language === 'python') {
+      if (language === 'python') {
           command = 'python';
-          filePath = path.join(__dirname, 'temp', fileName + '.py');
-      } else if (req.body.language === 'c') {
+          filePath = path.join(__dirname, 'temp', filename + '.py');
+      } else if (language === 'c') {
           command = 'gcc';
           filePath = path.join(__dirname, 'temp', filename + '.c');
           outputFileName = path.join(__dirname, 'temp', filename);
       } else {
-          console.error('Unsupported language:', req.body.language); // 지원되지 않는 언어에 대한 오류 로그 출력
-          return res.status(400).send('Unsupported language');
+          console.error('지원되지 않는 언어:', language);
+          return res.status(400).send('지원되지 않는 언어');
       }
 
-      // 코드 변수 설정
-      const userCode = code; // userCode 변수에 코드 할당
+      const userCode = code;
 
       fs.writeFile(filePath, userCode, (err) => {
           if (err) {
-              console.error('Error writing file:', err); // 파일 쓰기 오류 로그 출력
-              return res.status(500).send('Error writing file');
+              console.error('파일 쓰기 오류:', err);
+              return res.status(500).send('파일 쓰기 오류');
           }
 
-          const process = spawn(command, [filePath, '-o', outputFileName], { stdio: ['pipe', 'pipe', 'pipe'], encoding: 'utf-8' });
+          if (language === 'python') {
+              const process = spawn(command, [filePath], { stdio: ['pipe', 'pipe', 'pipe'], encoding: 'utf-8' });
 
-          output = ''; // output 변수 초기화
+              let output = '';
 
-          process.stdout.on('data', (data) => {
-              output += data.toString();
-              console.log(data.toString()); // 컴파일 결과를 콘솔에 출력
-          });
+              process.stdout.on('data', (data) => {
+                  output += data.toString();
+                  console.log(data.toString());
+              });
 
-          process.stderr.on('data', (data) => {
-              output += data.toString();
-              console.error(data.toString()); // 컴파일 오류를 콘솔에 출력
-          });
+              process.stderr.on('data', (data) => {
+                  output += data.toString();
+                  console.error(data.toString());
+              });
 
-          process.on('close', (code) => {
-              if (code === 0) {
-                  // 컴파일이 성공하면 결과를 클라이언트로 반환
-                  res.render('writingPost', { user_id: req.session.user.id, filename: filename, code: userCode, input: input, result: output, action: 'compile', title: title, hashtags: hashtags, content: content });
-              } else {
-                  // 컴파일이 실패하면 오류 메시지를 클라이언트로 반환
-                  res.status(500).send('Compilation failed:\n' + output);
+              process.on('close', (code) => {
+                  if (code === 0) {
+                      // 이미 실행 결과가 저장된 경우 그대로 사용
+                      req.session.result = output; // 결과를 세션에 저장
+                      res.render('writingPost', { user_id: req.session.user.id, filename: filename, code: userCode, input: input, result: output, action: 'compile', title: title, hashtags: hashtags, content: content });
+                  } else {
+                      res.status(500).send('컴파일 실패:\n' + output);
+                  }
+              });
+
+              if (input) {
+                  process.stdin.write(input);
+                  process.stdin.end();
               }
-          });
+          } else if (language === 'c') {
+              const compileProcess = spawn(command, [filePath, '-o', outputFileName]);
 
-          if (input && req.body.language !== 'c') {
-              process.stdin.write(input);
-              process.stdin.end();
+              compileProcess.stderr.on('data', (data) => {
+                  console.error(data.toString());
+              });
+
+              compileProcess.on('close', (code) => {
+                  if (code === 0) {
+                      const runProcess = spawn(outputFileName, [], { stdio: ['pipe', 'pipe', 'pipe'], encoding: 'utf-8' });
+
+                      let output = '';
+
+                      runProcess.stdout.on('data', (data) => {
+                          output += data.toString();
+                          console.log(data.toString());
+                      });
+
+                      runProcess.stderr.on('data', (data) => {
+                          output += data.toString();
+                          console.error(data.toString());
+                      });
+
+                      runProcess.on('close', (code) => {
+                          if (code === 0) {
+                              // 이미 실행 결과가 저장된 경우 그대로 사용
+                              req.session.result = output; // 결과를 세션에 저장
+                              res.render('writingPost', { user_id: req.session.user.id, filename: filename, code: userCode, input: input, result: output, action: 'compile', title: title, hashtags: hashtags, content: content });
+                          } else {
+                              res.status(500).send('실행 실패:\n' + output);
+                          }
+                      });
+
+                      if (input) {
+                          runProcess.stdin.write(input);
+                          runProcess.stdin.end();
+                      }
+                  } else {
+                      res.status(500).send('컴파일 실패');
+                  }
+              });
           }
       });
   } else {
-      // 게시물 작성 버튼을 눌렀을 때
-      const user_id = req.session.user.id; // 직접 사용자 ID를 변수에 할당
-      const post = { user_id: req.session.user.id, filename: filename, code: code, input: input, result: output, title: title, hashtags: hashtags, content: content }; // 결과값은 null로 저장
+      const user_id = req.session.user.id;
+      const post = { user_id, filename, code, input, result: req.session.result, title, hashtags, content }; // 이미 저장된 결과를 사용
       connection.query('INSERT INTO posts SET ?', post, (error, results, fields) => {
           if (error) {
               console.error("게시글 저장 중 오류 발생:", error);

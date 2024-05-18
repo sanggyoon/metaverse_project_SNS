@@ -26,7 +26,7 @@
     width: calc(var(--commentsSize) - 20px);
     height: calc(var(--commentsSize) - 20px);
     border-radius: 50%;
-    border: 1px solid black;
+    border: none;
 }
 .inputComments {
     width: 85%;
@@ -43,7 +43,7 @@
     width: 100%;
     height: calc(var(--commentsSize) - 20px);
     font-size: 20px;
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: var(--commentBackground);
     border: none;
     border-radius: 15px;
     resize: none;
@@ -54,4 +54,5 @@
     border: none;
     height: 36px;
     width: 36px;
+    background-color: #03c75a;
 }

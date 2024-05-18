@@ -51,7 +51,7 @@
     margin: 10px auto;
     padding: 10px;
     box-sizing: border-box;
-    border: 1px solid var(--boxColor);
+    border: none;
     border-radius: 10px;
     background-color:var(--boxColor);
 }

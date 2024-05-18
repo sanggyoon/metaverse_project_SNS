@@ -6,39 +6,41 @@
     width: 50%;
     margin: 0 auto;
     position: relative;
-    color:var(--textColor1);
+    color:var(--textColor2);
 }
 .detailUser {
-    width: 90%;
+    width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 0 auto;
+    margin-bottom: 1em;
     padding-top: 5px;
 }
 .detail {
-    width: 90%;
+    width: 100%;
     background-color: var(--boxColor);
-    /*border: 0.6px solid black;*/
     border-radius: 15px;
-    margin: 10px auto;
+    margin-bottom: 1em;
     box-sizing: border-box;
     padding: 10px 20px;
     overflow-wrap: break-word;
+}
+#info_name {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-top: 1em;
 }
 .separateLine {
     width: 90%;
     margin: 0 auto 0 auto;
     border: 1px solid var(--signatureColor);
 }
-.detailComments {
-    color:var(--textColor1);
-}
 .detailComments table {
     width: 90%;
     margin: 0 auto;
     border-collapse: separate;
     border-spacing: 0 10px;
+    color: var(--textColor2);
 }
 .detailComments table td {
     width: 90%;

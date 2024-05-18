@@ -20,6 +20,7 @@
     --boxColor: #1A2A63;
     --textColor1: white;
     --textColor2: white;
+    --commentBackground: rgba(255, 255, 255, 0.1);
 }
 :root[color-theme="light"] {
     --headerBackground: white;
@@ -28,6 +29,8 @@
     --boxColor: #E9E9E9;
     --textColor1: white;
     --textColor2: black;
+    --signatureColor: #white;
+    --commentBackground: rgba(0, 0, 0, 0.1);
 }
 body {
     height: 100vh;

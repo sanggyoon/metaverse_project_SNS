@@ -6,7 +6,7 @@
     <div class="inputComments">
       <form action="/addComment" method="POST">
         <div class="commentsImg">
-          <img src="../img/google_icon.png" alt="">
+          <img src="<%= user.profile_image %>" alt="">
         </div>
         <input type="hidden" name="postId" value="<%= post.id %>">
         <input type="hidden" name="userId" value="<%= user.id %>">

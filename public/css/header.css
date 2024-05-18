@@ -78,7 +78,7 @@ header {
 }
 #darkmode [type="checkbox"]:checked::before {
     content: "OFF";
-    background-color: var(--signatureColor);
+    color: black;   
     left: 30px;
 }
 

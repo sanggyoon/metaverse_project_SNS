@@ -1,7 +1,10 @@
 <div class="callPost">
     <div class="callPostLeft">
-        <div class="postWrittenDay">
-            <span><%= post.created_at %></span>
+        <div class="postWrittenDay" id="post_created_at">
+            <% const formattedDate = new Date(post.created_at).toLocaleDateString('ko-KR', { timeZone: 'Asia/Seoul' }); %>
+            <% const formattedTime = new Date(post.created_at).toLocaleTimeString('ko-KR', { timeZone: 'Asia/Seoul', hour12: false }); %>
+            <span id="day1"><%= formattedDate %></span><br>
+            <span id="day2"><%= formattedTime %></span> 
         </div>
         <a href="/otherProfile?userId=<%= post.user_id %>">
             <div class="postWriterImg" style="background-image: url('<%= post.profile_image %>');">
@@ -21,29 +24,45 @@
             
             <!-- JavaScript 코드 -->
             <script>
+
                 document.getElementById('likeButton').addEventListener('click', function() {
-    const postId = this.getAttribute('data-postid');
-    
-    fetch('/likePost', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ post_id: postId })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            const likesCount = data.likes;
-            document.getElementById('likesCount').innerText = likesCount;
-        } else {
-            console.error('Failed to update likes:', data.message);
-        }
-    })
-    .catch(error => {
-        console.error('Error updating likes:', error);
-    });
-});
+                    const postId = this.getAttribute('data-postid');
+
+                    fetch('/likePost', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ post_id: postId })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            const likesCount = data.likes;
+                            document.getElementById('likesCount').innerText = likesCount;
+                        } else {
+                            console.error('Failed to update likes:', data.message);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error updating likes:', error);
+                    });
+                });
+
+                function adjustTextSize(id) {
+                    var container = document.getElementById(id);
+                    var parentWidth = container.parentNode.offsetWidth; // 부모 요소의 너비를 가져옴
+                    var fontSize = 100; // 초기 폰트 크기(%)
+                    container.style.fontSize = fontSize + '%';
+
+                    // 텍스트가 부모 요소의 너비를 초과하는지 확인하고 조절
+                    while (container.scrollWidth > parentWidth) { // 부모 요소의 너비를 기준으로 비교
+                        fontSize--;
+                        container.style.fontSize = fontSize + '%';
+                    }
+                }
+                adjustTextSize('post_created_at');
+                
             </script>
             <div class="postComments alignment">
                 <button id="commentButton">

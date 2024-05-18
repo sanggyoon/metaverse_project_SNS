@@ -16,14 +16,24 @@
         <div class="detailWriter">작성자 : <span><%= post.user_name %></span></div>
         <div class="detailDate"><span><%= post.created_at %></span></div>
       </div>
+      <span id="info_name">Title</span>
       <div class="detail detailTitle"><span><%= post.title %></span></div>
+
+      <span id="info_name">Hashtag</span>
       <div class="detail detailHashtag"><span><%= post.hashtags %></span></div>
+
+      <span id="info_name">Content</span>
       <div class="detail detailText"><span><%= post.content %></span></div>
+
+      <span id="info_name">Code</span>
       <div class="detail detailCode"><span><%= post.code %></span></div>
-      <div class="detail detailCode"><span><%= post.input %></span></div>
+
+      <span id="info_name">Input</span>
+      <div class="detail detailInput"><span><%= post.input || "\"Input이 사용되지 않았습니다.\"" %></span></div>
+
+      <span id="info_name">Result</span>
       <div class="detail detailOutput"><span><%= post.result %></span></div>
         
-        <div class="separateLine"></div>
         <div class="detailComments">
             <table>
                 <% if (comments.length > 0) { %>
@@ -31,7 +41,7 @@
                       <%- include('aComment', {comment: comment}); %>
                     <% }) %>
                     <% } else { %>
-                      <p style="text-align: center;">댓글이 없습니다.</p>
+                      <p style="text-align: center;" color="var(--textColor2);">댓글이 없습니다.</p>
                     <% } %>               
             </table>
         </div>

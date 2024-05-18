@@ -26,6 +26,7 @@
     border: 1px solid var(--signatureColor);
     border-radius: 15px;
     text-align: center;
+    color: white;
 }
 
 .inputLoginInfo form input::placeholder{
@@ -34,6 +35,7 @@
 
 .inputLoginInfo form input:focus {
     background-color: var(--textColor1);
+    color: black;
 }
 
 .inputLoginInfo form input:focus::placeholder{
