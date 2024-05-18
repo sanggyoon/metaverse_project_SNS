@@ -80,6 +80,21 @@ app.post('/', (req, res) => {
 });
 
 //회원가입 페이지-----------------------------------------------------------------------------
+app.get('/signup', (req, res) => {
+  res.render('signup');
+});
+
+//회원가입 폼 제출 처리
+app.post('/signup', (req, res) => {
+  const { userID, userPW, email, user_name } = req.body;
+  const user = { userID, userPW, email, user_name };
+  // MySQL에 데이터 저장
+  connection.query('INSERT INTO users SET ?', user, (error, results, fields) => {
+    if (error) throw error;
+    console.log('새로운 회원이 등록되었습니다.');
+    res.redirect('/'); //회원가입이 완료되면 로그인 페이지로 이동
+  });
+});
 
 //메인 페이지--------------------------------------------------------------------------------
 app.get('/main', (req, res) => {
