@@ -108,38 +108,80 @@ app.get('/auth/kakao/callback',
 
 //메인 페이지-----------------------------------------------------------------------------
 app.get('/main', (req, res) => {
-  if (req.session.user) { //세션에 로그인 정보 확인
-    let lastId = parseInt(req.query.lastId);
-    if (isNaN(lastId) || lastId <= 0) {
-      lastId = 9999999999;
-    }
-    let query = 'SELECT posts.*, users.user_name, users.profile_image FROM posts INNER JOIN users ON posts.user_id = users.id WHERE posts.id < ? ORDER BY posts.id DESC LIMIT 10';
-  
-    // 검색 키워드를 가져옴
-    const searchKeyword = req.query.search;
-  
-    // 검색 키워드가 있는 경우, 쿼리에 검색 조건 추가
-    if (searchKeyword) {
-      query = `SELECT posts.*, users.user_name, users.profile_image FROM posts INNER JOIN users ON posts.user_id = users.id WHERE posts.id < ${lastId} AND hashtags LIKE '%${searchKeyword}%' ORDER BY posts.id DESC LIMIT 10`;
-    }
-  
-    connection.query(query, [lastId], (error, results, fields) => {
-      if (error) {
-        console.error('검색 중 오류 발생:', error);
-        res.status(500).send('검색 중 오류가 발생했습니다.');
-      } else {
-        if (req.query.ajax) {
-          res.json(results);
-        } else {
-          res.render('index', {posts: results});
+    if (req.session.user) {
+        let lastId = parseInt(req.query.lastId);
+        if (isNaN(lastId) || lastId <= 0) {
+            lastId = 9999999999;
         }
-      }
-    });
-  } else { //세션에 유저 정보가 없다면
-    res.redirect('/'); // 로그인 페이지로 이동
-  }
-});
+        let query = 'SELECT posts.*, users.user_name, users.profile_image FROM posts INNER JOIN users ON posts.user_id = users.id WHERE posts.id < ? ORDER BY posts.id DESC LIMIT 10';
 
+        const searchKeyword = req.query.search;
+
+        if (searchKeyword) {
+            query = `SELECT posts.*, users.user_name, users.profile_image FROM posts INNER JOIN users ON posts.user_id = users.id WHERE posts.id < ${lastId} AND hashtags LIKE '%${searchKeyword}%' ORDER BY posts.id DESC LIMIT 10`;
+        }
+
+        // 수정된 인기 게시물 쿼리 추가
+        let popularPostsQuery;
+        if (searchKeyword) {
+            popularPostsQuery = `
+                SELECT 
+                    posts.*, 
+                    COUNT(post_likes.id) AS likes_count 
+                FROM 
+                    posts 
+                LEFT JOIN 
+                    post_likes ON posts.id = post_likes.post_id 
+                WHERE 
+                    posts.id < ? AND (hashtags LIKE '%${searchKeyword}%')
+                GROUP BY 
+                    posts.id 
+                ORDER BY 
+                    posts.likes DESC;  -- posts 테이블의 likes 열을 기준으로 내림차순 정렬
+            `;
+        } else {
+            popularPostsQuery = `
+                SELECT 
+                    posts.*, 
+                    COUNT(post_likes.id) AS likes_count 
+                FROM 
+                    posts 
+                LEFT JOIN 
+                    post_likes ON posts.id = post_likes.post_id 
+                WHERE 
+                    posts.id < ?
+                GROUP BY 
+                    posts.id 
+                ORDER BY 
+                    posts.likes DESC;  -- posts 테이블의 likes 열을 기준으로 내림차순 정렬
+            `;
+        }
+
+        // 인기 게시물 가져오기 쿼리를 실행
+        connection.query(popularPostsQuery, [lastId], (popularError, popularResults) => {
+            if (popularError) {
+                console.error('인기 게시물 가져오기 오류:', popularError);
+                res.status(500).send('인기 게시물을 가져오는 중 오류가 발생했습니다.');
+            } else {
+                // 여기에 인기 게시물을 처리하는 코드 작성
+                connection.query(query, [lastId], (error, results, fields) => {
+                    if (error) {
+                        console.error('검색 중 오류 발생:', error);
+                        res.status(500).send('검색 중 오류가 발생했습니다.');
+                    } else {
+                        if (req.query.ajax) {
+                            res.json({ posts: results, popularPosts: popularResults });
+                        } else {
+                            res.render('index', { posts: results, popularPosts: popularResults });
+                        }
+                    }
+                });
+            }
+        });
+    } else {
+        res.redirect('/');
+    }
+});
 
 
 //개인 프로필 페이지-----------------------------------------------------------------------------
@@ -322,6 +364,7 @@ app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
 
+// 좋아요---------------------------------------------------------------------------
 app.post('/likePost', (req, res) => {
   const postId = req.body.postId; // 클라이언트에서 보낸 postId를 postId로 가져옴
 
