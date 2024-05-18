@@ -9,31 +9,37 @@
     2.'수정 내용 저장'버튼 추가, DB에 저장하기
  -->
 
-<div class="editBox">
-    <div class="editImg alignment">
-        <img src="../profile_image/unknown.png" alt="">
-            <button type="add">
-                <span class="material-symbols-outlined">add_circle</span>
-            </button>
+ <form action="/updateProfile" method="POST">
+    <div class="editBox">
+        <div class="editImg alignment">
+            <img src="../profile_image/unknown.png" alt="">
+                <button type="add">
+                    <span class="material-symbols-outlined">add_circle</span>
+                </button>
+        </div>
+        <div class="editInfo">
+            <span>이름</span>
+            <div class="editName alignment">
+                <!-- name 속성을 추가하여 서버에서 값을 식별할 수 있도록 합니다. -->
+                <input type="text" name="user_name" placeholder="이름을 입력해주세요.">
+            </div>
+            <span>한줄 소개</span>
+            <div class="editIntroduce alignment">
+                <!-- name 속성을 추가하여 서버에서 값을 식별할 수 있도록 합니다. -->
+                <input type="text" name="introduce" placeholder="본인을 소개해주세요.">
+            </div>
+            <span>이메일</span> <!-- "커넥션" 대신 "이메일"로 변경합니다. -->
+            <div class="editConnection alignment">
+                <!-- name 속성을 추가하여 서버에서 값을 식별할 수 있도록 합니다. -->
+                <input type="email" name="email" placeholder="이메일을 입력해주세요.">
+            </div>
+            <div class="saveBT alignment">
+                <button type="submit">저장하기</button>
+            </div>
+        </div>
     </div>
-    <div class="editInfo">
-        <span>이름</span>
-        <div class="editName alignment">
-            <input type="text" placeholder="이름을 입력해주세요.">
-        </div>
-        <span>한줄 소개</span>
-        <div class="editIntroduce alignment">
-            <input type="text" placeholder="본인을 소개해주세요.">
-        </div>
-        <span>커넥션</span>
-        <div class="editConnection alignment">
-            <input type="text" placeholder="커넥션을 입력해주세요.">
-        </div>
-        <div class="saveBT alignment">
-            <button>저장하기</button>
-        </div>
-    </div>
-</div>
+</form>
+
 
 <!-- Start of footer -->
 <%-include('footer.ejs')-%>

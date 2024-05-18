@@ -228,6 +228,27 @@ app.get('/editProfile', (req, res) => {
   }
 });
 
+app.post('/updateProfile', (req, res) => {
+  if (req.session.user) { // 세션에 유저 정보가 있으면
+    const { user_name, introduce, email } = req.body; // 폼에서 수정된 정보를 가져옴
+    const userID = req.session.user.userID; // 세션에서 userID를 가져옴
+
+    // 데이터베이스 연결 및 쿼리 실행
+    const query = "UPDATE users SET user_name = ?, introduce = ?, email = ? WHERE userID = ?";
+    connection.query(query, [user_name, introduce, email, userID], (error, results) => {
+      if (error) {
+        console.error('데이터베이스 업데이트 중 오류 발생: ', error);
+        return res.send('데이터베이스 업데이트 중 오류가 발생했습니다.');
+      }
+      // 세션 정보 업데이트
+      req.session.user = { ...req.session.user, user_name, introduce, email };
+      res.redirect('/profile'); // 프로필 수정 페이지로 리다이렉트
+    });
+  } else { // 세션에 유저 정보가 없다면
+    res.redirect('/'); // 로그인 페이지로 이동
+  }
+});
+
 //게시글 페이지-----------------------------------------------------------------------------
 app.get('/postDetails', (req, res) => {
   if (req.session.user) {
