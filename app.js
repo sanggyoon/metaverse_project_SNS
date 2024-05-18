@@ -42,6 +42,9 @@ app.use(session({
   saveUninitialized: true
 }));
 
+// JSON 데이터를 파싱하기 위한 미들웨어 추가
+app.use(express.json());
+
 //static 요소 사용
 app.use(express.static(__dirname+'/public'));
 app.use('/profile_image', express.static(path.join(__dirname, 'profile_image')));
@@ -77,79 +80,70 @@ app.post('/', (req, res) => {
 });
 
 //회원가입 페이지-----------------------------------------------------------------------------
-app.get('/signup', (req, res) => {
-  res.render('signup');
-});
-
-//회원가입 폼 제출 처리
-app.post('/signup', (req, res) => {
-  const { userID, userPW, email, user_name } = req.body;
-  const user = { userID, userPW, email, user_name };
-  // MySQL에 데이터 저장
-  connection.query('INSERT INTO users SET ?', user, (error, results, fields) => {
-    if (error) throw error;
-    console.log('새로운 회원이 등록되었습니다.');
-    res.redirect('/'); //회원가입이 완료되면 로그인 페이지로 이동
-  });
-});
-
-//카카오 로그인 연동
-app.get('/auth/kakao', passport.authenticate('kakao'));
-
-app.get('/auth/kakao/callback',
-  passport.authenticate('kakao', { failureRedirect: '/login' }),
-  function(req, res) {
-    // Successful authentication, redirect home.
-    res.redirect('/');
-  });
-
-
-//메인 페이지-----------------------------------------------------------------------------
 app.get('/main', (req, res) => {
   if (req.session.user) { //세션에 로그인 정보 확인
     let lastId = parseInt(req.query.lastId);
     if (isNaN(lastId) || lastId <= 0) {
       lastId = 9999999999;
     }
-    let query = 'SELECT posts.*, users.user_name, users.profile_image FROM posts INNER JOIN users ON posts.user_id = users.id WHERE posts.id < ? ORDER BY posts.id DESC LIMIT 10';
-  
     // 검색 키워드를 가져옴
     const searchKeyword = req.query.search;
-  
-    // 검색 키워드가 있는 경우, 쿼리에 검색 조건 추가
+    let params = [lastId];
+
+    // 기본 쿼리
+    let baseQuery = `SELECT posts.*, users.user_name, users.profile_image 
+                     FROM posts 
+                     INNER JOIN users ON posts.user_id = users.id 
+                     WHERE posts.id < ?`;
+    let orderBy = ` ORDER BY posts.id DESC LIMIT 10`;
+
+    // 검색 키워드가 있는 경우, 쿼리 수정
     if (searchKeyword) {
-      query = `SELECT posts.*, users.user_name, users.profile_image FROM posts INNER JOIN users ON posts.user_id = users.id WHERE posts.id < ${lastId} AND hashtags LIKE '%${searchKeyword}%' ORDER BY posts.id DESC LIMIT 10`;
+      baseQuery += " AND hashtags LIKE ?";
+      params.push(`%${searchKeyword}%`);
     }
-  
-    connection.query(query, [lastId], (error, results, fields) => {
-      if (error) {
-        console.error('검색 중 오류 발생:', error);
-        res.status(500).send('검색 중 오류가 발생했습니다.');
-      } else {
-        // results의 각 항목에 대해 created_at을 원하는 형식으로 변환
-        const formattedResults = results.map(post => {
-          const createdAt = new Date(post.created_at);
-          // 'en-US' 로케일을 사용하고, 옵션을 조정하여 원하는 날짜 형식을 설정
-          // 이 예에서는 '년-월-일 시:분:초' 형식을 사용합니다.
-          post.created_at = createdAt.toLocaleString('ko-KR', {
-            year: 'numeric', month: '2-digit', day: '2-digit',
-            hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
-          }).replace(/\./g, '-').slice(0, -1); // 마지막 점을 제거하기 위해 slice 사용
-          return post;
-        });
-    
-        if (req.query.ajax) {
-          res.json(formattedResults);
+
+    let query = baseQuery + orderBy;
+
+    // 인기 게시물 쿼리
+    let popularPostsQuery = `
+        SELECT posts.*, COUNT(post_likes.id) AS likes_count 
+        FROM posts 
+        LEFT JOIN post_likes ON posts.id = post_likes.post_id 
+        WHERE posts.id < ?`;
+
+    if (searchKeyword) {
+        popularPostsQuery += " AND hashtags LIKE ?";
+        // params는 이미 lastId와 검색 키워드를 포함하고 있으므로, lastId를 다시 추가할 필요가 없습니다.
+    }
+
+    popularPostsQuery += ` GROUP BY posts.id ORDER BY likes_count DESC`;
+
+    // 인기 게시물 가져오기 쿼리 실행
+    connection.query(popularPostsQuery, params, (popularError, popularResults) => {
+        if (popularError) {
+            console.error('인기 게시물 가져오기 오류:', popularError);
+            res.status(500).send('인기 게시물을 가져오는 중 오류가 발생했습니다.');
         } else {
-          res.render('index', {posts: formattedResults});
+            // 기본 쿼리 실행
+            connection.query(query, params, (error, results) => {
+                if (error) {
+                    console.error('검색 중 오류 발생:', error);
+                    res.status(500).send('검색 중 오류가 발생했습니다.');
+                } else {
+                    if (req.query.ajax) {
+                        res.json({ posts: results, popularPosts: popularResults });
+                    } else {
+                        res.render('index', { posts: results, popularPosts: popularResults });
+                    }
+                }
+            });
         }
-      }
     });
-  } else { //세션에 유저 정보가 없다면
-    res.redirect('/'); // 로그인 페이지로 이동
+  } else {
+      res.redirect('/');
   }
 });
-
 
 
 //개인 프로필 페이지-----------------------------------------------------------------------------
@@ -463,30 +457,17 @@ app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
 
+// 좋아요---------------------------------------------------------------------------
 app.post('/likePost', (req, res) => {
-  const postId = req.body.post_id;
+  const postId = req.body.postId; // 클라이언트에서 보낸 postId를 postId로 가져옴
 
-  // postId에 해당하는 게시물의 좋아요 수를 데이터베이스에서 가져와 증가시킴
+  // postId에 해당하는 게시물의 좋아요 수를 1 증가시킴
   connection.query('UPDATE posts SET likes = likes + 1 WHERE id = ?', [postId], (error, results, fields) => {
       if (error) {
           console.error('Error updating likes:', error);
           res.json({ success: false, message: 'Failed to update likes' });
       } else {
-          // 업데이트된 좋아요 수를 클라이언트에게 응답으로 보냄
-          connection.query('SELECT likes FROM posts WHERE id = ?', [postId], (error, results, fields) => {
-              if (error) {
-                  console.error('Error fetching updated likes:', error);
-                  res.json({ success: false, message: 'Failed to fetch updated likes' });
-              } else {
-                  if (results.length > 0) {
-                      const updatedLikesCount = results[0].likes; // 수정된 코드
-                      res.json({ success: true, likes: updatedLikesCount });
-                  } else {
-                      console.error('No likes found for the post');
-                      res.json({ success: false, message: 'No likes found for the post' });
-                  }
-              }
-          });
+          res.json({ success: true }); // 성공 응답
       }
   });
 });

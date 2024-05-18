@@ -78,22 +78,14 @@
         <% posts.forEach(function(post) { %>
             <%- include('aPost', {post: post}); %>
         <% }); %>
-        
     </div>
     <div class="popularBox">
         <div class="popularPost">
             <p>지금 뜨는 게시글</p>
             <ol>
-                <li>인기1</li>
-                <li>인기2</li>
-                <li>인기3</li>
-                <li>인기4</li>
-                <li>인기5</li>
-                <li>인기6</li>
-                <li>인기7</li>
-                <li>인기8</li>
-                <li>인기9</li>
-                <li>인기10</li>
+                <% popularPosts.forEach(function(post) { %>
+                    <li><a href="/postDetails?postId=<%= post.id %>"><%= post.title %></a></li>
+                <% }); %>
             </ol>
         </div>
     </div>
