@@ -1,3 +1,4 @@
+<!-- 클라이언트 측 HTML (aPost.ejs 파일 내에 추가) -->
 <div class="callPost">
     <div class="callPostLeft">
         <div class="postWrittenDay">
@@ -13,14 +14,11 @@
         </div>
         <div class="postStack">
             <div class="postLike alignment">
-                <button id="likeButton" data-postid="<%= post.id %>">
+                <button id="likeButton-<%= post.id %>" data-postid="<%= post.id %>">
                     <span class="material-symbols-outlined">thumb_up</span>
                 </button>
-                <span id="likesCount"><%= post.likes %></span>
+                <span id="likesCount-<%= post.id %>"><%= post.likes %></span>
             </div>
-            
-            
-
             <div class="postComments alignment">
                 <button id="commentButton">
                     <span class="material-symbols-outlined">comment</span>
@@ -42,32 +40,55 @@
     </a></div>
 </div>
 
-
-<!-- JavaScript 코드 -->
 <script>
-    document.getElementById('likeButton').addEventListener('click', function() {
-        const postId = this.getAttribute('data-postid');
+    // 좋아요 버튼을 클릭할 때마다 실행될 함수
+    function likePost(postId) {
+        // 이미 좋아요를 누른 게시글인지 확인
+        if (localStorage.getItem('liked-' + postId)) {
+            alert('이미 좋아요를 누르셨습니다.');
+            return;
+        }
 
+        // 서버에 좋아요 요청 보내기
         fetch('/likePost', {
             method: 'POST',
+            body: JSON.stringify({ postId: postId }),
             headers: {
                 'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ postId: postId }) // post_id를 postId로 변경
+            }
         })
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                const likesCount = parseInt(document.getElementById('likesCount').innerText);
-                document.getElementById('likesCount').innerText = likesCount + 1; // 좋아요 수를 1 증가시킴
+                // 좋아요 수를 업데이트
+                const likesCount = document.getElementById('likesCount-' + postId);
+                let currentLikes = parseInt(likesCount.textContent);
+                likesCount.textContent = currentLikes + 1;
+
+                // localStorage에 좋아요 정보 저장
+                localStorage.setItem('liked-' + postId, 'true');
             } else {
                 console.error('Failed to update likes:', data.message);
             }
         })
         .catch(error => {
-            console.error('Error updating likes:', error);
+            console.error('좋아요 요청 실패:', error);
+        });
+    }
+
+    // 페이지가 로드될 때 실행되는 함수
+    window.addEventListener('DOMContentLoaded', () => {
+        // 중복 이벤트 리스너 방지를 위해 기존 이벤트 리스너를 제거
+        document.querySelectorAll('[id^="likeButton-"]').forEach(button => {
+            const newButton = button.cloneNode(true);
+            button.parentNode.replaceChild(newButton, button);
+            newButton.addEventListener('click', function() {
+                const postId = this.getAttribute('data-postid');
+                likePost(postId);
+            });
         });
     });
-</script>
 
+    
+</script>
 
