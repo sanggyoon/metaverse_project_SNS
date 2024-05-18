@@ -323,7 +323,7 @@ app.listen(port, () => {
 })
 
 app.post('/likePost', (req, res) => {
-  const postId = req.body.postId;
+  const postId = req.body.postId; // 클라이언트에서 보낸 postId를 postId로 가져옴
 
   // postId에 해당하는 게시물의 좋아요 수를 1 증가시킴
   connection.query('UPDATE posts SET likes = likes + 1 WHERE id = ?', [postId], (error, results, fields) => {
