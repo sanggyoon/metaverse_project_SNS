@@ -13,16 +13,16 @@
     flex-direction: column;
     padding: 20px 0;
 }
-
 .writingPost span{
-    margin-left: 25px;
     align-items: left;
-    font-size: 18px;
+    font-size: 1.5em;
+    font-weight: bold;
     color:var(--textColor2);
-}
+    margin-top: 1em;
 
+}
 .writingPost input {
-    width: 90%;
+    width: 100%;
     font-size: 15px;
     text-align: left;
     border-radius: 10px;
@@ -31,11 +31,11 @@
     border: none;
     background-color: var(--boxColor);
     color:var(--textColor2);
+    box-sizing: border-box;
 }
-
 .writingPost textarea {
     padding: 15px;
-    width: 90%;
+    width: 100%;
     font-size: 15px;
     text-align: left;
     border-radius: 10px;
@@ -44,11 +44,32 @@
     background-color: var(--boxColor);
     border: none;
     color:var(--textColor2);
+    box-sizing: border-box;
+}
+.writingPost select {
+    height: 5em;
+    width: 100%;
+    border: none;
+    border-radius: 20px;
+    background-color: var(--boxColor);
+    color: var(--textColor2);
+}
+.compiler_result {
+    width: 100%;
+    background-color: var(--boxColor);
+    border: none;
+    border-radius: 10px;
+    box-sizing: border-box;
+}
+.compiler_result p {
+    color: var(--textColor2);
+    margin-left: 1em;
 }
 
 .writingBT{
     align-items: center;
     text-align: center;
+    margin-top: 1em;
 }
 .writingPost button {
     font-size: 15px;
