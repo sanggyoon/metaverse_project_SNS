@@ -117,3 +117,24 @@
   box-sizing: border-box;
   color: var(--textColor2);
 }
+.popularPost p {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-top: 10px;
+  margin-bottom: 15px;
+  text-align: center;
+}
+.popularPost ol {
+  list-style-position: inside;
+  padding: 0;
+}
+.popularPost a {
+  color: var(--textColor2);
+  text-decoration: none;
+}
+.popularPost li {
+  margin: 5px;
+}
+.popularPost a:hover {
+  text-decoration: underline;
+}

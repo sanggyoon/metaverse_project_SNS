@@ -21,6 +21,11 @@
     justify-content: center;
     margin: 10px auto;
 }
+.contentImg {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 .commentsImg img{   
     box-sizing: border-box;
     width: calc(var(--commentsSize) - 20px);

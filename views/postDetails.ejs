@@ -14,7 +14,11 @@
     <div class="postInfo">
       <div class="detailUser">
         <div class="detailWriter">작성자 : <span><%= post.user_name %></span></div>
-        <div class="detailDate"><span><%= post.created_at %></span></div>
+        <div class="detailDate">
+          <% const formattedDate = new Date(post.created_at).toLocaleDateString('ko-KR', { timeZone: 'Asia/Seoul' }); %>
+          <% const formattedTime = new Date(post.created_at).toLocaleTimeString('ko-KR', { timeZone: 'Asia/Seoul', hour12: false }); %>
+          <span id="day1"><%= formattedDate %></span>&nbsp<span id="day2"><%= formattedTime %></span> 
+        </div>
       </div>
       <span id="info_name">Title</span>
       <div class="detail detailTitle"><span><%= post.title %></span></div>

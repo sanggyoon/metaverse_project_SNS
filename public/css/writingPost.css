@@ -61,7 +61,7 @@
     border-radius: 10px;
     box-sizing: border-box;
 }
-.compiler_result p {
+.compiler_result p, .compiler_result pre {
     color: var(--textColor2);
     margin-left: 1em;
 }
