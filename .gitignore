@@ -1,6 +1,2 @@
 ./node_modules
-./login-DB/node_modules
-./post-DB/node_modules
-./login_connect-DB/node_modules
-./follow-DB/node_modules
-./likes-DB/node_modules
+./temp
