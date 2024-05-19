@@ -108,32 +108,31 @@ app.get('/logout', (req, res) => {
 
 //메인 페이지--------------------------------------------------------------------------------
 app.get('/main', (req, res) => {
-  if (req.session.user) { //세션에 로그인 정보 확인
+  if (req.session.user) {
     let lastId = parseInt(req.query.lastId);
     if (isNaN(lastId) || lastId <= 0) {
       lastId = 9999999999;
     }
-    // 검색 키워드를 가져옴
     const searchKeyword = req.query.search;
     let params = [lastId];
 
-    // 기본 쿼리에 댓글 수를 포함하여 수정
     let baseQuery = `SELECT posts.*, users.user_name, users.profile_image, COUNT(comments.id) AS comments_count
                      FROM posts 
                      INNER JOIN users ON posts.user_id = users.id
                      LEFT JOIN comments ON posts.id = comments.post_id
-                     WHERE posts.id < ?
-                     GROUP BY posts.id`;
-    let orderBy = ` ORDER BY posts.id DESC LIMIT 10`;
+                     WHERE posts.id < ?`;
 
     if (searchKeyword) {
-      baseQuery += " AND hashtags LIKE ?";
+      baseQuery += " AND posts.hashtags LIKE ?";
       params.push(`%${searchKeyword}%`);
     }
 
+    baseQuery += ` GROUP BY posts.id`;
+
+    let orderBy = ` ORDER BY posts.id DESC LIMIT 10`;
+
     let query = baseQuery + orderBy;
 
-    // 인기 게시물 쿼리
     let popularPostsQuery = `
         SELECT posts.*, COUNT(post_likes.id) AS likes_count, COUNT(comments.id) AS comments_count
         FROM posts 
@@ -142,18 +141,17 @@ app.get('/main', (req, res) => {
         WHERE posts.id < ?`;
 
     if (searchKeyword) {
-        popularPostsQuery += " AND hashtags LIKE ?";
+        popularPostsQuery += " AND posts.hashtags LIKE ?";
+        // params 배열은 이미 lastId와 검색 키워드를 포함하고 있으므로 여기서는 추가하지 않습니다.
     }
 
     popularPostsQuery += ` GROUP BY posts.id ORDER BY likes_count DESC`;
 
-    // 인기 게시물 가져오기 쿼리 실행
     connection.query(popularPostsQuery, params, (popularError, popularResults) => {
         if (popularError) {
             console.error('인기 게시물 가져오기 오류:', popularError);
             res.status(500).send('인기 게시물을 가져오는 중 오류가 발생했습니다.');
         } else {
-            // 기본 쿼리 실행
             connection.query(query, params, (error, results) => {
                 if (error) {
                     console.error('검색 중 오류 발생:', error);
@@ -162,7 +160,6 @@ app.get('/main', (req, res) => {
                     if (req.query.ajax) {
                         res.json({ posts: results, popularPosts: popularResults });
                     } else {
-                        // 여기서 posts에는 각 게시글마다 댓글의 개수가 comments_count로 포함되어 있음
                         res.render('index', { posts: results, popularPosts: popularResults });
                     }
                 }
