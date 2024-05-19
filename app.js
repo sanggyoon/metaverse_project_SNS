@@ -338,7 +338,7 @@ app.get('/postDetails', (req, res) => {
         // 게시글에 대한 댓글을 불러옵니다.
         connection.query(commentsQuery, [postId], (error, commentResults) => {
           if (error) throw error;
-          res.render('postDetails', { user: req.session.user, post: post, comment: commentResults, isOwner: isOwner });
+          res.render('postDetails', { user: req.session.user, post: post, comments: commentResults, isOwner: isOwner });
         });
       } else {
         res.send('게시글을 찾을 수 없습니다.');
