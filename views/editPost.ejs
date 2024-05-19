@@ -1,0 +1,47 @@
+<%- include('head.ejs') -%>
+<!-- End of head -->
+
+<%- include('header.ejs') -%>
+<!-- End of header -->
+
+<div class="writingPostBox alignment">
+    <div class="emptyBox"></div>
+    <div class="writingPost">
+        <form action="/updatePost/<%= post.id %>" method="post">
+            <span>File Name</span>
+            <input type="text" id="filename" name="filename" value="<%= post.filename %>" placeholder="서버에 저장되는 파일이름입니다. 꼭 입력해주세요." required>
+
+            <span>Title</span>
+            <input type="text" id="title" name="title" value="<%= post.title %>" placeholder="제목">
+
+            <span>Hashtag</span>
+            <input type="text" id="hashtags" name="hashtags" value="<%= post.hashtags %>" placeholder="태그">    
+
+            <span>Content</span>
+            <textarea id="content" name="content" rows="9" placeholder="내용"><%= post.content %></textarea>
+
+            <span>Code</span>
+            <textarea id="code" name="code" rows="9" placeholder="게시글에 작성될 코드를 입력하세요." required><%= post.code %></textarea>
+
+            <span>Input</span>
+            <textarea id="input" name="input" rows="5" cols="50" placeholder="코드에 사용되는 input을 입력합니다. 사용되지 않으면 입력하지 않습니다." ><%= post.input %></textarea>
+
+            <span>Result</span>
+            <div class="compiler_result">
+                <% if (post.result !== null) { %>
+                    <pre><%= post.result %></pre>
+                <% } else { %>
+                    <p>No result yet.</p>
+                <% } %>
+            </div>
+
+            <div class="writingBT">
+                <button type="submit" name="action" value="compile">컴파일</button>
+                <button type="submit" name="action" value="post">작성하기</button>
+            </div>
+        </form>  
+    </div>
+    <div class="emptyBox"></div>
+</div>
+
+<%- include('footer.ejs') -%>

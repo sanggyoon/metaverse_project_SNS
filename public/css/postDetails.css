@@ -1,6 +1,7 @@
 .postDetailBox {
     margin-top: var(--headerSize);
     margin-bottom: var(--headerSize);
+    padding-bottom: var(--headerSize);
 }
 .postInfo {
     width: 50%;
@@ -15,6 +16,18 @@
     align-items: center;
     margin-bottom: 1em;
     padding-top: 5px;
+}
+.editPost_BT {
+    margin: 1em auto;
+}
+.editPost_BT a {
+    color: var(--textColor2);
+    background-color: var(--boxColor);
+    border: none;
+    border-radius: 15px;
+    text-decoration: none;
+    padding: 10px 20px;
+    margin-right: 10px;
 }
 .detail {
     width: 100%;

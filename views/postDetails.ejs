@@ -20,6 +20,13 @@
           <span id="day1"><%= formattedDate %></span>&nbsp<span id="day2"><%= formattedTime %></span> 
         </div>
       </div>
+      <!-- 게시물 수정 및 삭제 링크 (소유자에게만 표시) -->
+      <div class="editPost_BT">
+        <% if (isOwner) { %>
+          <a href="/editPost/<%= post.id %>" class="editPostButton">게시글 수정</a>
+          <a href="/deletePost/<%= post.id %>" onclick="return confirm('게시물을 삭제하시겠습니까?')">게시물 삭제</a>
+        <% } %>
+      </div>
       <span id="info_name">Title</span>
       <div class="detail detailTitle"><span><%= post.title %></span></div>
 
@@ -41,12 +48,12 @@
         <div class="detailComments">
             <table>
                 <% if (comments.length > 0) { %>
-                    <% comments.forEach(function(comment) { %>
-                      <%- include('aComment', {comment: comment}); %>
-                    <% }) %>
-                    <% } else { %>
-                      <p style="text-align: center;" color="var(--textColor2);">댓글이 없습니다.</p>
-                    <% } %>               
+                  <% comments.forEach(function(comment) { %>
+                    <%- include('aComment', {comment: comment}); %>
+                  <% }) %>
+                  <% } else { %>
+                    <p style="text-align: center;" color="var(--textColor2);">댓글이 없습니다.</p>
+                  <% } %>               
             </table>
         </div>
         <div class="menuOpen">
@@ -55,5 +62,7 @@
     </div>
 </div>
 
+<!-- jQuery CDN 추가 -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <!-- Start of footer -->
 <%-include('commentsFooter.ejs')-%>

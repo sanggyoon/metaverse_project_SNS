@@ -58,6 +58,34 @@ app.locals.formatDate = function(date){
   return new Date(date).toLocaleString('ko-KR', options).replace(/\./g, '-').replace(/(\d{4})-(\d{2})-(\d{2})\s(\d{2}:\d{2}:\d{2})/, '$1-$2-$3 $4');
 };
 
+// 게시물 소유권 확인 미들웨어
+function checkOwnership(req, res, next) {
+  const postId = req.params.id;
+  const userId = req.session.user.id; // 세션에서 사용자 ID 가져오기
+
+  // 게시물 조회 쿼리
+  const getPostQuery = 'SELECT user_id FROM posts WHERE id = ?';
+
+  connection.query(getPostQuery, [postId], (error, results) => {
+      if (error) {
+          console.error('Error fetching post:', error);
+          return res.status(500).json({ success: false, message: 'Failed to fetch post' });
+      }
+
+      if (results.length === 0) {
+          return res.status(404).json({ success: false, message: 'Post not found' });
+      }
+
+      const post = results[0];
+
+      // 게시물의 작성자와 세션 사용자가 일치하는지 확인
+      if (post.user_id === userId) {
+          return next(); // 일치하면 다음 미들웨어로 이동
+      } else {
+          return res.status(403).json({ success: false, message: 'You do not have permission to perform this action' });
+      }
+  });
+}
 
 //로그인 페이지-----------------------------------------------------------------------------
 app.get('/', (req, res) => {
@@ -284,8 +312,8 @@ app.post('/updateProfile', (req, res) => {
 //게시글 페이지-----------------------------------------------------------------------------
 app.get('/postDetails', (req, res) => {
   if (req.session.user) {
-
     const postId = req.query.postId;
+    const userId = req.session.user.id;
 
     let postQuery = `
       SELECT posts.*, users.user_name, users.profile_image 
@@ -301,14 +329,15 @@ app.get('/postDetails', (req, res) => {
 
     connection.query(postQuery, [postId], (error, postResults) => {
       if (error) throw error;
-      
+
       if (postResults.length > 0) {
         const post = postResults[0];
-        
+        const isOwner = userId === post.user_id;
+
         // 게시글에 대한 댓글을 불러옵니다.
         connection.query(commentsQuery, [postId], (error, commentResults) => {
           if (error) throw error;
-          res.render('postDetails', { user: req.session.user, post: post, comments: commentResults });
+          res.render('postDetails', { user: req.session.user, post: post, comments: commentResults, isOwner: isOwner });
         });
       } else {
         res.send('게시글을 찾을 수 없습니다.');
@@ -475,12 +504,77 @@ app.post('/writingPost', (req, res) => {
   }
 });
 
-//---------------------------------------------------------------------------------
+//게시글 수정---------------------------------------------------------------------------------
+app.get('/editPost/:id', checkOwnership, (req, res) => {
+  const postId = req.params.id;
 
-//서버 실행
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
-})
+  // postId를 사용하여 데이터베이스에서 해당 게시물을 검색합니다.
+  const queryString = 'SELECT * FROM posts WHERE id = ?';
+  connection.query(queryString, [postId], (error, results, fields) => {
+    if (error) {
+      console.error('Error fetching post:', error);
+      return res.status(500).json({ success: false, message: 'Failed to fetch post' });
+    } else {
+      // postId에 해당하는 게시물을 찾습니다.
+      const post = results[0]; // 결과가 배열이므로 첫 번째 요소를 가져옵니다.
+
+      if (!post) {
+        return res.status(404).json({ success: false, message: 'Post not found' });
+      }
+
+      // 검색된 결과를 수정 폼 페이지로 렌더링합니다.
+      return res.render('editPost', {
+        user_id: req.session.user,
+        post: post // 게시글 정보를 템플릿으로 전달합니다.
+      });
+    }
+  });
+});
+
+// 수정된 게시글을 처리하는 라우트
+app.post('/updatePost/:id', checkOwnership, (req, res) => {
+  const postId = req.params.id;
+  const { title, hashtags, content, code, input, filename, language } = req.body;
+
+  // SQL 쿼리 수정
+  const queryString = 'UPDATE posts SET title = ?, hashtags = ?, content = ?, code = ?, input = ?, filename = ? WHERE id = ?';
+  const values = [title, hashtags, content, code, input, filename, postId];
+
+  connection.query(queryString, values, (error, results, fields) => {
+    if (error) {
+      console.error('Error updating post:', error);
+      res.status(500).json({ success: false, message: 'Failed to update post' });
+    } else {
+      console.log('Post updated successfully:', results);
+      res.redirect(`/postDetails?postId=${postId}`);
+    }
+  });
+});
+// 게시물 삭제 요청 처리
+app.get('/deletePost/:id', checkOwnership, (req, res) => {
+  const postId = req.params.id;
+
+  // 댓글 삭제
+  const deleteCommentsQuery = 'DELETE FROM comments WHERE post_id = ?';
+  connection.query(deleteCommentsQuery, [postId], (error, commentResults) => {
+      if (error) {
+          console.error('Error deleting comments:', error);
+          return res.status(500).json({ success: false, message: 'Failed to delete comments' });
+      }
+
+      // 게시물 삭제
+      const deletePostQuery = 'DELETE FROM posts WHERE id = ?';
+      connection.query(deletePostQuery, [postId], (error, postResults) => {
+          if (error) {
+              console.error('Error deleting post:', error);
+              return res.status(500).json({ success: false, message: 'Failed to delete post' });
+          }
+
+          console.log('Post and related comments deleted successfully');
+          res.redirect('/main');
+      });
+  });
+});
 
 // 좋아요---------------------------------------------------------------------------
 app.post('/likePost', (req, res) => {
@@ -509,3 +603,8 @@ app.post('/likePost', (req, res) => {
     }
   });
 });
+
+//서버 실행------------------------------------------------------------------------------
+app.listen(port, () => {
+  console.log(`Example app listening on port ${port}`)
+})
