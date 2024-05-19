@@ -107,14 +107,15 @@ app.get('/main', (req, res) => {
     const searchKeyword = req.query.search;
     let params = [lastId];
 
-    // 기본 쿼리
-    let baseQuery = `SELECT posts.*, users.user_name, users.profile_image 
+    // 기본 쿼리에 댓글 수를 포함하여 수정
+    let baseQuery = `SELECT posts.*, users.user_name, users.profile_image, COUNT(comments.id) AS comments_count
                      FROM posts 
-                     INNER JOIN users ON posts.user_id = users.id 
-                     WHERE posts.id < ?`;
+                     INNER JOIN users ON posts.user_id = users.id
+                     LEFT JOIN comments ON posts.id = comments.post_id
+                     WHERE posts.id < ?
+                     GROUP BY posts.id`;
     let orderBy = ` ORDER BY posts.id DESC LIMIT 10`;
 
-    // 검색 키워드가 있는 경우, 쿼리 수정
     if (searchKeyword) {
       baseQuery += " AND hashtags LIKE ?";
       params.push(`%${searchKeyword}%`);
@@ -124,14 +125,14 @@ app.get('/main', (req, res) => {
 
     // 인기 게시물 쿼리
     let popularPostsQuery = `
-        SELECT posts.*, COUNT(post_likes.id) AS likes_count 
+        SELECT posts.*, COUNT(post_likes.id) AS likes_count, COUNT(comments.id) AS comments_count
         FROM posts 
         LEFT JOIN post_likes ON posts.id = post_likes.post_id 
+        LEFT JOIN comments ON posts.id = comments.post_id
         WHERE posts.id < ?`;
 
     if (searchKeyword) {
         popularPostsQuery += " AND hashtags LIKE ?";
-        // params는 이미 lastId와 검색 키워드를 포함하고 있으므로, lastId를 다시 추가할 필요가 없습니다.
     }
 
     popularPostsQuery += ` GROUP BY posts.id ORDER BY likes_count DESC`;
@@ -151,6 +152,7 @@ app.get('/main', (req, res) => {
                     if (req.query.ajax) {
                         res.json({ posts: results, popularPosts: popularResults });
                     } else {
+                        // 여기서 posts에는 각 게시글마다 댓글의 개수가 comments_count로 포함되어 있음
                         res.render('index', { posts: results, popularPosts: popularResults });
                     }
                 }
@@ -161,7 +163,6 @@ app.get('/main', (req, res) => {
       res.redirect('/');
   }
 });
-
 
 //개인 프로필 페이지-----------------------------------------------------------------------------
 app.get('/profile', (req, res) => {

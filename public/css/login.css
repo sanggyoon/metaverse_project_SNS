@@ -26,7 +26,7 @@
     border: 1px solid var(--signatureColor);
     border-radius: 15px;
     text-align: center;
-    color: white;
+    color: var(--textColor2);
 }
 
 .inputLoginInfo form input::placeholder{
