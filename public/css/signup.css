@@ -1,83 +1,60 @@
-root{
-    --boxColor: #1A2A63;
-    --textColor1: white;
-}
-
 .signupbox{
     width: 500px;
-    height:1000px;
     margin: auto;
     padding: 20px;
     /*background-color:var(--boxColor);*/
 }
-
 .signuplogo img{
     width: 500px;
     height: 200px;
 }
-
 .signuplogo span{
     display:flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     font-weight: bold;
-    /*margin-left:120px;*/
-    color:var(--textColor1);
+    color:var(--textColor2);
     font-size: 25px;
 }
-
-.signupInput form input{
+.IDbox label{
+    font-size: 20px;
+    color:var(--textColor2);
+}
+.IDbox input{
     width:250px;
     height: 30px;
-    margin: 5px 0;
+    margin-top: 5px;
+    margin-bottom: 15px;
     background-color: var(--boxColor);
     text-align: center;
     border-radius: 15px;
     border: 1px solid var(--signatureColor);
+    color: var(--textColor2);
 }
-
-.signupInput form input::placeholder{
-    color:white;
-
+.IDbox input::placeholder{
+    color: var(--textColor2);
 }
-
-.signupInput form input:focus{
-    background-color: var(--textColor1);
-
-}
-
-.signupInput form input:focus::placeholder{
-
-}
-
-.signupbox input{
-    width : 250px;
-    height: 15px;
-    display : flex;
-    justify-content: space-between;
-    /*position :absolute;*/
-    margin-left: 20px;
-}
-
-
-
 .sign{
     width:250px;
-    height:250px;
-    margin:100px;
+    margin: 50px 100px;
 }
-.signupbox label{
-    font-size: 20px;
-    color:var(--textColor1);
+.signupBT {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-items: center;
 }
 .signupBT button{
     width : 200px;
     height : 50px;
-    margin-left: 150px;
+    margin: 30px auto;
     border-radius: 15px;
     background-color:var(--boxColor);
-    color:var(--textColor1);
+    color:var(--textColor2);
     border: none;
     text-align: center;
+}
+.signupBT button:hover {
+    text-decoration: underline;
 }

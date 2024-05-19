@@ -25,7 +25,6 @@
             
             <!-- JavaScript 코드 -->
             <script>
-
                 document.getElementById('likeButton').addEventListener('click', function() {
                     const postId = this.getAttribute('data-postid');
 
@@ -62,14 +61,14 @@
                         container.style.fontSize = fontSize + '%';
                     }
                 }
-                adjustTextSize('post_created_at');
-                
+                adjustTextSize('post_created_at');    
             </script>
+
             <div class="postComments alignment">
                 <button id="commentButton">
                     <span class="material-symbols-outlined">comment</span>
                 </button>
-                <span id="commentsCount"><%= post.comments %></span>
+                <span id="commentsCount"><%= post.comments_count %></span>
             </div>
         </div>
     </div>
