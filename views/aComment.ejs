@@ -3,6 +3,11 @@
         <a href="/otherProfile"><img src="<%= comment.profile_image %>" alt=""></a>
     </div>
     <div class="loadCommentsInfo">
+        <% const formattedDate = new Date(comment.created_at).toLocaleDateString('ko-KR', { timeZone: 'Asia/Seoul' }); %>
+        <% const formattedTime = new Date(comment.created_at).toLocaleTimeString('ko-KR', { timeZone: 'Asia/Seoul', hour12: false }); %>
+        <div class="comment_time">
+            <span id="day1"><%= formattedDate %></span><span id="day2"><%= formattedTime %></span> 
+        </div>
         <p style="margin: 0;"><%= comment.user_name %></p>
         <div class="separateLine2"></div>
         <div class="loadCommentsText">

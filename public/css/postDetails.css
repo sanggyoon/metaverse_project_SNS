@@ -79,6 +79,11 @@
 }
 .loadCommentsInfo {
     width: 100%;
+    position: relative;
+}
+.comment_time {
+    position: absolute;
+    right: 0;
 }
 .loadCommentsText {
     width: 100%;

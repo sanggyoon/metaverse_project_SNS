@@ -325,7 +325,8 @@ app.get('/postDetails', (req, res) => {
       FROM comments 
       JOIN users ON comments.user_id = users.id 
       WHERE comments.post_id = ? 
-      ORDER BY comments.id DESC`;
+      ORDER BY comments.created_at DESC`;
+    
 
     connection.query(postQuery, [postId], (error, postResults) => {
       if (error) throw error;
@@ -337,7 +338,7 @@ app.get('/postDetails', (req, res) => {
         // 게시글에 대한 댓글을 불러옵니다.
         connection.query(commentsQuery, [postId], (error, commentResults) => {
           if (error) throw error;
-          res.render('postDetails', { user: req.session.user, post: post, comments: commentResults, isOwner: isOwner });
+          res.render('postDetails', { user: req.session.user, post: post, comment: commentResults, isOwner: isOwner });
         });
       } else {
         res.send('게시글을 찾을 수 없습니다.');
