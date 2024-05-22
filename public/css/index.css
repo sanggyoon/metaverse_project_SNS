@@ -86,6 +86,7 @@
   height: 30px;
   text-align: center;
   box-sizing: border-box;
+  color: var(--textColor2);
 }
 .searching button {
   background-color: rgb(255, 255, 255, 0);
