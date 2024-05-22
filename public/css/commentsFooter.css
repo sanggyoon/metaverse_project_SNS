@@ -53,6 +53,7 @@
     border-radius: 15px;
     resize: none;
     margin: 0 20px;
+    color: var(--textColor2);
 }
 .inputComments button {
     border-radius: 50%;
