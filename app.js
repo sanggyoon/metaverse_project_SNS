@@ -144,11 +144,12 @@ app.get('/main', (req, res) => {
     const searchKeyword = req.query.search;
     let params = [lastId];
 
-    let baseQuery = `SELECT posts.*, users.user_name, users.profile_image, COUNT(comments.id) AS comments_count
-                     FROM posts 
-                     INNER JOIN users ON posts.user_id = users.id
-                     LEFT JOIN comments ON posts.id = comments.post_id
-                     WHERE posts.id < ?`;
+    let baseQuery = `SELECT posts.*, users.user_name, users.profile_image, COUNT(comments.id) AS comments_count, COUNT(post_likes.id) AS likes
+                 FROM posts 
+                 INNER JOIN users ON posts.user_id = users.id
+                 LEFT JOIN comments ON posts.id = comments.post_id
+                 LEFT JOIN post_likes ON posts.id = post_likes.post_id
+                 WHERE posts.id < ?`;
 
     if (searchKeyword) {
       baseQuery += " AND posts.hashtags LIKE ?";
@@ -199,6 +200,43 @@ app.get('/main', (req, res) => {
   }
 });
 
+// 좋아요 기능 추가
+app.post('/like', (req, res) => {
+  const postId = req.body.postId;
+  const userId = req.session.user.id;
+
+  // 좋아요 여부 체크
+  const checkLikeQuery = 'SELECT * FROM post_likes WHERE post_id = ? AND user_id = ?';
+  connection.query(checkLikeQuery, [postId, userId], (checkError, checkResults) => {
+      if (checkError) {
+          console.error('좋아요 체크 중 오류 발생:', checkError);
+          res.status(500).send('좋아요 체크 중 오류가 발생했습니다.');
+      } else if (checkResults.length > 0) {
+          // 이미 좋아요를 누른 경우, 좋아요 취소
+          const deleteLikeQuery = 'DELETE FROM post_likes WHERE post_id = ? AND user_id = ?';
+          connection.query(deleteLikeQuery, [postId, userId], (deleteError) => {
+              if (deleteError) {
+                  console.error('좋아요 삭제 중 오류 발생:', deleteError);
+                  res.status(500).send('좋아요 삭제 중 오류가 발생했습니다.');
+              } else {
+                  res.json({ liked: false });
+              }
+          });
+      } else {
+          // 좋아요 추가
+          const insertLikeQuery = 'INSERT INTO post_likes (post_id, user_id) VALUES (?, ?)';
+          connection.query(insertLikeQuery, [postId, userId], (insertError) => {
+              if (insertError) {
+                  console.error('좋아요 추가 중 오류 발생:', insertError);
+                  res.status(500).send('좋아요 추가 중 오류가 발생했습니다.');
+              } else {
+                  res.json({ liked: true });
+              }
+          });
+      }
+  });
+});
+
 //개인 프로필 페이지-----------------------------------------------------------------------------
 app.get('/profile', (req, res) => {
   if (req.session.user) { // 세션에 유저 정보가 있으면
@@ -236,7 +274,6 @@ app.get('/profile', (req, res) => {
     res.redirect('/'); // 로그인 페이지로 이동
   }
 });
-
 
 //타인 프로필 페이지-----------------------------------------------------------------------------
 app.get('/otherProfile', (req, res) => {
@@ -439,7 +476,9 @@ app.post('/writingPost', (req, res) => {
                       req.session.result = output; // 결과를 세션에 저장
                       res.render('writingPost', { user_id: req.session.user.id, filename: filename, code: userCode, input: input, result: output, action: 'compile', title: title, hashtags: hashtags, content: content });
                   } else {
-                      res.status(500).send('컴파일 실패:\n' + output);
+                      // 오류가 발생한 경우에도 결과를 세션에 저장하고 렌더링
+                      req.session.result = output;
+                      res.render('writingPost', { user_id: req.session.user.id, filename: filename, code: userCode, input: input, result: '컴파일 실패:\n' + output, action: 'compile', title: title, hashtags: hashtags, content: content });
                   }
               });
 
@@ -451,6 +490,7 @@ app.post('/writingPost', (req, res) => {
               const compileProcess = spawn(command, [filePath, '-o', outputFileName]);
 
               compileProcess.stderr.on('data', (data) => {
+                  output += data.toString();
                   console.error(data.toString());
               });
 
@@ -476,7 +516,8 @@ app.post('/writingPost', (req, res) => {
                               req.session.result = output; // 결과를 세션에 저장
                               res.render('writingPost', { user_id: req.session.user.id, filename: filename, code: userCode, input: input, result: output, action: 'compile', title: title, hashtags: hashtags, content: content });
                           } else {
-                              res.status(500).send('실행 실패:\n' + output);
+                            req.session.result = output;
+                            res.render('writingPost', { user_id: req.session.user.id, filename: filename, code: userCode, input: input, result: '실행 실패:\n' + output, action: 'compile', title: title, hashtags: hashtags, content: content });
                           }
                       });
 
@@ -485,7 +526,8 @@ app.post('/writingPost', (req, res) => {
                           runProcess.stdin.end();
                       }
                   } else {
-                      res.status(500).send('컴파일 실패');
+                    req.session.result = output;
+                    res.render('writingPost', { user_id: req.session.user.id, filename: filename, code: userCode, input: input, result: '컴파일 실패:\n' + output, action: 'compile', title: title, hashtags: hashtags, content: content });
                   }
               });
           }
@@ -555,55 +597,37 @@ app.post('/updatePost/:id', checkOwnership, (req, res) => {
 app.get('/deletePost/:id', checkOwnership, (req, res) => {
   const postId = req.params.id;
 
-  // 댓글 삭제
-  const deleteCommentsQuery = 'DELETE FROM comments WHERE post_id = ?';
-  connection.query(deleteCommentsQuery, [postId], (error, commentResults) => {
+  // post_likes 삭제
+  const deletePostLikesQuery = 'DELETE FROM post_likes WHERE post_id = ?';
+  connection.query(deletePostLikesQuery, [postId], (error, postLikesResults) => {
+    if (error) {
+      console.error('Error deleting post likes:', error);
+      return res.status(500).json({ success: false, message: 'Failed to delete post likes' });
+    }
+
+    // 댓글 삭제
+    const deleteCommentsQuery = 'DELETE FROM comments WHERE post_id = ?';
+    connection.query(deleteCommentsQuery, [postId], (error, commentResults) => {
       if (error) {
-          console.error('Error deleting comments:', error);
-          return res.status(500).json({ success: false, message: 'Failed to delete comments' });
+        console.error('Error deleting comments:', error);
+        return res.status(500).json({ success: false, message: 'Failed to delete comments' });
       }
 
       // 게시물 삭제
       const deletePostQuery = 'DELETE FROM posts WHERE id = ?';
       connection.query(deletePostQuery, [postId], (error, postResults) => {
-          if (error) {
-              console.error('Error deleting post:', error);
-              return res.status(500).json({ success: false, message: 'Failed to delete post' });
-          }
-
-          console.log('Post and related comments deleted successfully');
-          res.redirect('/main');
-      });
-  });
-});
-
-// 좋아요---------------------------------------------------------------------------
-app.post('/likePost', (req, res) => {
-  const { postId, userId } = req.body; // 클라이언트에서 보낸 postId와 userId를 받아옴
-
-  // 먼저 해당 사용자가 이미 해당 게시물에 좋아요를 눌렀는지 확인
-  const checkQuery = 'SELECT * FROM likes WHERE postId = ? AND userId = ?';
-  connection.query(checkQuery, [postId, userId], (error, results, fields) => {
-    if (error) {
-      console.error('Error checking like:', error);
-      res.json({ success: false, message: 'Failed to check like' });
-    } else if (results.length > 0) {
-      // 이미 좋아요가 눌러져 있으면 추가하지 않음
-      res.json({ success: false, message: 'Like already exists' });
-    } else {
-      // 좋아요가 없으면 추가
-      const insertQuery = 'INSERT INTO likes (postId, userId) VALUES (?, ?)';
-      connection.query(insertQuery, [postId, userId], (insertError, insertResults, insertFields) => {
-        if (insertError) {
-          console.error('Error inserting like:', insertError);
-          res.json({ success: false, message: 'Failed to insert like' });
-        } else {
-          res.json({ success: true });
+        if (error) {
+          console.error('Error deleting post:', error);
+          return res.status(500).json({ success: false, message: 'Failed to delete post' });
         }
+
+        console.log('Post, related comments, and post likes deleted successfully');
+        res.redirect('/main');
       });
-    }
+    });
   });
 });
+
 
 //서버 실행------------------------------------------------------------------------------
 app.listen(port, () => {

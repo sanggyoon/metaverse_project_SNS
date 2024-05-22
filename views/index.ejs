@@ -94,5 +94,36 @@
     </div>
 </div>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.postLike button').forEach(button => {
+            button.addEventListener('click', function () {
+                const postId = this.dataset.postid;
+                fetch('/like', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ postId })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    const likesCountSpan = document.getElementById(`likesCount-${postId}`);
+                    let currentLikes = parseInt(likesCountSpan.textContent);
+                    if (data.liked) {
+                        currentLikes++;
+                    } else {
+                        currentLikes--;
+                    }
+                    likesCountSpan.textContent = currentLikes;
+                })
+                .catch(error => {
+                    console.error('좋아요 처리 중 오류 발생:', error);
+                });
+            });
+        });
+    });
+</script>
+
 <!-- Start of footer -->
 <%-include('footer.ejs')-%>

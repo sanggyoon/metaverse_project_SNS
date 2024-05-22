@@ -17,60 +17,15 @@
         </div>
         <div class="postStack">
             <div class="postLike alignment">
-                <button id="likeButton-<%= post.id %>" data-postid="<%= post.id %>">
-                    <span class="material-symbols-outlined">thumb_up</span>
+                <button id="likeButton-<%= post.id %>" data-postid="<%= post.id %>">좋아요
                 </button>
                 <span id="likesCount-<%= post.id %>"><%= post.likes %></span>
             </div>
-            
-            <!-- JavaScript 코드 -->
-            <script>
-                document.getElementById('likeButton').addEventListener('click', function() {
-                    const postId = this.getAttribute('data-postid');
-
-                    fetch('/likePost', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ post_id: postId })
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            const likesCount = data.likes;
-                            document.getElementById('likesCount').innerText = likesCount;
-                        } else {
-                            console.error('Failed to update likes:', data.message);
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error updating likes:', error);
-                    });
-                });
-
-                function adjustTextSize(id) {
-                    var container = document.getElementById(id);
-                    var parentWidth = container.parentNode.offsetWidth; // 부모 요소의 너비를 가져옴
-                    var fontSize = 100; // 초기 폰트 크기(%)
-                    container.style.fontSize = fontSize + '%';
-
-                    // 텍스트가 부모 요소의 너비를 초과하는지 확인하고 조절
-                    while (container.scrollWidth > parentWidth) { // 부모 요소의 너비를 기준으로 비교
-                        fontSize--;
-                        container.style.fontSize = fontSize + '%';
-                    }
-                }
-                adjustTextSize('post_created_at');    
-            </script>
-
             <div class="postComments alignment">
-                <button id="commentButton">
-                    <span class="material-symbols-outlined">comment</span>
-                </button>
+                <button>댓글</button>
                 <span id="commentsCount"><%= post.comments_count %></span>
             </div>
-        </div>
+        </div>        
     </div>
     <div class="callPostRight"><a href="/postDetails?postId=<%= post.id %>">
         <div class="callPostTitle">
@@ -84,56 +39,3 @@
         </div>
     </a></div>
 </div>
-
-<script>
-    // 좋아요 버튼을 클릭할 때마다 실행될 함수
-    function likePost(postId) {
-        // 이미 좋아요를 누른 게시글인지 확인
-        if (localStorage.getItem('liked-' + postId)) {
-            alert('이미 좋아요를 누르셨습니다.');
-            return;
-        }
-
-        // 서버에 좋아요 요청 보내기
-        fetch('/likePost', {
-            method: 'POST',
-            body: JSON.stringify({ postId: postId }),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                // 좋아요 수를 업데이트
-                const likesCount = document.getElementById('likesCount-' + postId);
-                let currentLikes = parseInt(likesCount.textContent);
-                likesCount.textContent = currentLikes + 1;
-
-                // localStorage에 좋아요 정보 저장
-                localStorage.setItem('liked-' + postId, 'true');
-            } else {
-                console.error('Failed to update likes:', data.message);
-            }
-        })
-        .catch(error => {
-            console.error('좋아요 요청 실패:', error);
-        });
-    }
-
-    // 페이지가 로드될 때 실행되는 함수
-    window.addEventListener('DOMContentLoaded', () => {
-        // 중복 이벤트 리스너 방지를 위해 기존 이벤트 리스너를 제거
-        document.querySelectorAll('[id^="likeButton-"]').forEach(button => {
-            const newButton = button.cloneNode(true);
-            button.parentNode.replaceChild(newButton, button);
-            newButton.addEventListener('click', function() {
-                const postId = this.getAttribute('data-postid');
-                likePost(postId);
-            });
-        });
-    });
-
-    
-</script>
-
