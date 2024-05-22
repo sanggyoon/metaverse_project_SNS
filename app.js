@@ -144,26 +144,26 @@ app.get('/main', (req, res) => {
     const searchKeyword = req.query.search;
     let params = [lastId];
 
-    let baseQuery = `SELECT posts.*, users.user_name, users.profile_image, COUNT(comments.id) AS comments_count, COUNT(post_likes.id) AS likes
-                 FROM posts 
-                 INNER JOIN users ON posts.user_id = users.id
-                 LEFT JOIN comments ON posts.id = comments.post_id
-                 LEFT JOIN post_likes ON posts.id = post_likes.post_id
-                 WHERE posts.id < ?`;
+    let baseQuery = `SELECT posts.*, users.user_name, users.profile_image, 
+                     COUNT(DISTINCT comments.id) AS comments_count, 
+                     COUNT(DISTINCT post_likes.id) AS likes
+                     FROM posts 
+                     INNER JOIN users ON posts.user_id = users.id
+                     LEFT JOIN comments ON posts.id = comments.post_id
+                     LEFT JOIN post_likes ON posts.id = post_likes.post_id
+                     WHERE posts.id < ?`;
 
     if (searchKeyword) {
       baseQuery += " AND posts.hashtags LIKE ?";
       params.push(`%${searchKeyword}%`);
     }
 
-    baseQuery += ` GROUP BY posts.id`;
-
-    let orderBy = ` ORDER BY posts.id DESC LIMIT 10`;
-
-    let query = baseQuery + orderBy;
+    baseQuery += ` GROUP BY posts.id ORDER BY posts.id DESC LIMIT 10`;
 
     let popularPostsQuery = `
-        SELECT posts.*, COUNT(post_likes.id) AS likes_count, COUNT(comments.id) AS comments_count
+        SELECT posts.*, 
+               COUNT(DISTINCT post_likes.id) AS likes_count, 
+               COUNT(DISTINCT comments.id) AS comments_count
         FROM posts 
         LEFT JOIN post_likes ON posts.id = post_likes.post_id 
         LEFT JOIN comments ON posts.id = comments.post_id
@@ -171,7 +171,6 @@ app.get('/main', (req, res) => {
 
     if (searchKeyword) {
         popularPostsQuery += " AND posts.hashtags LIKE ?";
-        // params 배열은 이미 lastId와 검색 키워드를 포함하고 있으므로 여기서는 추가하지 않습니다.
     }
 
     popularPostsQuery += ` GROUP BY posts.id ORDER BY likes_count DESC`;
@@ -181,7 +180,7 @@ app.get('/main', (req, res) => {
             console.error('인기 게시물 가져오기 오류:', popularError);
             res.status(500).send('인기 게시물을 가져오는 중 오류가 발생했습니다.');
         } else {
-            connection.query(query, params, (error, results) => {
+            connection.query(baseQuery, params, (error, results) => {
                 if (error) {
                     console.error('검색 중 오류 발생:', error);
                     res.status(500).send('검색 중 오류가 발생했습니다.');

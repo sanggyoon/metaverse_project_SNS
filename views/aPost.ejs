@@ -17,15 +17,14 @@
         </div>
         <div class="postStack">
             <div class="postLike alignment">
-                <button id="likeButton-<%= post.id %>" data-postid="<%= post.id %>">좋아요
-                </button>
+                <button id="likeButton-<%= post.id %>" data-postid="<%= post.id %>">좋아요</button>
                 <span id="likesCount-<%= post.id %>"><%= post.likes %></span>
             </div>
             <div class="postComments alignment">
                 <button>댓글</button>
-                <span id="commentsCount"><%= post.comments_count %></span>
+                <span id="commentsCount-<%= post.id %>"><%= post.comments_count %></span>
             </div>
-        </div>        
+        </div>           
     </div>
     <div class="callPostRight"><a href="/postDetails?postId=<%= post.id %>">
         <div class="callPostTitle">
