@@ -439,7 +439,9 @@ app.post('/writingPost', (req, res) => {
                       req.session.result = output; // 결과를 세션에 저장
                       res.render('writingPost', { user_id: req.session.user.id, filename: filename, code: userCode, input: input, result: output, action: 'compile', title: title, hashtags: hashtags, content: content });
                   } else {
-                      res.status(500).send('컴파일 실패:\n' + output);
+                      // 오류가 발생한 경우에도 결과를 세션에 저장하고 렌더링
+                      req.session.result = output;
+                      res.render('writingPost', { user_id: req.session.user.id, filename: filename, code: userCode, input: input, result: '컴파일 실패:\n' + output, action: 'compile', title: title, hashtags: hashtags, content: content });
                   }
               });
 
@@ -451,6 +453,7 @@ app.post('/writingPost', (req, res) => {
               const compileProcess = spawn(command, [filePath, '-o', outputFileName]);
 
               compileProcess.stderr.on('data', (data) => {
+                  output += data.toString();
                   console.error(data.toString());
               });
 
@@ -476,7 +479,8 @@ app.post('/writingPost', (req, res) => {
                               req.session.result = output; // 결과를 세션에 저장
                               res.render('writingPost', { user_id: req.session.user.id, filename: filename, code: userCode, input: input, result: output, action: 'compile', title: title, hashtags: hashtags, content: content });
                           } else {
-                              res.status(500).send('실행 실패:\n' + output);
+                            req.session.result = output;
+                            res.render('writingPost', { user_id: req.session.user.id, filename: filename, code: userCode, input: input, result: '실행 실패:\n' + output, action: 'compile', title: title, hashtags: hashtags, content: content });
                           }
                       });
 
@@ -485,7 +489,8 @@ app.post('/writingPost', (req, res) => {
                           runProcess.stdin.end();
                       }
                   } else {
-                      res.status(500).send('컴파일 실패');
+                    req.session.result = output;
+                    res.render('writingPost', { user_id: req.session.user.id, filename: filename, code: userCode, input: input, result: '컴파일 실패:\n' + output, action: 'compile', title: title, hashtags: hashtags, content: content });
                   }
               });
           }
